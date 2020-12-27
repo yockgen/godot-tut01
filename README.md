@@ -19,4 +19,4 @@ Running Step:
 ![](img/02.jpg)
 5. The tutorial should run
 ![](img/03.jpg)
-6. For computer keyboard, use direction key to move the character, abd pressed A to attack enemy (alternatively, you could use joypad to test)
+6. For computer keyboard, use direction key to move the character, pressed A to attack enemy (alternatively, you could use joypad to test)
