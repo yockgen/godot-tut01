@@ -18,7 +18,7 @@ git clone https://github.com/yockgen/godot-tut01.git
 Running Step:
 =============
 1. Launch Godot
-2. Click "Import" button
+2. Click "Scan" button
 3. Select "godot-tut01" directory
 4. Click "Play" button on top right
 ![](img/02.jpg)
