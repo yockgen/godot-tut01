@@ -13,12 +13,10 @@ git clone https://github.com/yockgen/godot-tut01.git
 Running Step:
 =============
 1. Launch Godot
-![](images/image.png)
-
 2. Click "Import" button
 3. Select "godot-tut01" directory
 4. Click "Play" button on top right
-
+![](img/02.jpg)
 5. The tutorial should run
-
-6. For computer keyboard, use direction key to move the character, abd pressed A to attack enemy (alternatively, you could use any recognize joypad to test)
+![](img/03.jpg)
+6. For computer keyboard, use direction key to move the character, abd pressed A to attack enemy (alternatively, you could use joypad to test)
