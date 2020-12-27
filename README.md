@@ -1,5 +1,4 @@
-Simple 2d Beat-em-up game Tutorial using Godot Engine
-Godot version:V3.2.3 Stable
+Simple 2d Beat-em-up game Tutorial using Godot Engine (Godot version:v3.2.3 Stable)
 
 Setup
 =====
