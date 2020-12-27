@@ -22,7 +22,7 @@ func start(pos):
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	var velocity = Vector2()  # The player's movement vector.
-	var objAttackSprite =$Attack.get_node("AnimatedSprite")
+	var objAttackSprite =$Attack.get_node("AnimatedSpriteAttack")
 	var objAttackSound = $Attack.get_node("AttackSound")
 	var objAttackColli = $Attack.get_node("CollisionShape2D")
 	
@@ -96,14 +96,16 @@ func _process(delta):
 
 func _on_Player_body_entered(body):
 	#return
-	var objAttackSprite =$Attack.get_node("AnimatedSprite")
+	var objAttackSprite =$Attack.get_node("AnimatedSpriteAttack")
 	var objAttackSound =$Attack.get_node("AttackSound")
 	
 	objAttackSprite.stop()
 	$Attack.visible = false
 	objAttackSound.stop()
 	$AnimatedSprite.play("down")
-	$HitSound.play()
+	if $HitSound.playing == false:
+		$HitSound.play()
+		print("001")
 	#print (body)
 	#get_parent().set_enemy_id(body.get_name())
 	#emit_signal("hit")
@@ -111,8 +113,9 @@ func _on_Player_body_entered(body):
 	
 
 func _on_AnimatedSprite_animation_finished():
+	$HitSound.stop()
+	
 	if $AnimatedSprite.animation == "down":
-		$HitSound.stop()
 		$AnimatedSprite.animation = "stand"
 
 
@@ -122,12 +125,17 @@ func _on_AnimatedSprite_frame_changed():
 
 func _on_Attack_body_entered(body):
 	var objAttackSound =$Attack.get_node("AttackSound")
-	var objAttackSprite =$Attack.get_node("AnimatedSprite")
+	var objAttackSprite =$Attack.get_node("AnimatedSpriteAttack")
 	body.linear_velocity = Vector2(0,0)
 	body.get_node("CollisionShape2D").set_deferred("disabled",true)
 	body.get_node("AnimatedSprite").play("hitted")
-	$HitSound.play()
-	
+	if $HitSound.playing == false:
+		$HitSound.play()
+		print("002")
 	#get_parent().set_enemy_id(body.get_name())
 	#emit_signal("attack")
 		
+
+
+func _on_AnimatedSpriteAttack_animation_finished():
+	$HitSound.stop()
