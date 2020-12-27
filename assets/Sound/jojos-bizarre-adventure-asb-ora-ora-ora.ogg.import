@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/jojos-bizarre-adventure-asb-ora-ora-ora.ogg-186a902c7cc50bb9829591ddfdfb5321.oggstr"
+
+[deps]
+
+source_file="res://assets/Sound/jojos-bizarre-adventure-asb-ora-ora-ora.ogg"
+dest_files=[ "res://.import/jojos-bizarre-adventure-asb-ora-ora-ora.ogg-186a902c7cc50bb9829591ddfdfb5321.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0
