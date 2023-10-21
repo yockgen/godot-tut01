@@ -27,13 +27,9 @@ func _on_ScoreTimer_timeout():
 	score += 1
 
 
-
-
 func _on_StartTimer_timeout():
 	$MobTimer.start()
 	$ScoreTimer.start()
-
-
 
 func _on_MobTimer_timeout():
  # Choose a random location on Path2D.

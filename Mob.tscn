@@ -51,15 +51,15 @@ region = Rect2( 456, 0, 57, 98 )
 
 [sub_resource type="SpriteFrames" id=10]
 animations = [ {
-"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ) ],
-"loop": true,
-"name": "walk",
-"speed": 3.0
-}, {
 "frames": [ ExtResource( 3 ) ],
 "loop": true,
 "name": "hitted",
 "speed": 5.0
+}, {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ) ],
+"loop": true,
+"name": "walk",
+"speed": 3.0
 } ]
 
 [sub_resource type="CapsuleShape2D" id=11]
@@ -80,7 +80,7 @@ position = Vector2( -24.4656, 4.00001 )
 scale = Vector2( 1.35415, 1.1551 )
 frames = SubResource( 10 )
 animation = "walk"
-frame = 1
+frame = 3
 speed_scale = 5.0
 playing = true
 
@@ -89,4 +89,5 @@ rotation = 1.5708
 shape = SubResource( 11 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

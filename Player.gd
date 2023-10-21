@@ -44,10 +44,10 @@ func _process(delta):
 		objAttackColli.position.x = $AnimatedSprite.position.x-200
 		
 		
-	if Input.is_action_pressed("ui_down"):
-		velocity.y += 1
-	if Input.is_action_pressed("ui_up"):
-		velocity.y -= 1
+	#if Input.is_action_pressed("ui_down"):
+	#	velocity.y += 1	
+	#if Input.is_action_pressed("ui_up"):
+	#	velocity.y -= 1
 		
 	if Input.is_action_pressed("attack1"):
 		isAttack = true
