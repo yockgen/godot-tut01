@@ -455,6 +455,9 @@ animation = "Set001"
 
 [node name="AttackSound" type="AudioStreamPlayer2D" parent="Attack"]
 stream = ExtResource( 6 )
+volume_db = 8.739
+
+[node name="Timer" type="Timer" parent="."]
 
 [connection signal="body_entered" from="." to="." method="_on_Player_body_entered"]
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]

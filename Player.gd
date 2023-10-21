@@ -6,12 +6,27 @@ export var speed = 400  # How fast the player will move (pixels/sec).
 var screen_size  # Size of the game window
 
 var action = "walk"
+var state = "normal"
 var isFaceRight = false
 var isAttack = false
+
+
+onready var timer = $Timer
+func freeze(time: float) -> void: 
+	$CollisionShape2D.disabled = true   
+	timer.start(time)
+
+func unfreeze() -> void:
+	state = "normal"
+	$AnimatedSprite.animation = "stand"
+	$CollisionShape2D.disabled = false
+		
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	screen_size = get_viewport_rect().size	
 	$Attack.visible = false
+	timer.connect("timeout", self, "unfreeze")
+
 	hide()
 
 func start(pos):
@@ -26,7 +41,7 @@ func _process(delta):
 	var objAttackSound = $Attack.get_node("AttackSound")
 	var objAttackColli = $Attack.get_node("CollisionShape2D")
 	
-	if $AnimatedSprite.animation == "down":
+	if $AnimatedSprite.animation == "down":		
 		return	
 		
 	if Input.is_action_pressed("ui_right"):
@@ -42,13 +57,7 @@ func _process(delta):
 		objAttackSprite.flip_h = false
 		objAttackSprite.position.x = $AnimatedSprite.position.x - 200
 		objAttackColli.position.x = $AnimatedSprite.position.x-200
-		
-		
-	#if Input.is_action_pressed("ui_down"):
-	#	velocity.y += 1	
-	#if Input.is_action_pressed("ui_up"):
-	#	velocity.y -= 1
-		
+	
 	if Input.is_action_pressed("attack1"):
 		isAttack = true
 		$Attack.visible = true	
@@ -103,25 +112,18 @@ func _on_Player_body_entered(body):
 	$Attack.visible = false
 	objAttackSound.stop()
 	$AnimatedSprite.play("down")
-	if $HitSound.playing == false:
-		$HitSound.play()
-		print("001")
-	#print (body)
-	#get_parent().set_enemy_id(body.get_name())
-	#emit_signal("hit")
-	#$CollisionShape2D.set_deferred("disabled", true)
+	#if $HitSound.playing == false:
+	$HitSound.play()
+	state = "freeze"
+	freeze(2.0)		
 	
-
+	
 func _on_AnimatedSprite_animation_finished():
-	$HitSound.stop()
+	$HitSound.stop()	
 	
-	if $AnimatedSprite.animation == "down":
-		$AnimatedSprite.animation = "stand"
-
 
 func _on_AnimatedSprite_frame_changed():
 	pass
-
 
 func _on_Attack_body_entered(body):
 	var objAttackSound =$Attack.get_node("AttackSound")
