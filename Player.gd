@@ -18,8 +18,8 @@ func freeze(time: float) -> void:
 
 func unfreeze() -> void:
 	state = "normal"
+	$CollisionShape2D.disabled = false	
 	$AnimatedSprite.animation = "stand"
-	$CollisionShape2D.disabled = false
 		
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -108,12 +108,13 @@ func _on_Player_body_entered(body):
 	var objAttackSprite =$Attack.get_node("AnimatedSpriteAttack")
 	var objAttackSound =$Attack.get_node("AttackSound")
 	
+	if $HitSound.playing == false:
+	   $HitSound.play()
+	
 	objAttackSprite.stop()
 	$Attack.visible = false
 	objAttackSound.stop()
 	$AnimatedSprite.play("down")
-	#if $HitSound.playing == false:
-	$HitSound.play()
 	state = "freeze"
 	freeze(2.0)		
 	
@@ -128,15 +129,14 @@ func _on_AnimatedSprite_frame_changed():
 func _on_Attack_body_entered(body):
 	var objAttackSound =$Attack.get_node("AttackSound")
 	var objAttackSprite =$Attack.get_node("AnimatedSpriteAttack")
+	
+	if $HitSound.playing == false:
+		$HitSound.play()		
+	
 	body.linear_velocity = Vector2(0,0)
 	body.get_node("CollisionShape2D").set_deferred("disabled",true)
+	$Attack.get_node("CollisionShape2D").set_deferred("disabled",true)
 	body.get_node("AnimatedSprite").play("hitted")
-	if $HitSound.playing == false:
-		$HitSound.play()
-		print("002")
-	#get_parent().set_enemy_id(body.get_name())
-	#emit_signal("attack")
-		
 
 
 func _on_AnimatedSpriteAttack_animation_finished():

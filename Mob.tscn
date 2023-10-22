@@ -80,7 +80,7 @@ position = Vector2( -24.4656, 4.00001 )
 scale = Vector2( 1.35415, 1.1551 )
 frames = SubResource( 10 )
 animation = "walk"
-frame = 3
+frame = 1
 speed_scale = 5.0
 playing = true
 

@@ -1,5 +1,6 @@
-[gd_scene load_steps=105 format=2]
+[gd_scene load_steps=107 format=2]
 
+[ext_resource path="res://assets/Yu/Battle Effects/vr_bc211_01.png" type="Texture" id=1]
 [ext_resource path="res://assets/Yu/bc030_09.png" type="Texture" id=2]
 [ext_resource path="res://Player.gd" type="Script" id=3]
 [ext_resource path="res://assets/Yu/bc205_04.png" type="Texture" id=4]
@@ -31,6 +32,8 @@
 [ext_resource path="res://assets/Yu/bc060_05.png" type="Texture" id=32]
 [ext_resource path="res://assets/Sound/hitted.ogg" type="AudioStream" id=33]
 
+[sub_resource type="CapsuleShape2D" id=75]
+
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ ExtResource( 31 ), ExtResource( 26 ), ExtResource( 28 ), ExtResource( 32 ), ExtResource( 27 ), ExtResource( 30 ), ExtResource( 29 ) ],
@@ -56,10 +59,11 @@ animations = [ {
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 50.6376
-height = 75.6192
+height = 110.725
 
 [sub_resource type="CapsuleShape2D" id=3]
-radius = 73.8065
+radius = 83.0
+height = 36.0
 
 [sub_resource type="AtlasTexture" id=4]
 flags = 4
@@ -420,11 +424,24 @@ animations = [ {
 } ]
 
 [node name="Player" type="Area2D"]
-position = Vector2( 630.546, 553.429 )
+position = Vector2( 557, 471 )
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_group_": true
 }
+
+[node name="Shadow" type="Area2D" parent="."]
+position = Vector2( -30, 100 )
+scale = Vector2( 5, 0.3 )
+
+[node name="Sprite" type="Sprite" parent="Shadow"]
+position = Vector2( 25.2, 150 )
+scale = Vector2( 0.0446927, 0.630632 )
+texture = ExtResource( 1 )
+offset = Vector2( -520, -200 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shadow"]
+shape = SubResource( 75 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 1.6101, 2.2232 )
@@ -439,6 +456,7 @@ shape = SubResource( 2 )
 
 [node name="HitSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 33 )
+volume_db = 3.496
 
 [node name="Attack" type="Area2D" parent="."]
 
@@ -460,8 +478,9 @@ volume_db = 8.739
 [node name="Timer" type="Timer" parent="."]
 
 [connection signal="body_entered" from="." to="." method="_on_Player_body_entered"]
+[connection signal="area_shape_entered" from="Shadow" to="." method="_on_Shadow_area_shape_entered"]
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="frame_changed" from="AnimatedSprite" to="." method="_on_AnimatedSprite_frame_changed"]
 [connection signal="body_entered" from="Attack" to="." method="_on_Attack_body_entered"]
-[connection signal="animation_finished" from="Attack/AnimatedSpriteAttack" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="animation_finished" from="Attack/AnimatedSpriteAttack" to="." method="_on_AnimatedSpriteAttack_animation_finished"]
+[connection signal="animation_finished" from="Attack/AnimatedSpriteAttack" to="." method="_on_AnimatedSprite_animation_finished"]

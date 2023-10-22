@@ -36,6 +36,7 @@ curve = SubResource( 1 )
 
 [node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath"]
 position = Vector2( 528.046, 161.365 )
+rotation = -0.0791784
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 

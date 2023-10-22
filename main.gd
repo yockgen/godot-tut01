@@ -1,18 +1,11 @@
 extends Node
 
-
 export (PackedScene) var Mob
 var score
-var enemy_id
 
 func _ready():
 	randomize()
 	new_game()
-	
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
 
 func game_over():
  $MobTimer.stop()
@@ -53,32 +46,3 @@ func _on_MobTimer_timeout():
 	#mob.linear_velocity = Vector2(rand_range(mob.min_speed, mob.max_speed), 0)
 	mob.linear_velocity = Vector2(rand_range(150, 200), 0)
 	mob.linear_velocity = mob.linear_velocity.rotated(direction)
-
-func set_enemy_id(body):
-	enemy_id = body
-	print (body)
-	
-
-func _on_Player_hit():
-	#no need for this
-	print("player hitted")
-	for itx in self.get_children():
-		if ( enemy_id == itx.name):
-			#print(itx.name)
-			var mobTmp = itx
-			mobTmp.get_node("AnimatedSprite").play("hitted")
-			mobTmp.linear_velocity = Vector2(0,0) #stop
-			mobTmp.get_node("CollisionShape2D").set_deferred("disabled",true)
-			
-			
-
-func _on_Player_attack():
-	#no need for this
-	print("player attack")
-	for itx in self.get_children():
-		if ( enemy_id == itx.name):
-			#print(itx.name)
-			var mobTmp = itx
-			mobTmp.get_node("AnimatedSprite").play("hitted")
-			mobTmp.linear_velocity = Vector2(0,0) #stop
-			mobTmp.get_node("CollisionShape2D").set_deferred("disabled",true)
