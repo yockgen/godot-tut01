@@ -41,3 +41,4 @@ func spawn (obj):
 	obj.rotation = direction
 	obj.linear_velocity = Vector2(rand_range(150, 200), 0)
 	obj.linear_velocity = obj.linear_velocity.rotated(direction)
+

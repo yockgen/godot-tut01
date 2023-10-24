@@ -80,7 +80,7 @@ position = Vector2( -24.4656, 4.00001 )
 scale = Vector2( 1.35415, 1.1551 )
 frames = SubResource( 10 )
 animation = "walk"
-frame = 1
+frame = 6
 speed_scale = 5.0
 playing = true
 
@@ -90,4 +90,5 @@ shape = SubResource( 11 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
+[connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

@@ -35,6 +35,7 @@ func start(pos):
 	$CollisionShape2D.disabled = false
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
+#export (bool) var pauseG: bool: true
 func _process(delta):
 	var velocity = Vector2()  # The player's movement vector.
 	var objAttackSprite =$Attack.get_node("AnimatedSpriteAttack")
@@ -127,8 +128,6 @@ func _on_AnimatedSprite_frame_changed():
 	pass
 
 func _on_Attack_body_entered(body):
-	var objAttackSound =$Attack.get_node("AttackSound")
-	var objAttackSprite =$Attack.get_node("AnimatedSpriteAttack")
 	
 	if $HitSound.playing == false:
 		$HitSound.play()		
@@ -137,6 +136,9 @@ func _on_Attack_body_entered(body):
 	body.get_node("CollisionShape2D").set_deferred("disabled",true)
 	$Attack.get_node("CollisionShape2D").set_deferred("disabled",true)
 	body.get_node("AnimatedSprite").play("hitted")
+	#body.visible = false
+	#print(body.name)
+	body.setEnemyDownId(body.name)
 
 
 func _on_AnimatedSpriteAttack_animation_finished():
