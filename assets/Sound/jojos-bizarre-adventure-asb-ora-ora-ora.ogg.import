@@ -11,5 +11,5 @@ dest_files=[ "res://.import/jojos-bizarre-adventure-asb-ora-ora-ora.ogg-186a902c
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

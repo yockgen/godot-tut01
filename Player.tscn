@@ -454,10 +454,6 @@ speed_scale = 2.0
 position = Vector2( -50, 0 )
 shape = SubResource( 2 )
 
-[node name="HitSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 33 )
-volume_db = 3.496
-
 [node name="Attack" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Attack"]
@@ -477,10 +473,14 @@ volume_db = 8.739
 
 [node name="Timer" type="Timer" parent="."]
 
+[node name="SndHitBy" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 33 )
+
 [connection signal="body_entered" from="." to="." method="_on_Player_body_entered"]
 [connection signal="area_shape_entered" from="Shadow" to="." method="_on_Shadow_area_shape_entered"]
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="frame_changed" from="AnimatedSprite" to="." method="_on_AnimatedSprite_frame_changed"]
 [connection signal="body_entered" from="Attack" to="." method="_on_Attack_body_entered"]
+[connection signal="body_exited" from="Attack" to="." method="_on_Attack_body_exited"]
 [connection signal="animation_finished" from="Attack/AnimatedSpriteAttack" to="." method="_on_AnimatedSpriteAttack_animation_finished"]
 [connection signal="animation_finished" from="Attack/AnimatedSpriteAttack" to="." method="_on_AnimatedSprite_animation_finished"]

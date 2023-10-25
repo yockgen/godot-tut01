@@ -109,37 +109,36 @@ func _on_Player_body_entered(body):
 	var objAttackSprite =$Attack.get_node("AnimatedSpriteAttack")
 	var objAttackSound =$Attack.get_node("AttackSound")
 	
-	if $HitSound.playing == false:
-	   $HitSound.play()
+	if $SndHitBy.playing == false:
+	   $SndHitBy.play()
 	
 	objAttackSprite.stop()
 	$Attack.visible = false
 	objAttackSound.stop()
 	$AnimatedSprite.play("down")
+	
 	state = "freeze"
 	freeze(2.0)		
 	
 	
 func _on_AnimatedSprite_animation_finished():
-	$HitSound.stop()	
-	
+	pass	
 
 func _on_AnimatedSprite_frame_changed():
 	pass
 
+
+func _on_AnimatedSpriteAttack_animation_finished():
+	pass
+
 func _on_Attack_body_entered(body):
-	
-	if $HitSound.playing == false:
-		$HitSound.play()		
 	
 	body.linear_velocity = Vector2(0,0)
 	body.get_node("CollisionShape2D").set_deferred("disabled",true)
 	$Attack.get_node("CollisionShape2D").set_deferred("disabled",true)
-	body.get_node("AnimatedSprite").play("hitted")
-	#body.visible = false
-	#print(body.name)
-	body.setEnemyDownId(body.name)
+	body.setEnemyDown(body.name)
 
 
-func _on_AnimatedSpriteAttack_animation_finished():
-	$HitSound.stop()
+func _on_Attack_body_exited(body):
+	pass
+	
