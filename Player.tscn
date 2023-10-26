@@ -1,4 +1,4 @@
-[gd_scene load_steps=107 format=2]
+[gd_scene load_steps=111 format=2]
 
 [ext_resource path="res://assets/Yu/Battle Effects/vr_bc211_01.png" type="Texture" id=1]
 [ext_resource path="res://assets/Yu/bc030_09.png" type="Texture" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://assets/Yu/bc205_00.png" type="Texture" id=18]
 [ext_resource path="res://assets/Yu/bc205_06.png" type="Texture" id=19]
 [ext_resource path="res://assets/Yu/bc205_02.png" type="Texture" id=20]
+[ext_resource path="res://assets/Yu/bc033_03.png" type="Texture" id=21]
 [ext_resource path="res://assets/Yu/bc205_01.png" type="Texture" id=22]
 [ext_resource path="res://assets/Yu/bc205_05.png" type="Texture" id=23]
 [ext_resource path="res://assets/Yu/bc205_03.png" type="Texture" id=24]
@@ -31,11 +32,18 @@
 [ext_resource path="res://assets/Yu/bc060_00.png" type="Texture" id=31]
 [ext_resource path="res://assets/Yu/bc060_05.png" type="Texture" id=32]
 [ext_resource path="res://assets/Sound/hitted.ogg" type="AudioStream" id=33]
+[ext_resource path="res://assets/Yu/bc033_01.png" type="Texture" id=35]
+[ext_resource path="res://assets/Yu/bc033_04.png" type="Texture" id=36]
 
 [sub_resource type="CapsuleShape2D" id=75]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
+"frames": [ ExtResource( 35 ), ExtResource( 35 ), ExtResource( 35 ), ExtResource( 21 ), ExtResource( 36 ), ExtResource( 5 ) ],
+"loop": false,
+"name": "dash",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 31 ), ExtResource( 26 ), ExtResource( 28 ), ExtResource( 32 ), ExtResource( 27 ), ExtResource( 30 ), ExtResource( 29 ) ],
 "loop": false,
 "name": "down",
@@ -58,12 +66,8 @@ animations = [ {
 } ]
 
 [sub_resource type="CapsuleShape2D" id=2]
-radius = 50.6376
-height = 110.725
-
-[sub_resource type="CapsuleShape2D" id=3]
-radius = 83.0
-height = 36.0
+radius = 30.0
+height = 106.0
 
 [sub_resource type="AtlasTexture" id=4]
 flags = 4
@@ -423,8 +427,14 @@ animations = [ {
 "speed": 40.0
 } ]
 
+[sub_resource type="RectangleShape2D" id=78]
+extents = Vector2( 78.5, 81.5 )
+
+[sub_resource type="CircleShape2D" id=77]
+radius = 81.3019
+
 [node name="Player" type="Area2D"]
-position = Vector2( 557, 471 )
+position = Vector2( 3, 1 )
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_group_": true
@@ -451,15 +461,13 @@ animation = "stand"
 speed_scale = 2.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -50, 0 )
+position = Vector2( -50, -10 )
 shape = SubResource( 2 )
+__meta__ = {
+"_editor_description_": "Collision of player"
+}
 
 [node name="Attack" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Attack"]
-position = Vector2( -200, 0 )
-shape = SubResource( 3 )
-disabled = true
 
 [node name="AnimatedSpriteAttack" type="AnimatedSprite" parent="Attack"]
 position = Vector2( -180, -13 )
@@ -471,16 +479,30 @@ animation = "Set001"
 stream = ExtResource( 6 )
 volume_db = 8.739
 
-[node name="Timer" type="Timer" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Attack"]
+position = Vector2( -191.5, -33.5 )
+shape = SubResource( 78 )
+
+[node name="TimerFreeze" type="Timer" parent="."]
 
 [node name="SndHitBy" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 33 )
 
+[node name="Area2DEnemyCloser" type="Area2D" parent="."]
+position = Vector2( -20, -20 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2DEnemyCloser"]
+position = Vector2( -40, -10 )
+shape = SubResource( 77 )
+
+[node name="TimerBulletTime" type="Timer" parent="."]
+
 [connection signal="body_entered" from="." to="." method="_on_Player_body_entered"]
 [connection signal="area_shape_entered" from="Shadow" to="." method="_on_Shadow_area_shape_entered"]
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
-[connection signal="frame_changed" from="AnimatedSprite" to="." method="_on_AnimatedSprite_frame_changed"]
 [connection signal="body_entered" from="Attack" to="." method="_on_Attack_body_entered"]
-[connection signal="body_exited" from="Attack" to="." method="_on_Attack_body_exited"]
-[connection signal="animation_finished" from="Attack/AnimatedSpriteAttack" to="." method="_on_AnimatedSpriteAttack_animation_finished"]
 [connection signal="animation_finished" from="Attack/AnimatedSpriteAttack" to="." method="_on_AnimatedSprite_animation_finished"]
+[connection signal="animation_finished" from="Attack/AnimatedSpriteAttack" to="." method="_on_AnimatedSpriteAttack_animation_finished"]
+[connection signal="body_entered" from="Area2DEnemyCloser" to="." method="_on_Area2DEnemyCloser_body_entered"]
+[connection signal="body_exited" from="Area2DEnemyCloser" to="." method="_on_Area2DEnemyCloser_body_exited"]
+[connection signal="timeout" from="TimerBulletTime" to="." method="_on_TimerBulletTime_timeout"]

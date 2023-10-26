@@ -9,12 +9,21 @@ var action = "walk"
 var state = "normal"
 var isFaceRight = false
 var isAttack = false
+var isBulletTimeChance = false
+var iMoveUnit = 1
 
 
-onready var timer = $Timer
+onready var timer = $TimerFreeze
 func freeze(time: float) -> void: 
 	$CollisionShape2D.disabled = true   
 	timer.start(time)
+
+func enteredBulletTime(time: float) -> void: 
+	state = "bullettime"
+	$CollisionShape2D.disabled = true   
+	Engine.time_scale = 0.2
+	$TimerBulletTime.start(time)
+
 
 func unfreeze() -> void:
 	state = "normal"
@@ -25,6 +34,8 @@ func unfreeze() -> void:
 func _ready():
 	screen_size = get_viewport_rect().size	
 	$Attack.visible = false
+	isBulletTimeChance = false
+	iMoveUnit = 1
 	timer.connect("timeout", self, "unfreeze")
 
 	hide()
@@ -41,19 +52,22 @@ func _process(delta):
 	var objAttackSprite =$Attack.get_node("AnimatedSpriteAttack")
 	var objAttackSound = $Attack.get_node("AttackSound")
 	var objAttackColli = $Attack.get_node("CollisionShape2D")
-	
+	var iActualSpeed = speed
+		
 	if $AnimatedSprite.animation == "down":		
 		return	
 		
 	if Input.is_action_pressed("ui_right"):
-		velocity.x += 1
+		action = "walk"
+		velocity.x += iMoveUnit
 		$AnimatedSprite.flip_h = true 
 		objAttackSprite.flip_h = true
 		objAttackSprite.position.x = $AnimatedSprite.position.x+200 
 		objAttackColli.position.x = $AnimatedSprite.position.x+200
 			
 	if Input.is_action_pressed("ui_left"):
-		velocity.x -= 1
+		action = "walk"
+		velocity.x -= iMoveUnit
 		$AnimatedSprite.flip_h = false 
 		objAttackSprite.flip_h = false
 		objAttackSprite.position.x = $AnimatedSprite.position.x - 200
@@ -68,8 +82,7 @@ func _process(delta):
 		objAttackColli.disabled = false
 		
 		if objAttackSound.playing == false:
-			objAttackSound.play()
-			
+			objAttackSound.play()			
 		return
 	
 	if Input.is_action_just_released("attack1") || Input.is_action_just_released("ui_left"):		
@@ -80,32 +93,36 @@ func _process(delta):
 		objAttackSound.stop()
 		objAttackColli.disabled = true
 		return
-	
 		
+	if Input.is_action_pressed("dodge"):
+	#if Input.is_action_just_released("dodge"):
+		action = "dash"		
+		if isBulletTimeChance == true:
+			enteredBulletTime (0.5)		
+			iActualSpeed =  speed * 8			
+		else:
+			iActualSpeed =  speed * 4
+		
+		if $AnimatedSprite.flip_h == true:
+				velocity.x -= iMoveUnit
+		else:		
+				velocity.x += iMoveUnit
+			
+	
 	if velocity.length() > 0:
-		velocity = velocity.normalized() * speed
-		$AnimatedSprite.play(action)
+		velocity = velocity.normalized() * iActualSpeed
+		$AnimatedSprite.play(action)		
 	else:
-		$AnimatedSprite.stop()
+		if action == "walk":
+			$AnimatedSprite.stop()
 	
 	position += velocity * delta
 	position.x = clamp(position.x, 0, screen_size.x)
 	position.y = clamp(position.y, 0, screen_size.y)	
 	
-	if velocity.x != 0:
-		#$AnimatedSprite.animation = "walk"
-		#$AnimatedSprite.flip_v = false
-		# See the note below about boolean assignment
-		#$AnimatedSprite.flip_h = velocity.x < 0
-		pass
-	elif velocity.y != 0:
-		#$AnimatedSprite.animation = "walk"
-		#$AnimatedSprite.flip_v = velocity.y > 0
-		pass
-
-
+	
 func _on_Player_body_entered(body):
-	#return
+	
 	var objAttackSprite =$Attack.get_node("AnimatedSpriteAttack")
 	var objAttackSound =$Attack.get_node("AttackSound")
 	
@@ -115,30 +132,37 @@ func _on_Player_body_entered(body):
 	objAttackSprite.stop()
 	$Attack.visible = false
 	objAttackSound.stop()
-	$AnimatedSprite.play("down")
 	
+	$AnimatedSprite.play("down")
 	state = "freeze"
 	freeze(2.0)		
 	
 	
 func _on_AnimatedSprite_animation_finished():
-	pass	
-
-func _on_AnimatedSprite_frame_changed():
-	pass
-
+	action = "walk"
+	state = "normal"	
 
 func _on_AnimatedSpriteAttack_animation_finished():
 	pass
 
-func _on_Attack_body_entered(body):
-	
+func _on_Attack_body_entered(body):	
 	body.linear_velocity = Vector2(0,0)
 	body.get_node("CollisionShape2D").set_deferred("disabled",true)
 	$Attack.get_node("CollisionShape2D").set_deferred("disabled",true)
 	body.setEnemyDown(body.name)
 
 
-func _on_Attack_body_exited(body):
-	pass
+func _on_Area2DEnemyCloser_body_entered(body):
+	self.isBulletTimeChance = true
+	pass # Replace with function body.
+
+
+func _on_Area2DEnemyCloser_body_exited(body):
+	self.isBulletTimeChance = false
+	pass # Replace with function body.
+
+
+func _on_TimerBulletTime_timeout():
+	$CollisionShape2D.disabled = false   
+	Engine.time_scale = 1.0
 	

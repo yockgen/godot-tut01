@@ -32,13 +32,14 @@ func setEnemyDown (id):
 	$AnimatedSprite.play("hitted")
 	if $SoundDown.playing == false:
 		$SoundDown.play()
-
 	
 func _on_AnimatedSprite_animation_finished():
 	if self.name == enemy:		
 		$AnimatedSprite.visible = false
 	
 
-func _on_SoundDown_finished():
-	print("sounds stop")
+func _on_SoundDown_finished():	
+	pass # Replace with function body.
+
+func _on_AnimatedSprite_frame_changed():
 	pass # Replace with function body.
