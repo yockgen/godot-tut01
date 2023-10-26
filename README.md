@@ -1,6 +1,6 @@
 Introduction
 ============
-Simple 2d Beat-em-up game tutorial using Godot Engine (version:v3.2.3 Stable), demo basic action game features:
+Simple 2d Beat-em-up game tutorial using Godot Engine ( [version:v3 LTS](https://godotengine.org/download/3.x/windows/)), demo basic action game features:
 1. Character Animation 
 2. Collision Detection
 3. Event Handler
