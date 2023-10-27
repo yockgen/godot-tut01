@@ -1,4 +1,4 @@
-[gd_scene load_steps=111 format=2]
+[gd_scene load_steps=113 format=2]
 
 [ext_resource path="res://assets/Yu/Battle Effects/vr_bc211_01.png" type="Texture" id=1]
 [ext_resource path="res://assets/Yu/bc030_09.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://assets/Yu/bc205_04.png" type="Texture" id=4]
 [ext_resource path="res://assets/Yu/bc030_00.png" type="Texture" id=5]
 [ext_resource path="res://assets/Sound/jojos-bizarre-adventure-asb-ora-ora-ora.ogg" type="AudioStream" id=6]
+[ext_resource path="res://assets/Sound/dash.ogg" type="AudioStream" id=7]
 [ext_resource path="res://assets/Yu/bc030_08.png" type="Texture" id=8]
 [ext_resource path="res://assets/Yu/bc030_10.png" type="Texture" id=9]
 [ext_resource path="res://assets/Yu/bc030_01.png" type="Texture" id=10]
@@ -32,6 +33,7 @@
 [ext_resource path="res://assets/Yu/bc060_00.png" type="Texture" id=31]
 [ext_resource path="res://assets/Yu/bc060_05.png" type="Texture" id=32]
 [ext_resource path="res://assets/Sound/hitted.ogg" type="AudioStream" id=33]
+[ext_resource path="res://assets/Yu/bc033_00.png" type="Texture" id=34]
 [ext_resource path="res://assets/Yu/bc033_01.png" type="Texture" id=35]
 [ext_resource path="res://assets/Yu/bc033_04.png" type="Texture" id=36]
 
@@ -39,10 +41,10 @@
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 35 ), ExtResource( 35 ), ExtResource( 35 ), ExtResource( 21 ), ExtResource( 36 ), ExtResource( 5 ) ],
+"frames": [ ExtResource( 34 ), ExtResource( 35 ), ExtResource( 35 ), ExtResource( 35 ), ExtResource( 21 ), ExtResource( 36 ), ExtResource( 5 ) ],
 "loop": false,
 "name": "dash",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [ ExtResource( 31 ), ExtResource( 26 ), ExtResource( 28 ), ExtResource( 32 ), ExtResource( 27 ), ExtResource( 30 ), ExtResource( 29 ) ],
 "loop": false,
@@ -66,8 +68,8 @@ animations = [ {
 } ]
 
 [sub_resource type="CapsuleShape2D" id=2]
-radius = 30.0
-height = 106.0
+radius = 60.0
+height = 82.0
 
 [sub_resource type="AtlasTexture" id=4]
 flags = 4
@@ -430,8 +432,8 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=78]
 extents = Vector2( 78.5, 81.5 )
 
-[sub_resource type="CircleShape2D" id=77]
-radius = 81.3019
+[sub_resource type="RectangleShape2D" id=79]
+extents = Vector2( 68, 90 )
 
 [node name="Player" type="Area2D"]
 position = Vector2( 3, 1 )
@@ -454,14 +456,14 @@ offset = Vector2( -520, -200 )
 shape = SubResource( 75 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-position = Vector2( 1.6101, 2.2232 )
+position = Vector2( 0, 2.223 )
 scale = Vector2( 0.5, 0.5 )
 frames = SubResource( 1 )
 animation = "stand"
 speed_scale = 2.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -50, -10 )
+position = Vector2( 0, -10 )
 shape = SubResource( 2 )
 __meta__ = {
 "_editor_description_": "Collision of player"
@@ -488,12 +490,16 @@ shape = SubResource( 78 )
 [node name="SndHitBy" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 33 )
 
+[node name="SndDash" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 7 )
+volume_db = 20.0
+
 [node name="Area2DEnemyCloser" type="Area2D" parent="."]
 position = Vector2( -20, -20 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2DEnemyCloser"]
-position = Vector2( -40, -10 )
-shape = SubResource( 77 )
+position = Vector2( -38, -4 )
+shape = SubResource( 79 )
 
 [node name="TimerBulletTime" type="Timer" parent="."]
 

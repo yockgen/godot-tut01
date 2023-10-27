@@ -1,10 +1,11 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://assets/misc/enemy-move-01.png" type="Texture" id=1]
 [ext_resource path="res://Mob.gd" type="Script" id=2]
 [ext_resource path="res://assets/misc/guy-down.png" type="Texture" id=3]
 [ext_resource path="res://assets/misc/exp2.png" type="Texture" id=4]
 [ext_resource path="res://assets/Sound/hitted.ogg" type="AudioStream" id=5]
+[ext_resource path="res://assets/Yu/Battle Effects/vr_bc600_00.png" type="Texture" id=6]
 
 [sub_resource type="AtlasTexture" id=16]
 flags = 4
@@ -55,26 +56,6 @@ region = Rect2( 128, 64, 64, 64 )
 flags = 4
 atlas = ExtResource( 4 )
 region = Rect2( 192, 64, 64, 64 )
-
-[sub_resource type="AtlasTexture" id=26]
-flags = 4
-atlas = ExtResource( 4 )
-region = Rect2( 0, 128, 64, 64 )
-
-[sub_resource type="AtlasTexture" id=27]
-flags = 4
-atlas = ExtResource( 4 )
-region = Rect2( 64, 128, 64, 64 )
-
-[sub_resource type="AtlasTexture" id=28]
-flags = 4
-atlas = ExtResource( 4 )
-region = Rect2( 128, 128, 64, 64 )
-
-[sub_resource type="AtlasTexture" id=29]
-flags = 4
-atlas = ExtResource( 4 )
-region = Rect2( 192, 128, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=34]
 flags = 4
@@ -156,67 +137,69 @@ flags = 4
 atlas = ExtResource( 4 )
 region = Rect2( 192, 192, 64, 64 )
 
-[sub_resource type="AtlasTexture" id=1]
+[sub_resource type="AtlasTexture" id=61]
 flags = 4
 atlas = ExtResource( 1 )
 region = Rect2( 0, 0, 57, 98 )
 
-[sub_resource type="AtlasTexture" id=2]
+[sub_resource type="AtlasTexture" id=55]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 57, 0, 57, 98 )
+region = Rect2( 54, 0, 54, 98 )
 
-[sub_resource type="AtlasTexture" id=3]
+[sub_resource type="AtlasTexture" id=56]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 114, 0, 57, 98 )
+region = Rect2( 168, 0, 56, 98 )
 
-[sub_resource type="AtlasTexture" id=4]
+[sub_resource type="AtlasTexture" id=57]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 171, 0, 57, 98 )
+region = Rect2( 224, 0, 56, 98 )
 
-[sub_resource type="AtlasTexture" id=5]
+[sub_resource type="AtlasTexture" id=58]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 228, 0, 57, 98 )
+region = Rect2( 290, 0, 58, 98 )
 
-[sub_resource type="AtlasTexture" id=6]
-flags = 4
-atlas = ExtResource( 1 )
-region = Rect2( 285, 0, 57, 98 )
-
-[sub_resource type="AtlasTexture" id=7]
-flags = 4
-atlas = ExtResource( 1 )
-region = Rect2( 342, 0, 57, 98 )
-
-[sub_resource type="AtlasTexture" id=8]
+[sub_resource type="AtlasTexture" id=59]
 flags = 4
 atlas = ExtResource( 1 )
 region = Rect2( 399, 0, 57, 98 )
 
-[sub_resource type="AtlasTexture" id=9]
+[sub_resource type="AtlasTexture" id=60]
 flags = 4
 atlas = ExtResource( 1 )
 region = Rect2( 456, 0, 57, 98 )
 
 [sub_resource type="SpriteFrames" id=10]
 animations = [ {
-"frames": [ SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ), SubResource( 40 ), SubResource( 41 ), SubResource( 42 ), SubResource( 43 ), SubResource( 44 ), SubResource( 45 ), SubResource( 46 ), SubResource( 47 ), SubResource( 48 ), SubResource( 49 ) ],
+"frames": [ SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ), SubResource( 40 ), SubResource( 41 ), SubResource( 42 ), SubResource( 43 ), SubResource( 44 ), SubResource( 45 ), SubResource( 46 ), SubResource( 47 ), SubResource( 48 ), SubResource( 49 ) ],
 "loop": true,
 "name": "hitted",
 "speed": 4.0
 }, {
-"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ) ],
+"frames": [ SubResource( 61 ), SubResource( 55 ), SubResource( 56 ), SubResource( 57 ), SubResource( 58 ), SubResource( 59 ), SubResource( 60 ) ],
 "loop": true,
 "name": "walk",
 "speed": 3.0
 } ]
 
-[sub_resource type="CapsuleShape2D" id=50]
-radius = 40.023
-height = 0.0
+[sub_resource type="RectangleShape2D" id=53]
+extents = Vector2( 46.5, 36.5 )
+
+[sub_resource type="AtlasTexture" id=51]
+flags = 4
+atlas = ExtResource( 6 )
+region = Rect2( 0, 0, 30, 35 )
+
+[sub_resource type="SpriteFrames" id=52]
+animations = [ {
+"frames": [ SubResource( 51 ), null, SubResource( 51 ), null, SubResource( 51 ), null, SubResource( 51 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
 
 [node name="Mob" type="RigidBody2D"]
 position = Vector2( 103.772, 59.977 )
@@ -232,19 +215,27 @@ position = Vector2( -24.4656, 4.00001 )
 scale = Vector2( 1.35415, 1.1551 )
 frames = SubResource( 10 )
 animation = "walk"
+frame = 6
 speed_scale = 5.0
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -25, 0 )
+position = Vector2( -21.272, 1.52304 )
 rotation = 1.5708
-shape = SubResource( 50 )
+shape = SubResource( 53 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
 [node name="SoundDown" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 5 )
 volume_db = 8.756
+
+[node name="Alerting" type="AnimatedSprite" parent="."]
+position = Vector2( 27.228, -31.477 )
+scale = Vector2( 0.733334, 0.657143 )
+frames = SubResource( 52 )
+frame = 2
+playing = true
 
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="frame_changed" from="AnimatedSprite" to="." method="_on_AnimatedSprite_frame_changed"]

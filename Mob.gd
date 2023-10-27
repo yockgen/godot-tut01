@@ -12,6 +12,7 @@ func _ready():
 	var mob_types = $AnimatedSprite.frames.get_animation_names()
 	$AnimatedSprite.animation = "walk"#mob_types[randi() % mob_types.size()]
 	$AnimatedSprite.play()
+	$Alerting.visible = false
 	self.enemy = ""
 	
 	#soundPly = AudioStreamPlayer.new()
@@ -36,6 +37,7 @@ func setEnemyDown (id):
 func _on_AnimatedSprite_animation_finished():
 	if self.name == enemy:		
 		$AnimatedSprite.visible = false
+		$Alerting.visible = false
 	
 
 func _on_SoundDown_finished():	

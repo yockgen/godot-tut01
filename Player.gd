@@ -11,6 +11,8 @@ var isFaceRight = false
 var isAttack = false
 var isBulletTimeChance = false
 var iMoveUnit = 1
+var iDashCnt = 0
+var iDashing = false
 
 
 onready var timer = $TimerFreeze
@@ -37,7 +39,8 @@ func _ready():
 	isBulletTimeChance = false
 	iMoveUnit = 1
 	timer.connect("timeout", self, "unfreeze")
-
+	iDashCnt = 0
+	iDashing = false
 	hide()
 
 func start(pos):
@@ -94,20 +97,39 @@ func _process(delta):
 		objAttackColli.disabled = true
 		return
 		
+	#start: dodge related
 	if Input.is_action_pressed("dodge"):
 	#if Input.is_action_just_released("dodge"):
-		action = "dash"		
-		if isBulletTimeChance == true:
-			enteredBulletTime (0.5)		
-			iActualSpeed =  speed * 8			
-		else:
-			iActualSpeed =  speed * 4
-		
+		if action != "dash" and iDashing == false:
+			iDashCnt = 10
+			action = "dash"				
+			iDashing = true
+			if isBulletTimeChance == true:
+				enteredBulletTime (0.5)		
+				iActualSpeed =  speed * 8			
+			else:
+				iActualSpeed =  speed * 4
+			
+			if $AnimatedSprite.flip_h == true:
+				velocity.x -= iMoveUnit
+			else:		
+				velocity.x += iMoveUnit
+			$SndDash.play()
+	
+	if Input.is_action_just_released("dodge"):
+		if iDashCnt>0:	
+			action = "dash"
+		iDashing = false
+		 
+				
+	iDashCnt = iDashCnt -1
+	if iDashCnt >=1:
+		iActualSpeed =  speed * 4
 		if $AnimatedSprite.flip_h == true:
 				velocity.x -= iMoveUnit
 		else:		
 				velocity.x += iMoveUnit
-			
+	#end: dodge related	
 	
 	if velocity.length() > 0:
 		velocity = velocity.normalized() * iActualSpeed
@@ -154,6 +176,7 @@ func _on_Attack_body_entered(body):
 
 func _on_Area2DEnemyCloser_body_entered(body):
 	self.isBulletTimeChance = true
+	body.get_node("Alerting").set_deferred("visible",true)
 	pass # Replace with function body.
 
 
