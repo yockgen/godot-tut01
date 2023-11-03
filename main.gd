@@ -4,12 +4,16 @@ export (PackedScene) var Mob
 var score
 
 func _ready():
+	$Player.connect("EnemyDefeated", self, "on_PlayerDefeated")
 	randomize()
 	new_game()
 
+func on_PlayerDefeated():
+	setscore(150)
+	
 func game_over():
- $MobTimer.stop()
- $ScoreTimer.stop()
+	$MobTimer.stop()
+	$ScoreTimer.stop()
  
 func new_game():
 	score = 0

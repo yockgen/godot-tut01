@@ -8,8 +8,6 @@ var seDown
 var enemy = ""
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	#self.contact_monitor = true
-	var mob_types = $AnimatedSprite.frames.get_animation_names()
 	$AnimatedSprite.animation = "walk"#mob_types[randi() % mob_types.size()]
 	$AnimatedSprite.play()
 	$Alerting.visible = false
@@ -24,13 +22,9 @@ func _ready():
 func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):	
-	pass
 
 func setEnemyDown (id):
-	enemy = id
-	get_parent().setscore(100)
+	enemy = id	
 	$AnimatedSprite.play("hitted")	
 	if $SoundDown.playing == false:
 		$SoundDown.play()

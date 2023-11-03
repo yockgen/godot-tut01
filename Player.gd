@@ -14,6 +14,8 @@ var iMoveUnit = 1
 var iDashCnt = 0
 var iDashing = false
 
+signal EnemyDefeated
+
 
 onready var timer = $TimerFreeze
 func freeze(time: float) -> void: 
@@ -143,6 +145,7 @@ func _process(delta):
 	position.y = clamp(position.y, 0, screen_size.y)	
 	
 	
+
 func _on_Player_body_entered(body):
 	
 	var objAttackSprite =$Attack.get_node("AnimatedSpriteAttack")
@@ -172,6 +175,7 @@ func _on_Attack_body_entered(body):
 	body.get_node("CollisionShape2D").set_deferred("disabled",true)
 	$Attack.get_node("CollisionShape2D").set_deferred("disabled",true)
 	body.setEnemyDown(body.name)
+	emit_signal("EnemyDefeated")
 
 
 func _on_Area2DEnemyCloser_body_entered(body):
