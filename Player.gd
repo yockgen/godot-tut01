@@ -148,8 +148,8 @@ func _on_Player_body_entered(body):
 	var objAttackSprite =$Attack.get_node("AnimatedSpriteAttack")
 	var objAttackSound =$Attack.get_node("AttackSound")
 	
-	if $SndHitBy.playing == false:
-	   $SndHitBy.play()
+	#if $SndHitBy.playing == false:
+	$SndHitBy.play()
 	
 	objAttackSprite.stop()
 	$Attack.visible = false

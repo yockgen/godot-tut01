@@ -30,7 +30,8 @@ func _process(delta):
 
 func setEnemyDown (id):
 	enemy = id
-	$AnimatedSprite.play("hitted")
+	get_parent().setscore(100)
+	$AnimatedSprite.play("hitted")	
 	if $SoundDown.playing == false:
 		$SoundDown.play()
 	

@@ -16,10 +16,9 @@ func new_game():
 	$Player.start($StartPosition.position)
 	$StartTimer.start()
 	
-func _on_ScoreTimer_timeout():
-	score += 1
-
-
+func _on_ScoreTimer_timeout():	
+	pass
+	
 func _on_StartTimer_timeout():
 	$MobTimer.start()
 	$ScoreTimer.start()
@@ -42,3 +41,6 @@ func spawn (obj):
 	obj.linear_velocity = Vector2(rand_range(150, 200), 0)
 	obj.linear_velocity = obj.linear_velocity.rotated(direction)
 
+func setscore(val):
+	score += val
+	$UserInterface/Score.text = "Score: " + str(score).pad_zeros(9)

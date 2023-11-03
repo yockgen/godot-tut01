@@ -32,7 +32,7 @@
 [ext_resource path="res://assets/Yu/bc060_09.png" type="Texture" id=30]
 [ext_resource path="res://assets/Yu/bc060_00.png" type="Texture" id=31]
 [ext_resource path="res://assets/Yu/bc060_05.png" type="Texture" id=32]
-[ext_resource path="res://assets/Sound/hitted.ogg" type="AudioStream" id=33]
+[ext_resource path="res://assets/Sound/gotPunch.ogg" type="AudioStream" id=33]
 [ext_resource path="res://assets/Yu/bc033_00.png" type="Texture" id=34]
 [ext_resource path="res://assets/Yu/bc033_01.png" type="Texture" id=35]
 [ext_resource path="res://assets/Yu/bc033_04.png" type="Texture" id=36]
@@ -489,6 +489,7 @@ shape = SubResource( 78 )
 
 [node name="SndHitBy" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 33 )
+volume_db = 6.118
 
 [node name="SndDash" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 7 )
