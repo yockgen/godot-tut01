@@ -15,7 +15,7 @@ var iDashCnt = 0
 var iDashing = false
 
 signal EnemyDefeated
-
+signal GotHit
 
 onready var timer = $TimerFreeze
 func freeze(time: float) -> void: 
@@ -43,7 +43,9 @@ func _ready():
 	timer.connect("timeout", self, "unfreeze")
 	iDashCnt = 0
 	iDashing = false
-	hide()
+	$Info.visible = false
+		
+	#hide()
 
 func start(pos):
 	position = pos
@@ -158,6 +160,9 @@ func _on_Player_body_entered(body):
 	$Attack.visible = false
 	objAttackSound.stop()
 	
+	emit_signal("GotHit")
+	$AnimInfo.play()
+	$Info.visible = true
 	$AnimatedSprite.play("down")
 	state = "freeze"
 	freeze(2.0)		
@@ -193,3 +198,8 @@ func _on_TimerBulletTime_timeout():
 	$CollisionShape2D.disabled = false   
 	Engine.time_scale = 1.0
 	
+
+
+func _on_AnimInfo_animation_finished(anim_name):
+	$Info.visible = false
+

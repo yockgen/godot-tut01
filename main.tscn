@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Mob.tscn" type="PackedScene" id=1]
 [ext_resource path="res://main.gd" type="Script" id=2]
@@ -8,7 +8,7 @@
 [ext_resource path="res://PauseCtrl.tscn" type="PackedScene" id=6]
 [ext_resource path="res://assets/bgr/block01.png" type="Texture" id=7]
 [ext_resource path="res://assets/bgr/block02.png" type="Texture" id=8]
-[ext_resource path="res://assets/font/ka1.ttf" type="DynamicFontData" id=9]
+[ext_resource path="res://assets/font/SHADSER.TTF" type="DynamicFontData" id=9]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
@@ -18,8 +18,27 @@ _data = {
 [sub_resource type="Theme" id=2]
 
 [sub_resource type="DynamicFont" id=3]
-size = 36
+size = 30
+outline_size = 3
+outline_color = Color( 0, 0, 0, 1 )
+use_mipmaps = true
 font_data = ExtResource( 9 )
+
+[sub_resource type="Animation" id=4]
+resource_name = "AnimScore"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("UserInterface/Score:custom_colors/font_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0.972549, 0.956863, 0.960784, 1 ), Color( 1, 0.0117647, 0.290196, 1 ), Color( 1, 1, 1, 1 ) ]
+}
 
 [node name="Main" type="Node"]
 script = ExtResource( 2 )
@@ -42,7 +61,7 @@ one_shot = true
 autostart = true
 
 [node name="StartPosition" type="Position2D" parent="."]
-position = Vector2( 440, 900 )
+position = Vector2( 650, 900 )
 
 [node name="MobPath" type="Path2D" parent="."]
 curve = SubResource( 1 )
@@ -56,7 +75,7 @@ rotation = -0.0791784
 [node name="ParallaxLayer" type="ParallaxLayer" parent="MobPath/ParallaxBackground"]
 
 [node name="Sprite" type="Sprite" parent="MobPath/ParallaxBackground/ParallaxLayer"]
-position = Vector2( 965, 505 )
+position = Vector2( 959, 513 )
 scale = Vector2( 1.31593, 1.38358 )
 texture = ExtResource( 4 )
 
@@ -93,14 +112,18 @@ margin_bottom = 40.0
 theme = SubResource( 2 )
 
 [node name="Score" type="Label" parent="UserInterface"]
-margin_left = 1425.0
-margin_top = 36.0
-margin_right = 1893.0
-margin_bottom = 87.0
-custom_colors/font_color = Color( 0.0235294, 0.239216, 0.984314, 1 )
+margin_left = 1433.0
+margin_top = 68.0
+margin_right = 1915.0
+margin_bottom = 127.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_fonts/font = SubResource( 3 )
-text = "Score: 000000000"
+text = "Confidence 000000000"
+
+[node name="AnimInfo" type="AnimationPlayer" parent="."]
+anims/AnimScore = SubResource( 4 )
 
 [connection signal="timeout" from="MobTimer" to="." method="_on_MobTimer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]

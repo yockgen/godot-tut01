@@ -1,22 +1,28 @@
 extends Node
 
 export (PackedScene) var Mob
-var score
+export (int) var Score
 
 func _ready():
 	$Player.connect("EnemyDefeated", self, "on_PlayerDefeated")
+	$Player.connect("GotHit", self, "on_PlayerGotHit")
 	randomize()
 	new_game()
+	Score = 150
+	setscore(Score)
 
 func on_PlayerDefeated():
 	setscore(150)
+
+func on_PlayerGotHit():
+	setscore(-100)
+	$AnimInfo.play("AnimScore")
 	
 func game_over():
 	$MobTimer.stop()
 	$ScoreTimer.stop()
  
 func new_game():
-	score = 0
 	$Player.start($StartPosition.position)
 	$StartTimer.start()
 	
@@ -46,5 +52,7 @@ func spawn (obj):
 	obj.linear_velocity = obj.linear_velocity.rotated(direction)
 
 func setscore(val):
-	score += val
-	$UserInterface/Score.text = "Score: " + str(score).pad_zeros(9)
+	Score += val
+	if Score <0: 
+		Score = 0
+	$UserInterface/Score.text = "Confidence " + str(Score).pad_zeros(9)

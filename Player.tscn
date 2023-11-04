@@ -1,4 +1,4 @@
-[gd_scene load_steps=113 format=2]
+[gd_scene load_steps=116 format=2]
 
 [ext_resource path="res://assets/Yu/Battle Effects/vr_bc211_01.png" type="Texture" id=1]
 [ext_resource path="res://assets/Yu/bc030_09.png" type="Texture" id=2]
@@ -36,6 +36,7 @@
 [ext_resource path="res://assets/Yu/bc033_00.png" type="Texture" id=34]
 [ext_resource path="res://assets/Yu/bc033_01.png" type="Texture" id=35]
 [ext_resource path="res://assets/Yu/bc033_04.png" type="Texture" id=36]
+[ext_resource path="res://assets/font/SHADSER.TTF" type="DynamicFontData" id=37]
 
 [sub_resource type="CapsuleShape2D" id=75]
 
@@ -433,10 +434,31 @@ animations = [ {
 extents = Vector2( 78.5, 81.5 )
 
 [sub_resource type="RectangleShape2D" id=79]
-extents = Vector2( 68, 90 )
+extents = Vector2( 68, 114 )
+
+[sub_resource type="Animation" id=81]
+resource_name = "AnimHurtInfo"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/path = NodePath("Info:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 1, 1.5, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true, false, true ]
+}
+
+[sub_resource type="DynamicFont" id=80]
+size = 28
+outline_size = 2
+font_data = ExtResource( 37 )
 
 [node name="Player" type="Area2D"]
-position = Vector2( 3, 1 )
+position = Vector2( 22, 10 )
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_group_": true
@@ -499,10 +521,28 @@ volume_db = 20.0
 position = Vector2( -20, -20 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2DEnemyCloser"]
-position = Vector2( -38, -4 )
+position = Vector2( -38, -28 )
 shape = SubResource( 79 )
 
 [node name="TimerBulletTime" type="Timer" parent="."]
+
+[node name="AnimInfo" type="AnimationPlayer" parent="."]
+autoplay = "AnimHurtInfo"
+reset_on_save = false
+anims/AnimHurtInfo = SubResource( 81 )
+
+[node name="Info" type="Node2D" parent="."]
+visible = false
+position = Vector2( -60, 0 )
+
+[node name="Hurt" type="Label" parent="Info"]
+margin_top = -12.0
+margin_right = 117.0
+margin_bottom = 18.0
+custom_colors/font_color = Color( 1, 0.0862745, 0.145098, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 80 )
+text = "100"
 
 [connection signal="body_entered" from="." to="." method="_on_Player_body_entered"]
 [connection signal="area_shape_entered" from="Shadow" to="." method="_on_Shadow_area_shape_entered"]
@@ -513,3 +553,4 @@ shape = SubResource( 79 )
 [connection signal="body_entered" from="Area2DEnemyCloser" to="." method="_on_Area2DEnemyCloser_body_entered"]
 [connection signal="body_exited" from="Area2DEnemyCloser" to="." method="_on_Area2DEnemyCloser_body_exited"]
 [connection signal="timeout" from="TimerBulletTime" to="." method="_on_TimerBulletTime_timeout"]
+[connection signal="animation_finished" from="AnimInfo" to="." method="_on_AnimInfo_animation_finished"]
