@@ -1,4 +1,6 @@
 extends RigidBody2D
+export var particleBooming : PackedScene
+
 
 export var min_speed = 150  # Minimum speed range.
 export var max_speed = 250  # Maximum speed range.
@@ -25,9 +27,19 @@ func _on_VisibilityNotifier2D_screen_exited():
 
 func setEnemyDown (id):
 	enemy = id	
-	$AnimatedSprite.play("hitted")	
 	if $SoundDown.playing == false:
 		$SoundDown.play()
+		
+	var _explosion = particleBooming.instance()
+	_explosion.position = global_position
+	_explosion.rotation = global_rotation
+	_explosion.emitting = true
+	get_tree().current_scene.add_child(_explosion)
+	yield(get_tree().create_timer(1),"timeout")
+	queue_free()
+	
+	#$AnimatedSprite.play("hitted")	
+	
 	
 func _on_AnimatedSprite_animation_finished():
 	if self.name == enemy:		
