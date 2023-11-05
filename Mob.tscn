@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=64 format=2]
 
 [ext_resource path="res://assets/misc/enemy-move-01.png" type="Texture" id=1]
 [ext_resource path="res://Mob.gd" type="Script" id=2]
@@ -7,6 +7,93 @@
 [ext_resource path="res://assets/Sound/hitted.ogg" type="AudioStream" id=5]
 [ext_resource path="res://assets/Yu/Battle Effects/vr_bc600_00.png" type="Texture" id=6]
 [ext_resource path="res://ParticleBooming.tscn" type="PackedScene" id=7]
+[ext_resource path="res://assets/misc/test01.png" type="Texture" id=8]
+[ext_resource path="res://assets/Sound/explosion.ogg" type="AudioStream" id=9]
+
+[sub_resource type="AtlasTexture" id=62]
+flags = 4
+atlas = ExtResource( 8 )
+region = Rect2( 0, 0, 63, 54 )
+
+[sub_resource type="AtlasTexture" id=63]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=64]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 64, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=65]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 128, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=66]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 192, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=67]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 0, 64, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=68]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 64, 64, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=69]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 128, 64, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=70]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 192, 64, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=71]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 0, 128, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=72]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 64, 128, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=73]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 128, 128, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=74]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 192, 128, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=75]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 0, 192, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=76]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 64, 192, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=77]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 128, 192, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=78]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 192, 192, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=16]
 flags = 4
@@ -175,6 +262,11 @@ region = Rect2( 456, 0, 57, 98 )
 
 [sub_resource type="SpriteFrames" id=10]
 animations = [ {
+"frames": [ SubResource( 62 ), SubResource( 63 ), SubResource( 64 ), SubResource( 65 ), SubResource( 66 ), SubResource( 67 ), SubResource( 68 ), SubResource( 69 ), SubResource( 70 ), SubResource( 71 ), SubResource( 72 ), SubResource( 73 ), SubResource( 74 ), SubResource( 75 ), SubResource( 76 ), SubResource( 77 ), SubResource( 78 ) ],
+"loop": true,
+"name": "grounded",
+"speed": 5.0
+}, {
 "frames": [ SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ), SubResource( 40 ), SubResource( 41 ), SubResource( 42 ), SubResource( 43 ), SubResource( 44 ), SubResource( 45 ), SubResource( 46 ), SubResource( 47 ), SubResource( 48 ), SubResource( 49 ) ],
 "loop": true,
 "name": "hitted",
@@ -217,6 +309,7 @@ position = Vector2( -24.4656, 4.00001 )
 scale = Vector2( 1.35415, 1.1551 )
 frames = SubResource( 10 )
 animation = "walk"
+frame = 2
 speed_scale = 5.0
 playing = true
 
@@ -235,10 +328,14 @@ volume_db = 8.756
 position = Vector2( 27.228, -31.477 )
 scale = Vector2( 0.733334, 0.657143 )
 frames = SubResource( 52 )
-frame = 4
 playing = true
+
+[node name="SndExplosion" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 9 )
+volume_db = 8.756
 
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="frame_changed" from="AnimatedSprite" to="." method="_on_AnimatedSprite_frame_changed"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="finished" from="SoundDown" to="." method="_on_SoundDown_finished"]
+[connection signal="finished" from="SndExplosion" to="." method="_on_SoundDown_finished"]

@@ -15,12 +15,21 @@ func _ready():
 	$Alerting.visible = false
 	self.enemy = ""
 	
+	#get_parent().connect("EnemyGrounded", self, "on_EnemyGrounded")
+		
 	#soundPly = AudioStreamPlayer.new()
 	#seDown = load("res://assets/Sound/hitted.ogg")
 	#add_child(soundPly)
 	#soundPly.stream = seDown
 		
-
+#func on_EnemyGrounded (body):
+#	print ("body.name")
+	#body.linear_velocity = Vector2(0,0)
+	#body.get_node("CollisionShape2D").set_deferred("disabled",true)
+	#$CollisionShape2D.set_deferred("disabled",true)
+	#$AnimatedSprite.animation = "grounded"
+	#$AnimatedSprite.play()
+	
 func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
 
@@ -39,7 +48,12 @@ func setEnemyDown (id):
 	queue_free()
 	
 	#$AnimatedSprite.play("hitted")	
-	
+
+func setEnemyGrounded (id):
+	$AnimatedSprite.play("hitted")
+	$SndExplosion.play()
+	yield(get_tree().create_timer(2),"timeout")
+	queue_free()
 	
 func _on_AnimatedSprite_animation_finished():
 	if self.name == enemy:		

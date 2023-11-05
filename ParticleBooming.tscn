@@ -29,7 +29,8 @@ scale_curve = SubResource( 4 )
 color_ramp = SubResource( 2 )
 
 [node name="Fireworks" type="Particles2D"]
-self_modulate = Color( 0.992188, 0.0232544, 0.0439964, 1 )
+self_modulate = Color( 9.83, 0.02, 0.04, 1 )
+emitting = false
 amount = 100
 one_shot = true
 speed_scale = 1.05

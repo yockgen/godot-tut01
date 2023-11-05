@@ -5,7 +5,7 @@ export (int) var Score
 
 func _ready():
 	$Player.connect("EnemyDefeated", self, "on_PlayerDefeated")
-	$Player.connect("GotHit", self, "on_PlayerGotHit")
+	$Player.connect("GotHit", self, "on_PlayerGotHit")	
 	randomize()
 	new_game()
 	Score = 150
@@ -56,3 +56,13 @@ func setscore(val):
 	if Score <0: 
 		Score = 0
 	$UserInterface/Score.text = "Confidence " + str(Score).pad_zeros(9)
+
+
+func _on_Ground_body_entered(body):
+	print (body.name)
+	if "enemy" in body.name:
+		setscore(-50)
+		$AnimInfo.play("AnimScore")
+		body.linear_velocity = Vector2(0,0)
+		body.get_node("CollisionShape2D").set_deferred("disabled",true)
+		body.setEnemyGrounded(body.name)
