@@ -6,25 +6,46 @@ export (int) var Score
 func _ready():
 	$Player.connect("EnemyDefeated", self, "on_PlayerDefeated")
 	$Player.connect("GotHit", self, "on_PlayerGotHit")	
+	$PauseCtrl.connect("Restart", self, "on_Restart")
 	randomize()
 	new_game()
-	Score = 150
-	setscore(Score)
-
+	
+func emptyEnemies():
+	for child in get_children():
+		if "enemy" in child.name:
+			child.queue_free()
+			
+func on_Restart():
+	emptyEnemies()
+	$MobTimer.start()
+	$ScoreTimer.start()	
+	new_game()
+	
 func on_PlayerDefeated():
 	setscore(150)
 
 func on_PlayerGotHit():
 	setscore(-100)
 	$AnimInfo.play("AnimScore")
+
+func _on_Ground_body_entered(body):	
+	if "enemy" in body.name:
+		setscore(-150)
+		$AnimInfo.play("AnimScore")
+		body.linear_velocity = Vector2(0,0)
+		body.get_node("CollisionShape2D").set_deferred("disabled",true)
+		body.setEnemyGrounded(body.name)
 	
 func game_over():
 	$MobTimer.stop()
-	$ScoreTimer.stop()
- 
+	$ScoreTimer.stop()	
+	$PauseCtrl.gameover()
+	 
 func new_game():
 	$Player.start($StartPosition.position)
 	$StartTimer.start()
+	Score = 150
+	setscore(Score)
 	
 func _on_ScoreTimer_timeout():	
 	pass
@@ -53,16 +74,8 @@ func spawn (obj):
 
 func setscore(val):
 	Score += val
-	if Score <0: 
+	if Score <=0: 
 		Score = 0
+		game_over()		
 	$UserInterface/Score.text = "Confidence " + str(Score).pad_zeros(9)
 
-
-func _on_Ground_body_entered(body):
-	print (body.name)
-	if "enemy" in body.name:
-		setscore(-50)
-		$AnimInfo.play("AnimScore")
-		body.linear_velocity = Vector2(0,0)
-		body.get_node("CollisionShape2D").set_deferred("disabled",true)
-		body.setEnemyGrounded(body.name)
