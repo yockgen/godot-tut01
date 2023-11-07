@@ -14,6 +14,7 @@ func pause():
 	if can_toggle_pause:
 		get_tree().set_deferred("paused", true)
 		$PauseMenu.visible = true
+		$PauseMenu/VBoxContainer/ResumeBtn.grab_focus()
 
 func resume():
 	if can_toggle_pause:
@@ -21,10 +22,12 @@ func resume():
 		$PauseMenu.visible = false
 
 func gameover():
+	pause()
 	$PauseMenu/VBoxContainer/GameOver.visible = true
 	$PauseMenu/VBoxContainer/RestartBtn.visible = true
 	$PauseMenu/VBoxContainer/ResumeBtn.visible = false
-	pause()
+	$PauseMenu/VBoxContainer/RestartBtn.grab_focus()
+	
 
 func _on_QuitBtn_button_down():
 	get_tree().quit()
