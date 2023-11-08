@@ -49,7 +49,7 @@ func setEnemyDown (id):
 	
 	#$AnimatedSprite.play("hitted")	
 
-func setEnemyGrounded (id):
+func setEnemyGrounded (_id):
 	$AnimatedSprite.play("hitted")
 	$SndExplosion.play()
 	yield(get_tree().create_timer(2),"timeout")

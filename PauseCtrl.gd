@@ -3,7 +3,7 @@ extends Node
 export(bool) var can_toggle_pause: bool = true
 signal Restart
 
-func _process(delta):
+func _process(_delta):
 	if Input.is_action_just_pressed("pause"):
 		if !get_tree().paused:
 			pause()

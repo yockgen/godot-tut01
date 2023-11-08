@@ -1,4 +1,4 @@
-[gd_scene load_steps=116 format=2]
+[gd_scene load_steps=115 format=2]
 
 [ext_resource path="res://assets/Yu/Battle Effects/vr_bc211_01.png" type="Texture" id=1]
 [ext_resource path="res://assets/Yu/bc030_09.png" type="Texture" id=2]
@@ -37,8 +37,6 @@
 [ext_resource path="res://assets/Yu/bc033_01.png" type="Texture" id=35]
 [ext_resource path="res://assets/Yu/bc033_04.png" type="Texture" id=36]
 [ext_resource path="res://assets/font/SHADSER.TTF" type="DynamicFontData" id=37]
-
-[sub_resource type="CapsuleShape2D" id=75]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -464,18 +462,11 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Shadow" type="Area2D" parent="."]
-position = Vector2( -30, 100 )
-scale = Vector2( 5, 0.3 )
-
-[node name="Sprite" type="Sprite" parent="Shadow"]
-position = Vector2( 25.2, 150 )
-scale = Vector2( 0.0446927, 0.630632 )
+[node name="ShadowImg" type="Sprite" parent="."]
+position = Vector2( 96, 145 )
+scale = Vector2( 0.223463, 0.18919 )
 texture = ExtResource( 1 )
 offset = Vector2( -520, -200 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Shadow"]
-shape = SubResource( 75 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0, 2.223 )
@@ -545,7 +536,6 @@ custom_fonts/font = SubResource( 80 )
 text = "100"
 
 [connection signal="body_entered" from="." to="." method="_on_Player_body_entered"]
-[connection signal="area_shape_entered" from="Shadow" to="." method="_on_Shadow_area_shape_entered"]
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="body_entered" from="Attack" to="." method="_on_Attack_body_entered"]
 [connection signal="animation_finished" from="Attack/AnimatedSpriteAttack" to="." method="_on_AnimatedSprite_animation_finished"]

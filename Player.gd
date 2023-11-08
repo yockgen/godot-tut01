@@ -1,6 +1,4 @@
 extends Area2D
-signal hit
-signal attack
 
 export var speed = 400  # How fast the player will move (pixels/sec).
 var screen_size  # Size of the game window
@@ -133,6 +131,10 @@ func _process(delta):
 				velocity.x -= iMoveUnit
 		else:		
 				velocity.x += iMoveUnit
+	else:
+		iDashing = false
+		
+		
 	#end: dodge related	
 	
 	if velocity.length() > 0:
@@ -148,7 +150,7 @@ func _process(delta):
 	
 	
 
-func _on_Player_body_entered(body):
+func _on_Player_body_entered(_body):
 	
 	var objAttackSprite =$Attack.get_node("AnimatedSpriteAttack")
 	var objAttackSound =$Attack.get_node("AttackSound")
@@ -189,17 +191,15 @@ func _on_Area2DEnemyCloser_body_entered(body):
 	pass # Replace with function body.
 
 
-func _on_Area2DEnemyCloser_body_exited(body):
+func _on_Area2DEnemyCloser_body_exited(_body):
 	self.isBulletTimeChance = false
-	pass # Replace with function body.
-
+	
 
 func _on_TimerBulletTime_timeout():
 	$CollisionShape2D.disabled = false   
 	Engine.time_scale = 1.0
-	
 
 
-func _on_AnimInfo_animation_finished(anim_name):
+func _on_AnimInfo_animation_finished(_anim_name):
 	$Info.visible = false
 

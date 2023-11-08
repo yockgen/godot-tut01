@@ -55,19 +55,21 @@ curve = SubResource( 7 )
 
 [sub_resource type="ParticlesMaterial" id=5]
 emission_shape = 2
-emission_box_extents = Vector3( 600, 0, 0 )
+emission_box_extents = Vector3( 900, 0, 0 )
 flag_disable_z = true
 direction = Vector3( 0, -1, 0 )
 gravity = Vector3( 0, 0, 0 )
 initial_velocity = 76.07
+initial_velocity_random = 0.15
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 scale = 4.0
+scale_random = 0.46
 scale_curve = SubResource( 8 )
 color_ramp = SubResource( 10 )
 
 [sub_resource type="RectangleShape2D" id=11]
-extents = Vector2( 960, 18 )
+extents = Vector2( 960, 14.625 )
 
 [node name="Main" type="Node"]
 script = ExtResource( 2 )
@@ -155,14 +157,14 @@ anims/AnimScore = SubResource( 4 )
 
 [node name="GroundParticle2D" type="Particles2D" parent="."]
 use_parent_material = true
-position = Vector2( 933, 1048 )
+position = Vector2( 1004, 1045 )
 amount = 200
 process_material = SubResource( 5 )
 
 [node name="Ground" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
-position = Vector2( 950, 1040 )
+position = Vector2( 954, 1049.63 )
 shape = SubResource( 11 )
 
 [connection signal="timeout" from="MobTimer" to="." method="_on_MobTimer_timeout"]
