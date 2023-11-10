@@ -1,4 +1,4 @@
-[gd_scene load_steps=115 format=2]
+[gd_scene load_steps=116 format=2]
 
 [ext_resource path="res://assets/Yu/Battle Effects/vr_bc211_01.png" type="Texture" id=1]
 [ext_resource path="res://assets/Yu/bc030_09.png" type="Texture" id=2]
@@ -431,6 +431,10 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=78]
 extents = Vector2( 78.5, 81.5 )
 
+[sub_resource type="Environment" id=82]
+background_mode = 4
+glow_enabled = true
+
 [sub_resource type="RectangleShape2D" id=79]
 extents = Vector2( 68, 114 )
 
@@ -485,6 +489,7 @@ __meta__ = {
 [node name="Attack" type="Area2D" parent="."]
 
 [node name="AnimatedSpriteAttack" type="AnimatedSprite" parent="Attack"]
+self_modulate = Color( 0, 1, 5.21, 1 )
 position = Vector2( -180, -13 )
 scale = Vector2( 1.52003, 1.97885 )
 frames = SubResource( 74 )
@@ -497,6 +502,9 @@ volume_db = 8.739
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Attack"]
 position = Vector2( -191.5, -33.5 )
 shape = SubResource( 78 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Attack"]
+environment = SubResource( 82 )
 
 [node name="TimerFreeze" type="Timer" parent="."]
 

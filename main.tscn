@@ -114,23 +114,13 @@ stream = ExtResource( 5 )
 volume_db = -10.0
 autoplay = true
 
-[node name="StreetItem01" type="ParallaxBackground" parent="."]
-layer = 100
-
-[node name="ParallaxLayer" type="ParallaxLayer" parent="StreetItem01"]
-
-[node name="Sprite" type="Sprite" parent="StreetItem01/ParallaxLayer"]
+[node name="StreetItem01" type="Sprite" parent="."]
 position = Vector2( 1492, 1017.77 )
 scale = Vector2( 0.482621, 0.557655 )
 z_index = 10
 texture = ExtResource( 7 )
 
-[node name="StreetItem02" type="ParallaxBackground" parent="."]
-layer = 100
-
-[node name="ParallaxLayer" type="ParallaxLayer" parent="StreetItem02"]
-
-[node name="Sprite" type="Sprite" parent="StreetItem02/ParallaxLayer"]
+[node name="StreetItem02" type="Sprite" parent="."]
 position = Vector2( 261, 1008 )
 scale = Vector2( 0.546987, 0.619192 )
 z_index = 10
