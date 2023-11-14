@@ -96,4 +96,5 @@ project/assembly_name="test01"
 
 [rendering]
 
+quality/subsurface_scattering/quality=2
 environment/default_environment="res://default_env.tres"

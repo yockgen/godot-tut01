@@ -1,4 +1,4 @@
-[gd_scene load_steps=116 format=2]
+[gd_scene load_steps=121 format=2]
 
 [ext_resource path="res://assets/Yu/Battle Effects/vr_bc211_01.png" type="Texture" id=1]
 [ext_resource path="res://assets/Yu/bc030_09.png" type="Texture" id=2]
@@ -37,38 +37,11 @@
 [ext_resource path="res://assets/Yu/bc033_01.png" type="Texture" id=35]
 [ext_resource path="res://assets/Yu/bc033_04.png" type="Texture" id=36]
 [ext_resource path="res://assets/font/SHADSER.TTF" type="DynamicFontData" id=37]
-
-[sub_resource type="SpriteFrames" id=1]
-animations = [ {
-"frames": [ ExtResource( 34 ), ExtResource( 35 ), ExtResource( 35 ), ExtResource( 35 ), ExtResource( 21 ), ExtResource( 36 ), ExtResource( 5 ) ],
-"loop": false,
-"name": "dash",
-"speed": 10.0
-}, {
-"frames": [ ExtResource( 31 ), ExtResource( 26 ), ExtResource( 28 ), ExtResource( 32 ), ExtResource( 27 ), ExtResource( 30 ), ExtResource( 29 ) ],
-"loop": false,
-"name": "down",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 18 ), ExtResource( 22 ), ExtResource( 20 ), ExtResource( 24 ), ExtResource( 4 ), ExtResource( 23 ), ExtResource( 19 ) ],
-"loop": false,
-"name": "fire_stand",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 5 ) ],
-"loop": true,
-"name": "stand",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 8 ), ExtResource( 2 ), ExtResource( 13 ), ExtResource( 9 ) ],
-"loop": true,
-"name": "walk",
-"speed": 4.98
-} ]
-
-[sub_resource type="CapsuleShape2D" id=2]
-radius = 60.0
-height = 82.0
+[ext_resource path="res://assets/Platinium Star/monkey/02.png" type="Texture" id=38]
+[ext_resource path="res://assets/Platinium Star/monkey/01.png" type="Texture" id=39]
+[ext_resource path="res://assets/Platinium Star/monkey/03.png" type="Texture" id=40]
+[ext_resource path="res://assets/Platinium Star/monkey/04.png" type="Texture" id=41]
+[ext_resource path="res://assets/Platinium Star/monkey/05.png" type="Texture" id=42]
 
 [sub_resource type="AtlasTexture" id=4]
 flags = 4
@@ -426,6 +399,11 @@ animations = [ {
 "loop": true,
 "name": "Set001",
 "speed": 40.0
+}, {
+"frames": [ ExtResource( 39 ), ExtResource( 40 ), ExtResource( 38 ), ExtResource( 41 ), ExtResource( 42 ) ],
+"loop": true,
+"name": "Set002",
+"speed": 30.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=78]
@@ -434,6 +412,40 @@ extents = Vector2( 78.5, 81.5 )
 [sub_resource type="Environment" id=82]
 background_mode = 4
 glow_enabled = true
+glow_strength = 0.75
+glow_high_quality = true
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 34 ), ExtResource( 35 ), ExtResource( 35 ), ExtResource( 35 ), ExtResource( 21 ), ExtResource( 36 ), ExtResource( 5 ) ],
+"loop": false,
+"name": "dash",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 31 ), ExtResource( 26 ), ExtResource( 28 ), ExtResource( 32 ), ExtResource( 27 ), ExtResource( 30 ), ExtResource( 29 ) ],
+"loop": false,
+"name": "down",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 18 ), ExtResource( 22 ), ExtResource( 20 ), ExtResource( 24 ), ExtResource( 4 ), ExtResource( 23 ), ExtResource( 19 ) ],
+"loop": false,
+"name": "fire_stand",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ) ],
+"loop": true,
+"name": "stand",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 8 ), ExtResource( 2 ), ExtResource( 13 ), ExtResource( 9 ) ],
+"loop": true,
+"name": "walk",
+"speed": 4.98
+} ]
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 60.0
+height = 82.0
 
 [sub_resource type="RectangleShape2D" id=79]
 extents = Vector2( 68, 114 )
@@ -472,6 +484,26 @@ scale = Vector2( 0.223463, 0.18919 )
 texture = ExtResource( 1 )
 offset = Vector2( -520, -200 )
 
+[node name="Attack" type="Area2D" parent="."]
+
+[node name="AnimatedSpriteAttack" type="AnimatedSprite" parent="Attack"]
+self_modulate = Color( 1, 1, 6.36078, 0.780392 )
+position = Vector2( -180, -20 )
+scale = Vector2( 0.6, 0.6 )
+frames = SubResource( 74 )
+animation = "Set002"
+
+[node name="AttackSound" type="AudioStreamPlayer2D" parent="Attack"]
+stream = ExtResource( 6 )
+volume_db = 8.739
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Attack"]
+position = Vector2( -191.5, -33.5 )
+shape = SubResource( 78 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Attack"]
+environment = SubResource( 82 )
+
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0, 2.223 )
 scale = Vector2( 0.5, 0.5 )
@@ -485,26 +517,6 @@ shape = SubResource( 2 )
 __meta__ = {
 "_editor_description_": "Collision of player"
 }
-
-[node name="Attack" type="Area2D" parent="."]
-
-[node name="AnimatedSpriteAttack" type="AnimatedSprite" parent="Attack"]
-self_modulate = Color( 0, 1, 5.21, 1 )
-position = Vector2( -180, -13 )
-scale = Vector2( 1.52003, 1.97885 )
-frames = SubResource( 74 )
-animation = "Set001"
-
-[node name="AttackSound" type="AudioStreamPlayer2D" parent="Attack"]
-stream = ExtResource( 6 )
-volume_db = 8.739
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Attack"]
-position = Vector2( -191.5, -33.5 )
-shape = SubResource( 78 )
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="Attack"]
-environment = SubResource( 82 )
 
 [node name="TimerFreeze" type="Timer" parent="."]
 
@@ -544,10 +556,10 @@ custom_fonts/font = SubResource( 80 )
 text = "100"
 
 [connection signal="body_entered" from="." to="." method="_on_Player_body_entered"]
-[connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="body_entered" from="Attack" to="." method="_on_Attack_body_entered"]
 [connection signal="animation_finished" from="Attack/AnimatedSpriteAttack" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="animation_finished" from="Attack/AnimatedSpriteAttack" to="." method="_on_AnimatedSpriteAttack_animation_finished"]
+[connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="body_entered" from="Area2DEnemyCloser" to="." method="_on_Area2DEnemyCloser_body_entered"]
 [connection signal="body_exited" from="Area2DEnemyCloser" to="." method="_on_Area2DEnemyCloser_body_exited"]
 [connection signal="timeout" from="TimerBulletTime" to="." method="_on_TimerBulletTime_timeout"]
