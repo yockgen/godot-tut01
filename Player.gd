@@ -23,7 +23,7 @@ func freeze(time: float) -> void:
 func enteredBulletTime(time: float) -> void: 
 	state = "bullettime"
 	$CollisionShape2D.disabled = true   
-	Engine.time_scale = 0.2
+	Engine.time_scale = time
 	$TimerBulletTime.start(time)
 
 
@@ -107,8 +107,8 @@ func _process(delta):
 			action = "dash"				
 			iDashing = true
 			if isBulletTimeChance == true:
-				enteredBulletTime (0.5)		
-				iActualSpeed =  speed * 8			
+				enteredBulletTime (0.3)		
+				iActualSpeed =  speed * 16			
 			else:
 				iActualSpeed =  speed * 4
 			

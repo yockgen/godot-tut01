@@ -403,7 +403,7 @@ animations = [ {
 "frames": [ ExtResource( 39 ), ExtResource( 40 ), ExtResource( 38 ), ExtResource( 41 ), ExtResource( 42 ) ],
 "loop": true,
 "name": "Set002",
-"speed": 30.0
+"speed": 20.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=78]
