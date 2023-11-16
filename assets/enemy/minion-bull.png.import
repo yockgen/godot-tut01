@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/guy-down.png-57b37fb389b34115422b8b4d071b71e8.stex"
+path="res://.import/minion-bull.png-b35765aa8afa14a213daab576112bdbd.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/misc/guy-down.png"
-dest_files=[ "res://.import/guy-down.png-57b37fb389b34115422b8b4d071b71e8.stex" ]
+source_file="res://assets/enemy/minion-bull.png"
+dest_files=[ "res://.import/minion-bull.png-b35765aa8afa14a213daab576112bdbd.stex" ]
 
 [params]
 

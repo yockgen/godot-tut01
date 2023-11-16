@@ -8,28 +8,15 @@ var soundPly
 var seDown 
 
 var enemy = ""
+var isGrounded
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$AnimatedSprite.animation = "walk"#mob_types[randi() % mob_types.size()]
+	#$AnimatedSprite.animation = "walk"#mob_types[randi() % mob_types.size()]
 	$AnimatedSprite.play()
 	$Alerting.visible = false
 	self.enemy = ""
-	
-	#get_parent().connect("EnemyGrounded", self, "on_EnemyGrounded")
+	isGrounded = false
 		
-	#soundPly = AudioStreamPlayer.new()
-	#seDown = load("res://assets/Sound/hitted.ogg")
-	#add_child(soundPly)
-	#soundPly.stream = seDown
-		
-#func on_EnemyGrounded (body):
-#	print ("body.name")
-	#body.linear_velocity = Vector2(0,0)
-	#body.get_node("CollisionShape2D").set_deferred("disabled",true)
-	#$CollisionShape2D.set_deferred("disabled",true)
-	#$AnimatedSprite.animation = "grounded"
-	#$AnimatedSprite.play()
-	
 func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
 
@@ -44,14 +31,19 @@ func setEnemyDown (id):
 	_explosion.rotation = global_rotation
 	_explosion.emitting = true
 	get_tree().current_scene.add_child(_explosion)
-	yield(get_tree().create_timer(1),"timeout")
+	yield(get_tree().create_timer(0.3),"timeout")
 	queue_free()
 	
 	#$AnimatedSprite.play("hitted")	
-
+ 
+func _process(delta):
+	if isGrounded == true:
+	   rotation_degrees = 0
+	
 func setEnemyGrounded (_id):
-	$AnimatedSprite.play("hitted")
-	$SndExplosion.play()
+	isGrounded = true 	
+	$AnimatedSprite.play("grounded")
+	$SndExplosion.play()	
 	yield(get_tree().create_timer(2),"timeout")
 	queue_free()
 	

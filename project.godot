@@ -14,7 +14,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="test01"
+config/name="Game01"
 run/main_scene="res://main.tscn"
 config/icon="res://icon.png"
 
