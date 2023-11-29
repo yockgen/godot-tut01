@@ -58,6 +58,7 @@ func _process(delta):
 	var objAttackSound = $Attack.get_node("AttackSound")
 	var objAttackColli = $Attack.get_node("CollisionShape2D")
 	var iActualSpeed = speed
+	var iDashSpeed = 0
 		
 	if $AnimatedSprite.animation == "down":		
 		return	
@@ -103,9 +104,10 @@ func _process(delta):
 	if Input.is_action_pressed("dodge"):
 	#if Input.is_action_just_released("dodge"):
 		if action != "dash" and iDashing == false:
-			iDashCnt = 10
+			self.get_node("CollisionShape2D").set_deferred("disabled",true)
+			iDashCnt = 15
 			action = "dash"				
-			iDashing = true
+			iDashing = true			
 			if isBulletTimeChance == true:
 				enteredBulletTime (0.3)		
 				iActualSpeed =  speed * 16			
@@ -126,13 +128,18 @@ func _process(delta):
 				
 	iDashCnt = iDashCnt -1
 	if iDashCnt >=1:
-		iActualSpeed =  speed * 4
+		iDashSpeed = speed * 4
+		if isBulletTimeChance == true:
+			iDashSpeed = speed * 12
+		iActualSpeed =  iDashSpeed
 		if $AnimatedSprite.flip_h == true:
 				velocity.x -= iMoveUnit
 		else:		
 				velocity.x += iMoveUnit
 	else:
 		iDashing = false
+		self.get_node("CollisionShape2D").set_deferred("disabled",false)
+			
 		
 		
 	#end: dodge related	

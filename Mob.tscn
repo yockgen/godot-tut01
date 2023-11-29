@@ -163,7 +163,7 @@ position = Vector2( -24.4656, 4.00001 )
 scale = Vector2( 0.6, 0.6 )
 frames = SubResource( 10 )
 animation = "walk"
-frame = 4
+frame = 8
 speed_scale = 5.0
 playing = true
 
@@ -182,7 +182,7 @@ volume_db = 8.756
 position = Vector2( 27.228, -31.477 )
 scale = Vector2( 0.733334, 0.657143 )
 frames = SubResource( 52 )
-frame = 3
+frame = 5
 playing = true
 
 [node name="SndExplosion" type="AudioStreamPlayer2D" parent="."]
