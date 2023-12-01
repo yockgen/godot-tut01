@@ -1,5 +1,8 @@
 extends Area2D
 
+export (ShaderMaterial) var whiten_material
+onready var collision_shape = $CollisionShape2D
+
 export var speed = 400  # How fast the player will move (pixels/sec).
 var screen_size  # Size of the game window
 
@@ -15,10 +18,20 @@ var iDashing = false
 signal EnemyDefeated
 signal GotHit
 
-onready var timer = $TimerFreeze
+#onready var timer = $TimerFreeze
 func freeze(time: float) -> void: 
-	$CollisionShape2D.disabled = true   
-	timer.start(time)
+	whiten_material.set_shader_param("whiten", true)
+	yield(get_tree().create_timer(0.5), "timeout")
+	whiten_material.set_shader_param("whiten", false)
+		
+	$CollisionShape2D.disabled = true	
+	yield(get_tree().create_timer(1.0), "timeout")
+	state = "normal"
+	$CollisionShape2D.disabled = false	
+	$AnimatedSprite.animation = "stand"
+	
+	#timer.start(time)
+	
 
 func enteredBulletTime(time: float) -> void: 
 	state = "bullettime"
@@ -27,10 +40,10 @@ func enteredBulletTime(time: float) -> void:
 	$TimerBulletTime.start(time)
 
 
-func unfreeze() -> void:
-	state = "normal"
-	$CollisionShape2D.disabled = false	
-	$AnimatedSprite.animation = "stand"
+#func unfreeze() -> void:
+#	state = "normal"
+#	$CollisionShape2D.disabled = false	
+#	$AnimatedSprite.animation = "stand"
 		
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -38,7 +51,7 @@ func _ready():
 	$Attack.visible = false
 	isBulletTimeChance = false
 	iMoveUnit = 1
-	timer.connect("timeout", self, "unfreeze")
+#	timer.connect("timeout", self, "unfreeze")
 	iDashCnt = 0
 	iDashing = false
 	$Info.visible = false
@@ -184,13 +197,13 @@ func _on_AnimatedSprite_animation_finished():
 func _on_AnimatedSpriteAttack_animation_finished():
 	pass
 
-func _on_Attack_body_entered(body):	
+func _on_Attack_body_entered(body):		
 	body.linear_velocity = Vector2(0,0)
 	body.get_node("CollisionShape2D").set_deferred("disabled",true)
 	$Attack.get_node("CollisionShape2D").set_deferred("disabled",true)
 	body.setEnemyDown(body.name)
 	emit_signal("EnemyDefeated")
-
+	
 
 func _on_Area2DEnemyCloser_body_entered(body):
 	self.isBulletTimeChance = true
