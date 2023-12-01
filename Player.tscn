@@ -557,6 +557,7 @@ text = "100"
 
 [connection signal="body_entered" from="." to="." method="_on_Player_body_entered"]
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
+[connection signal="area_entered" from="Attack" to="." method="_on_Attack_area_entered"]
 [connection signal="body_entered" from="Attack" to="." method="_on_Attack_body_entered"]
 [connection signal="animation_finished" from="Attack/AnimatedSpriteAttack" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="animation_finished" from="Attack/AnimatedSpriteAttack" to="." method="_on_AnimatedSpriteAttack_animation_finished"]

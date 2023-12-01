@@ -5,10 +5,15 @@ export (int) var Score
 
 func _ready():
 	$Player.connect("EnemyDefeated", self, "on_PlayerDefeated")
-	$Player.connect("GotHit", self, "on_PlayerGotHit")	
+	$Player.connect("GotHit", self, "on_PlayerGotHit")
+	$Player.connect("BossGetHit", self, "on_BossGetHit")	
 	$PauseCtrl.connect("Restart", self, "on_Restart")
 	randomize()
 	new_game()
+	
+func on_BossGetHit():
+	#print ("boss get hit")
+	$Boss01.setGetHit()
 	
 func emptyEnemies():
 	for child in get_children():

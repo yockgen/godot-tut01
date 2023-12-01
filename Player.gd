@@ -16,6 +16,7 @@ var iDashCnt = 0
 var iDashing = false
 
 signal EnemyDefeated
+signal BossGetHit
 signal GotHit
 
 #onready var timer = $TimerFreeze
@@ -197,13 +198,16 @@ func _on_AnimatedSprite_animation_finished():
 func _on_AnimatedSpriteAttack_animation_finished():
 	pass
 
-func _on_Attack_body_entered(body):		
+func _on_Attack_body_entered(body):			
 	body.linear_velocity = Vector2(0,0)
 	body.get_node("CollisionShape2D").set_deferred("disabled",true)
 	$Attack.get_node("CollisionShape2D").set_deferred("disabled",true)
 	body.setEnemyDown(body.name)
 	emit_signal("EnemyDefeated")
-	
+
+func _on_Attack_area_entered(area):
+	if $Attack.visible and area.name == "Boss01":		
+		emit_signal("BossGetHit")
 
 func _on_Area2DEnemyCloser_body_entered(body):
 	self.isBulletTimeChance = true
