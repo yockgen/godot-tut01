@@ -76,6 +76,13 @@ func _process(delta):
 		
 	if $AnimatedSprite.animation == "down":		
 		return	
+	
+	if $AnimatedSprite.is_playing() and $AnimatedSprite.animation == "swing" and $AnimatedSprite.frame < 7:		
+		#print ($AnimatedSprite.frame)
+		return
+	elif $AnimatedSprite.animation == "swing":
+		$AnimatedSprite.play("stand")	
+		return
 		
 	if Input.is_action_pressed("ui_right"):
 		action = "walk"
@@ -104,7 +111,12 @@ func _process(delta):
 		if objAttackSound.playing == false:
 			objAttackSound.play()			
 		return
-	
+		
+	if Input.is_action_pressed("attack2"):
+		#isAttack = true
+		$AnimatedSprite.play("swing")				
+		return
+		
 	if Input.is_action_just_released("attack1") || Input.is_action_just_released("ui_left"):		
 		isAttack = false
 		$Attack.visible = false

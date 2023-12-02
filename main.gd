@@ -12,7 +12,7 @@ func _ready():
 	new_game()
 	
 func on_BossGetHit():
-	#print ("boss get hit")
+	setscore(1)
 	$Boss01.setGetHit()
 	
 func emptyEnemies():

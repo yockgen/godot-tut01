@@ -21,21 +21,23 @@ animations = [ {
 } ]
 
 [sub_resource type="CapsuleShape2D" id=6]
-radius = 22.0
-height = 328.0
+radius = 90.0
+height = 334.0
 
 [node name="Boss01" type="Area2D"]
+z_index = -3
 script = ExtResource( 11 )
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
 material = ExtResource( 9 )
-position = Vector2( 1206, 503 )
+position = Vector2( 1206, 476 )
+scale = Vector2( 1, 1.06027 )
 frames = SubResource( 1 )
-frame = 5
+frame = 3
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 1202, 704 )
+position = Vector2( 1203, 649 )
 shape = SubResource( 6 )
 
 [node name="SndHitBy" type="AudioStreamPlayer2D" parent="."]

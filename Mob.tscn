@@ -149,7 +149,8 @@ animations = [ {
 } ]
 
 [node name="Mob" type="RigidBody2D"]
-position = Vector2( 103.772, 59.977 )
+position = Vector2( 27, -2 )
+z_index = -2
 collision_mask = 0
 gravity_scale = 0.0
 script = ExtResource( 2 )
@@ -163,7 +164,7 @@ position = Vector2( -24.4656, 4.00001 )
 scale = Vector2( 0.6, 0.6 )
 frames = SubResource( 10 )
 animation = "walk"
-frame = 1
+frame = 2
 speed_scale = 5.0
 playing = true
 
@@ -182,7 +183,7 @@ volume_db = 8.756
 position = Vector2( 27.228, -31.477 )
 scale = Vector2( 0.733334, 0.657143 )
 frames = SubResource( 52 )
-frame = 5
+frame = 3
 playing = true
 
 [node name="SndExplosion" type="AudioStreamPlayer2D" parent="."]
