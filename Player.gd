@@ -22,11 +22,11 @@ signal GotHit
 #onready var timer = $TimerFreeze
 func freeze(time: float) -> void: 
 	whiten_material.set_shader_param("whiten", true)
-	yield(get_tree().create_timer(0.5), "timeout")
+	yield(get_tree().create_timer(time), "timeout")
 	whiten_material.set_shader_param("whiten", false)
 		
 	$CollisionShape2D.disabled = true	
-	yield(get_tree().create_timer(1.0), "timeout")
+	yield(get_tree().create_timer(time), "timeout")
 	state = "normal"
 	$CollisionShape2D.disabled = false	
 	$AnimatedSprite.animation = "stand"
@@ -63,6 +63,15 @@ func start(pos):
 	position = pos
 	show()
 	$CollisionShape2D.disabled = false
+
+func playStandingPose():
+	#print ("yockgen123")
+	if $AnimatedSprite.animation == "stand":
+	  print($AnimatedSprite.animation)
+	
+	$AnimatedSprite.play("stand")
+	#yield(get_tree().create_timer(2.0), "timeoifut")
+	#pass
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #export (bool) var pauseG: bool: true
@@ -73,6 +82,7 @@ func _process(delta):
 	var objAttackColli = $Attack.get_node("CollisionShape2D")
 	var iActualSpeed = speed
 	var iDashSpeed = 0
+	
 		
 	if $AnimatedSprite.animation == "down":		
 		return	
@@ -81,7 +91,8 @@ func _process(delta):
 		#print ($AnimatedSprite.frame)
 		return
 	elif $AnimatedSprite.animation == "swing":
-		$AnimatedSprite.play("stand")	
+		#$AnimatedSprite.play("stand")	
+		self.playStandingPose()
 		return
 		
 	if Input.is_action_pressed("ui_right"):
@@ -114,13 +125,14 @@ func _process(delta):
 		
 	if Input.is_action_pressed("attack2"):
 		#isAttack = true
-		$AnimatedSprite.play("swing")				
+		$AnimatedSprite.play("stand")				
 		return
 		
-	if Input.is_action_just_released("attack1") || Input.is_action_just_released("ui_left"):		
+	if Input.is_action_just_released("attack1") || Input.is_action_just_released("ui_left")  || Input.is_action_just_released("ui_right"):		
 		isAttack = false
 		$Attack.visible = false
-		$AnimatedSprite.play("stand")
+		#$AnimatedSprite.play("stand")
+		self.playStandingPose()
 		objAttackSprite.stop()
 		objAttackSound.stop()
 		objAttackColli.disabled = true
@@ -150,10 +162,10 @@ func _process(delta):
 		if iDashCnt>0:	
 			action = "dash"
 		iDashing = false
-		 
-				
+						
 	iDashCnt = iDashCnt -1
 	if iDashCnt >=1:
+		self.get_node("CollisionShape2D").set_deferred("disabled",true)
 		iDashSpeed = speed * 4
 		if isBulletTimeChance == true:
 			iDashSpeed = speed * 12
@@ -180,6 +192,9 @@ func _process(delta):
 	position += velocity * delta
 	position.x = clamp(position.x, 0, screen_size.x)
 	position.y = clamp(position.y, 0, screen_size.y)	
+	
+	#if not Input.is_action_just_pressed("ui_up") and  not Input.is_action_just_pressed("ui_down") and not Input.is_action_just_pressed("ui_left") and  not Input.is_action_just_pressed("ui_right"):
+	#	self.playStandingPose()
 	
 	
 

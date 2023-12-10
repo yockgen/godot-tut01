@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://Mob.tscn" type="PackedScene" id=1]
 [ext_resource path="res://main.gd" type="Script" id=2]
@@ -12,6 +12,17 @@
 [ext_resource path="res://Boss01.tscn" type="PackedScene" id=10]
 [ext_resource path="res://blink-boss01.tres" type="Material" id=11]
 [ext_resource path="res://blink-player.tres" type="Material" id=12]
+[ext_resource path="res://assets/Argenti/01.png" type="Texture" id=13]
+[ext_resource path="res://assets/DanHeng/stand/01.png" type="Texture" id=14]
+[ext_resource path="res://assets/DanHeng/walk/09.png" type="Texture" id=15]
+[ext_resource path="res://assets/DanHeng/walk/03.png" type="Texture" id=16]
+[ext_resource path="res://assets/DanHeng/walk/02.png" type="Texture" id=17]
+[ext_resource path="res://assets/DanHeng/walk/06.png" type="Texture" id=18]
+[ext_resource path="res://assets/DanHeng/walk/07.png" type="Texture" id=19]
+[ext_resource path="res://assets/DanHeng/walk/01.png" type="Texture" id=20]
+[ext_resource path="res://assets/DanHeng/walk/08.png" type="Texture" id=21]
+[ext_resource path="res://assets/DanHeng/walk/05.png" type="Texture" id=22]
+[ext_resource path="res://assets/DanHeng/walk/04.png" type="Texture" id=23]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
@@ -74,6 +85,19 @@ color_ramp = SubResource( 10 )
 [sub_resource type="RectangleShape2D" id=11]
 extents = Vector2( 960, 14.625 )
 
+[sub_resource type="SpriteFrames" id=12]
+animations = [ {
+"frames": [ ExtResource( 14 ), ExtResource( 20 ), ExtResource( 17 ), ExtResource( 16 ), ExtResource( 23 ), ExtResource( 22 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 21 ), ExtResource( 15 ) ],
+"loop": true,
+"name": "danheng",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 13 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
 [node name="Main" type="Node"]
 script = ExtResource( 2 )
 Mob = ExtResource( 1 )
@@ -97,7 +121,7 @@ whiten_material = ExtResource( 11 )
 [node name="PauseCtrl" parent="." instance=ExtResource( 6 )]
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
-position = Vector2( 636, 915 )
+position = Vector2( 646, 917 )
 collision_layer = 15
 collision_mask = 15
 whiten_material = ExtResource( 12 )
@@ -171,6 +195,15 @@ process_material = SubResource( 5 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
 position = Vector2( 954, 1049.63 )
 shape = SubResource( 11 )
+
+[node name="Argenti" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( 691.958, 874.052 )
+scale = Vector2( 0.776657, 0.755787 )
+frames = SubResource( 12 )
+animation = "danheng"
+frame = 1
+playing = true
 
 [connection signal="timeout" from="MobTimer" to="." method="_on_MobTimer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]

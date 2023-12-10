@@ -183,7 +183,7 @@ volume_db = 8.756
 position = Vector2( 27.228, -31.477 )
 scale = Vector2( 0.733334, 0.657143 )
 frames = SubResource( 52 )
-frame = 3
+frame = 6
 playing = true
 
 [node name="SndExplosion" type="AudioStreamPlayer2D" parent="."]
