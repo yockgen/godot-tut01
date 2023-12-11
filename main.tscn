@@ -154,14 +154,14 @@ volume_db = -13.152
 autoplay = true
 
 [node name="StreetItem01" type="Sprite" parent="."]
-position = Vector2( 1492, 1017.77 )
-scale = Vector2( 0.482621, 0.557655 )
+position = Vector2( 1532, 991 )
+scale = Vector2( 0.627166, 0.741372 )
 z_index = 10
 texture = ExtResource( 7 )
 
 [node name="StreetItem02" type="Sprite" parent="."]
-position = Vector2( 215, 1010 )
-scale = Vector2( 0.546987, 0.619192 )
+position = Vector2( 225, 970 )
+scale = Vector2( 0.585401, 0.853164 )
 z_index = 10
 texture = ExtResource( 8 )
 
@@ -202,7 +202,7 @@ position = Vector2( 691.958, 874.052 )
 scale = Vector2( 0.776657, 0.755787 )
 frames = SubResource( 12 )
 animation = "danheng"
-frame = 1
+frame = 3
 playing = true
 
 [connection signal="timeout" from="MobTimer" to="." method="_on_MobTimer_timeout"]

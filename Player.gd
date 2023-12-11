@@ -21,12 +21,14 @@ signal GotHit
 
 #onready var timer = $TimerFreeze
 func freeze(time: float) -> void: 
+	$CollisionShape2D.disabled = true
+	
 	whiten_material.set_shader_param("whiten", true)
-	yield(get_tree().create_timer(time), "timeout")
+	yield(get_tree().create_timer(time/2), "timeout")
 	whiten_material.set_shader_param("whiten", false)
 		
-	$CollisionShape2D.disabled = true	
-	yield(get_tree().create_timer(time), "timeout")
+		
+	yield(get_tree().create_timer(time/2), "timeout")
 	state = "normal"
 	$CollisionShape2D.disabled = false	
 	$AnimatedSprite.animation = "stand"
@@ -215,7 +217,7 @@ func _on_Player_body_entered(_body):
 	$Info.visible = true
 	$AnimatedSprite.play("down")
 	state = "freeze"
-	freeze(2.0)		
+	freeze(1.0)		
 	
 	
 func _on_AnimatedSprite_animation_finished():
