@@ -1,4 +1,4 @@
-[gd_scene load_steps=155 format=2]
+[gd_scene load_steps=157 format=2]
 
 [ext_resource path="res://assets/Yu/Battle Effects/vr_bc211_01.png" type="Texture" id=1]
 [ext_resource path="res://assets/Yu/bc030_09.png" type="Texture" id=2]
@@ -43,20 +43,23 @@
 [ext_resource path="res://assets/Platinium Star/monkey/04.png" type="Texture" id=41]
 [ext_resource path="res://assets/Platinium Star/monkey/05.png" type="Texture" id=42]
 [ext_resource path="res://blink-player.tres" type="Material" id=43]
-[ext_resource path="res://assets/Yu/bc203_04.png" type="Texture" id=44]
-[ext_resource path="res://assets/Yu/bc203_02.png" type="Texture" id=45]
-[ext_resource path="res://assets/Yu/bc203_06.png" type="Texture" id=46]
-[ext_resource path="res://assets/Yu/bc203_00.png" type="Texture" id=47]
-[ext_resource path="res://assets/Yu/bc203_01.png" type="Texture" id=48]
-[ext_resource path="res://assets/Yu/bc203_05.png" type="Texture" id=49]
+[ext_resource path="res://assets/DanHeng/dance/09.png" type="Texture" id=44]
+[ext_resource path="res://assets/DanHeng/dance/06.png" type="Texture" id=45]
+[ext_resource path="res://assets/DanHeng/dance/04.png" type="Texture" id=46]
+[ext_resource path="res://assets/DanHeng/dance/01.png" type="Texture" id=47]
+[ext_resource path="res://assets/DanHeng/dance/07.png" type="Texture" id=48]
+[ext_resource path="res://assets/DanHeng/dance/02.png" type="Texture" id=49]
 [ext_resource path="res://assets/DanHeng/walk/03.png" type="Texture" id=50]
-[ext_resource path="res://assets/Yu/bc203_03.png" type="Texture" id=51]
+[ext_resource path="res://assets/DanHeng/dance/05.png" type="Texture" id=51]
 [ext_resource path="res://assets/DanHeng/walk/02.png" type="Texture" id=52]
 [ext_resource path="res://assets/DanHeng/walk/04.png" type="Texture" id=53]
-[ext_resource path="res://assets/Yu/bc203_10.png" type="Texture" id=54]
+[ext_resource path="res://assets/DanHeng/dance/10.png" type="Texture" id=54]
 [ext_resource path="res://assets/DanHeng/walk/06.png" type="Texture" id=55]
+[ext_resource path="res://assets/DanHeng/dance/08.png" type="Texture" id=56]
+[ext_resource path="res://assets/DanHeng/dance/03.png" type="Texture" id=57]
 [ext_resource path="res://assets/DanHeng/walk/05.png" type="Texture" id=58]
 [ext_resource path="res://assets/DanHeng/walk/01.png" type="Texture" id=59]
+[ext_resource path="res://assets/DanHeng/swing/02.png" type="Texture" id=60]
 [ext_resource path="res://assets/DanHeng/stand/01.png" type="Texture" id=61]
 [ext_resource path="res://assets/DanHeng/fire-stand/01.png" type="Texture" id=62]
 [ext_resource path="res://assets/DanHeng/fire-stand/02.png" type="Texture" id=63]
@@ -70,12 +73,11 @@
 [ext_resource path="res://assets/DanHeng/dash/09.png" type="Texture" id=71]
 [ext_resource path="res://assets/DanHeng/fall/01.png" type="Texture" id=72]
 [ext_resource path="res://assets/DanHeng/dash/07.png" type="Texture" id=73]
-[ext_resource path="res://assets/DanHeng/dash/06.png" type="Texture" id=74]
-[ext_resource path="res://assets/DanHeng/dash/05.png" type="Texture" id=75]
-[ext_resource path="res://assets/DanHeng/dash/01.png" type="Texture" id=76]
-[ext_resource path="res://assets/DanHeng/dash/03.png" type="Texture" id=77]
-[ext_resource path="res://assets/DanHeng/dash/02.png" type="Texture" id=78]
-[ext_resource path="res://assets/DanHeng/dash/04.png" type="Texture" id=79]
+[ext_resource path="res://assets/DanHeng/swing/04.png" type="Texture" id=74]
+[ext_resource path="res://assets/DanHeng/swing/03.png" type="Texture" id=75]
+[ext_resource path="res://assets/DanHeng/swing/06.png" type="Texture" id=76]
+[ext_resource path="res://assets/DanHeng/swing/01.png" type="Texture" id=77]
+[ext_resource path="res://assets/DanHeng/swing/05.png" type="Texture" id=78]
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 60.0
@@ -83,10 +85,15 @@ height = 186.0
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 71 ), ExtResource( 76 ), ExtResource( 78 ), ExtResource( 77 ), ExtResource( 79 ), ExtResource( 75 ), ExtResource( 74 ), ExtResource( 73 ), ExtResource( 71 ) ],
+"frames": [ ExtResource( 47 ), ExtResource( 49 ), ExtResource( 57 ), ExtResource( 46 ), ExtResource( 51 ), ExtResource( 45 ), ExtResource( 48 ), ExtResource( 56 ), ExtResource( 44 ), ExtResource( 54 ) ],
+"loop": false,
+"name": "dance",
+"speed": 3.0
+}, {
+"frames": [ ExtResource( 71 ), ExtResource( 73 ), ExtResource( 73 ), ExtResource( 73 ), ExtResource( 73 ), ExtResource( 73 ), ExtResource( 71 ) ],
 "loop": true,
 "name": "dash",
-"speed": 10.0
+"speed": 5.0
 }, {
 "frames": [ ExtResource( 34 ), ExtResource( 35 ), ExtResource( 35 ), ExtResource( 35 ), ExtResource( 21 ), ExtResource( 36 ), ExtResource( 5 ) ],
 "loop": false,
@@ -123,10 +130,10 @@ animations = [ {
 "name": "stand03",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 47 ), ExtResource( 48 ), ExtResource( 45 ), ExtResource( 51 ), ExtResource( 44 ), ExtResource( 49 ), ExtResource( 46 ), ExtResource( 54 ) ],
+"frames": [ ExtResource( 77 ), ExtResource( 60 ), ExtResource( 75 ), ExtResource( 74 ), ExtResource( 78 ), ExtResource( 76 ), ExtResource( 76 ) ],
 "loop": false,
 "name": "swing",
-"speed": 8.0
+"speed": 5.0
 }, {
 "frames": [ ExtResource( 59 ), ExtResource( 52 ), ExtResource( 50 ), ExtResource( 53 ), ExtResource( 58 ), ExtResource( 55 ) ],
 "loop": true,

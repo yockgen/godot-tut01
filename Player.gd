@@ -66,14 +66,11 @@ func start(pos):
 	show()
 	$CollisionShape2D.disabled = false
 
-func playStandingPose():
-	#print ("yockgen123")
-	if $AnimatedSprite.animation == "stand":
-	  print($AnimatedSprite.animation)
+func playStandingPose():	
 	
 	$AnimatedSprite.play("stand")
-	#yield(get_tree().create_timer(2.0), "timeoifut")
-	#pass
+	#yield(get_tree().create_timer(2.0), "timeout")
+	pass
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #export (bool) var pauseG: bool: true
@@ -89,8 +86,9 @@ func _process(delta):
 	if $AnimatedSprite.animation == "down":		
 		return	
 	
-	if $AnimatedSprite.is_playing() and $AnimatedSprite.animation == "swing" and $AnimatedSprite.frame < 7:		
-		#print ($AnimatedSprite.frame)
+	if $AnimatedSprite.is_playing() and $AnimatedSprite.animation == "swing" and $AnimatedSprite.frame < 5:		
+		return
+	elif $AnimatedSprite.is_playing() and $AnimatedSprite.animation == "dance" and $AnimatedSprite.frame < 8:		
 		return
 	elif $AnimatedSprite.animation == "swing":
 		#$AnimatedSprite.play("stand")	
@@ -127,7 +125,11 @@ func _process(delta):
 		
 	if Input.is_action_pressed("attack2"):
 		#isAttack = true
-		$AnimatedSprite.play("stand")				
+		$AnimatedSprite.play("swing")				
+		return
+	if Input.is_action_pressed("dance"):
+		#isAttack = true
+		$AnimatedSprite.play("dance")				
 		return
 		
 	if Input.is_action_just_released("attack1") || Input.is_action_just_released("ui_left")  || Input.is_action_just_released("ui_right"):		
