@@ -4,9 +4,13 @@ export (PackedScene) var Mob
 export (int) var Score
 
 func _ready():
-	$Player.connect("EnemyDefeated", self, "on_PlayerDefeated")
+	$Player.connect("EnemyDefeated", self, "on_MinionGetHit")
 	$Player.connect("GotHit", self, "on_PlayerGotHit")
 	$Player.connect("BossGetHit", self, "on_BossGetHit")	
+	$Player.get_node("Finisher01").connect("EnemyDefeated", self, "on_MinionGetHit")
+	$Player.get_node("Finisher01").connect("BossGetHit", self, "on_BossGetHit")
+	
+	
 	$PauseCtrl.connect("Restart", self, "on_Restart")
 	randomize()
 	new_game()
@@ -26,7 +30,7 @@ func on_Restart():
 	$ScoreTimer.start()	
 	new_game()
 	
-func on_PlayerDefeated():
+func on_MinionGetHit():
 	setscore(150)
 
 func on_PlayerGotHit():

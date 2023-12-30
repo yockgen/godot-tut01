@@ -1,0 +1,30 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://assets/Svarog/Attack01/02.png" type="Texture" id=1]
+[ext_resource path="res://assets/Svarog/Attack01/01.png" type="Texture" id=2]
+[ext_resource path="res://assets/Svarog/Attack01/03.png" type="Texture" id=3]
+[ext_resource path="res://assets/Svarog/Attack01/04.png" type="Texture" id=4]
+[ext_resource path="res://Finisher/Finisher02.gd" type="Script" id=5]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 1 ), ExtResource( 1 ), ExtResource( 1 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 4 ) ],
+"loop": false,
+"name": "default",
+"speed": 8.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 467, 373.5 )
+
+[node name="Finisher02" type="Area2D"]
+script = ExtResource( 5 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -212, -102.5 )
+shape = SubResource( 2 )
+
+[connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]

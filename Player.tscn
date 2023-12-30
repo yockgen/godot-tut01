@@ -1,4 +1,4 @@
-[gd_scene load_steps=157 format=2]
+[gd_scene load_steps=165 format=2]
 
 [ext_resource path="res://assets/Yu/Battle Effects/vr_bc211_01.png" type="Texture" id=1]
 [ext_resource path="res://assets/Yu/bc030_09.png" type="Texture" id=2]
@@ -78,6 +78,14 @@
 [ext_resource path="res://assets/DanHeng/swing/06.png" type="Texture" id=76]
 [ext_resource path="res://assets/DanHeng/swing/01.png" type="Texture" id=77]
 [ext_resource path="res://assets/DanHeng/swing/05.png" type="Texture" id=78]
+[ext_resource path="res://assets/DanHeng/openarm/02.png" type="Texture" id=79]
+[ext_resource path="res://assets/DanHeng/openarm/05.png" type="Texture" id=80]
+[ext_resource path="res://assets/DanHeng/openarm/03.png" type="Texture" id=81]
+[ext_resource path="res://assets/DanHeng/openarm/01.png" type="Texture" id=82]
+[ext_resource path="res://assets/DanHeng/openarm/06.png" type="Texture" id=83]
+[ext_resource path="res://assets/DanHeng/openarm/04.png" type="Texture" id=84]
+[ext_resource path="res://Finisher/Finisher01.tscn" type="PackedScene" id=85]
+[ext_resource path="res://Finisher/Finisher02.tscn" type="PackedScene" id=86]
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 60.0
@@ -119,6 +127,11 @@ animations = [ {
 "loop": false,
 "name": "fire_stand01",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 82 ), ExtResource( 79 ), ExtResource( 81 ), ExtResource( 84 ), ExtResource( 80 ), ExtResource( 83 ) ],
+"loop": true,
+"name": "open_arm",
+"speed": 3.0
 }, {
 "frames": [ ExtResource( 61 ), ExtResource( 65 ) ],
 "loop": true,
@@ -625,6 +638,14 @@ custom_colors/font_color = Color( 1, 0.0862745, 0.145098, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_fonts/font = SubResource( 80 )
 text = "100"
+
+[node name="Finisher01" parent="." instance=ExtResource( 85 )]
+z_as_relative = false
+collision_layer = 15
+
+[node name="Finisher02" parent="." instance=ExtResource( 86 )]
+position = Vector2( -200, -100 )
+scale = Vector2( 0.4, 0.4 )
 
 [connection signal="body_entered" from="." to="." method="_on_Player_body_entered"]
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]

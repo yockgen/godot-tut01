@@ -19,7 +19,26 @@ signal EnemyDefeated
 signal BossGetHit
 signal GotHit
 
-#onready var timer = $TimerFreeze
+onready var fin01 = $Finisher01
+onready var fin02 = $Finisher02
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	screen_size = get_viewport_rect().size	
+	$Attack.visible = false
+	isBulletTimeChance = false
+	iMoveUnit = 1
+#	timer.connect("timeout", self, "unfreeze")
+	iDashCnt = 0
+	iDashing = false
+	$Info.visible = false
+	
+	fin01.visible = false
+	fin01.get_node("CollisionShape2D").set_deferred("disabled",true)	
+	fin02.visible = false
+	fin02.get_node("CollisionShape2D").set_deferred("disabled",true)
+ 
+
 func freeze(time: float) -> void: 
 	$CollisionShape2D.disabled = true
 	
@@ -34,7 +53,6 @@ func freeze(time: float) -> void:
 	$AnimatedSprite.animation = "stand"
 	
 	#timer.start(time)
-	
 
 func enteredBulletTime(time: float) -> void: 
 	state = "bullettime"
@@ -42,38 +60,52 @@ func enteredBulletTime(time: float) -> void:
 	Engine.time_scale = time
 	$TimerBulletTime.start(time)
 
-
-#func unfreeze() -> void:
-#	state = "normal"
-#	$CollisionShape2D.disabled = false	
-#	$AnimatedSprite.animation = "stand"
-		
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	screen_size = get_viewport_rect().size	
-	$Attack.visible = false
-	isBulletTimeChance = false
-	iMoveUnit = 1
-#	timer.connect("timeout", self, "unfreeze")
-	iDashCnt = 0
-	iDashing = false
-	$Info.visible = false
-		
-	#hide()
-
 func start(pos):
 	position = pos
 	show()
 	$CollisionShape2D.disabled = false
 
-func playStandingPose():	
-	
+func playStandingPose():		
 	$AnimatedSprite.play("stand")
-	#yield(get_tree().create_timer(2.0), "timeout")
-	pass
 	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#export (bool) var pauseG: bool: true
+func fin01Trigger(trigger):	
+	
+	if trigger:
+		$AnimatedSprite.play("open_arm")
+		fin01.play()
+		fin01.visible = trigger
+		fin01.get_node("CollisionShape2D").set_deferred("disabled",!trigger)	
+	else:
+		fin01.stop()
+		fin01.visible = trigger
+		fin01.get_node("CollisionShape2D").set_deferred("disabled",!trigger)
+		
+func fin02Trigger(trigger):	
+	
+	if trigger:
+		$AnimatedSprite.play("swing")
+		
+		fin02.play($AnimatedSprite.flip_h)
+		fin02.visible = trigger
+		fin02.get_node("CollisionShape2D").set_deferred("disabled",!trigger)	
+	else:
+		#fin02.stop()
+		fin02.visible = trigger
+		fin02.get_node("CollisionShape2D").set_deferred("disabled",!trigger)
+	#fin01.set		
+
+func playFinisher():
+	
+	var roulette = get_parent().get_node("FinisherRoulette")
+	var idx = roulette.get_node("AnimatedSprite").get_frame()	
+	#var idx = randi() % 2 + 1		
+	if idx == 3:
+		fin01Trigger(true)
+	else:
+		fin02Trigger(true)
+		
+		$AnimatedSprite.play("swing")
+		 
 func _process(delta):
 	var velocity = Vector2()  # The player's movement vector.
 	var objAttackSprite =$Attack.get_node("AnimatedSpriteAttack")
@@ -82,18 +114,26 @@ func _process(delta):
 	var iActualSpeed = speed
 	var iDashSpeed = 0
 	
+	#print ($AnimatedSprite.animation,$AnimatedSprite.is_playing(), $AnimatedSprite.frame)
 		
 	if $AnimatedSprite.animation == "down":		
 		return	
 	
-	if $AnimatedSprite.is_playing() and $AnimatedSprite.animation == "swing" and $AnimatedSprite.frame < 5:		
-		return
+	if $AnimatedSprite.is_playing() and $AnimatedSprite.animation == "swing" and $AnimatedSprite.frame <= 4:	
+		#if 	$AnimatedSprite.frame == 4:
+		#	fin02Trigger(false)	
+		return		
 	elif $AnimatedSprite.is_playing() and $AnimatedSprite.animation == "dance" and $AnimatedSprite.frame < 8:		
 		return
-	elif $AnimatedSprite.animation == "swing":
-		#$AnimatedSprite.play("stand")	
-		self.playStandingPose()
+	elif $AnimatedSprite.animation == "open_arm" and $AnimatedSprite.is_playing() and $AnimatedSprite.frame <= 4:
+		if 	$AnimatedSprite.frame == 4:
+			fin01Trigger(false)	
 		return
+	#elif $AnimatedSprite.animation == "swing":
+		#$AnimatedSprite.play("stand")	
+	#	self.playStandingPose()
+	#	return
+	
 		
 	if Input.is_action_pressed("ui_right"):
 		action = "walk"
@@ -125,8 +165,9 @@ func _process(delta):
 		
 	if Input.is_action_pressed("attack2"):
 		#isAttack = true
-		$AnimatedSprite.play("swing")				
+		self.playFinisher()
 		return
+		
 	if Input.is_action_pressed("dance"):
 		#isAttack = true
 		$AnimatedSprite.play("dance")				
