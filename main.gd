@@ -9,11 +9,17 @@ func _ready():
 	$Player.connect("BossGetHit", self, "on_BossGetHit")	
 	$Player.get_node("Finisher01").connect("EnemyDefeated", self, "on_MinionGetHit")
 	$Player.get_node("Finisher01").connect("BossGetHit", self, "on_BossGetHit")
+	$Player.get_node("Finisher02").connect("EnemyDefeated", self, "on_MinionGetHit")
+	$Player.get_node("Finisher02").connect("BossGetHit", self, "on_BossGetFinisher2Hit")
 	
 	
 	$PauseCtrl.connect("Restart", self, "on_Restart")
 	randomize()
 	new_game()
+
+func on_BossGetFinisher2Hit():
+	setscore(300)
+	$Boss01.setGetHit()
 	
 func on_BossGetHit():
 	setscore(1)

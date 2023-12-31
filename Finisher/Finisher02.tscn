@@ -6,7 +6,10 @@
 [ext_resource path="res://assets/Svarog/Attack01/04.png" type="Texture" id=4]
 [ext_resource path="res://Finisher/Finisher02.gd" type="Script" id=5]
 
-[sub_resource type="SpriteFrames" id=1]
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 467, 373.5 )
+
+[sub_resource type="SpriteFrames" id=4]
 animations = [ {
 "frames": [ ExtResource( 2 ), ExtResource( 1 ), ExtResource( 1 ), ExtResource( 1 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 4 ) ],
 "loop": false,
@@ -14,17 +17,35 @@ animations = [ {
 "speed": 8.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 467, 373.5 )
-
 [node name="Finisher02" type="Area2D"]
 script = ExtResource( 5 )
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-frames = SubResource( 1 )
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -212, -102.5 )
-shape = SubResource( 2 )
+shape = SubResource( 5 )
 
+[node name="Ghost3" type="AnimatedSprite" parent="."]
+modulate = Color( 1, 0.313726, 1, 0.392157 )
+show_behind_parent = true
+frames = SubResource( 4 )
+
+[node name="Ghost2" type="AnimatedSprite" parent="."]
+modulate = Color( 1, 0.313726, 1, 0.588235 )
+show_behind_parent = true
+frames = SubResource( 4 )
+
+[node name="Ghost1" type="AnimatedSprite" parent="."]
+modulate = Color( 1, 0.313726, 1, 0.784314 )
+show_behind_parent = true
+frames = SubResource( 4 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+show_behind_parent = true
+frames = SubResource( 4 )
+
+[connection signal="area_entered" from="." to="." method="_on_Finisher02_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_Finisher02_body_entered"]
+[connection signal="animation_finished" from="Ghost3" to="." method="_on_AnimatedSprite_animation_finished"]
+[connection signal="animation_finished" from="Ghost2" to="." method="_on_AnimatedSprite_animation_finished"]
+[connection signal="animation_finished" from="Ghost1" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]

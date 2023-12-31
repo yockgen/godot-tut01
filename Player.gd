@@ -119,14 +119,12 @@ func _process(delta):
 	if $AnimatedSprite.animation == "down":		
 		return	
 	
-	if $AnimatedSprite.is_playing() and $AnimatedSprite.animation == "swing" and $AnimatedSprite.frame <= 4:	
-		#if 	$AnimatedSprite.frame == 4:
-		#	fin02Trigger(false)	
+	if $AnimatedSprite.is_playing() and $AnimatedSprite.animation == "swing" and $AnimatedSprite.frame < $AnimatedSprite.frames.get_frame_count("swing")-1: #<=4:	
 		return		
-	elif $AnimatedSprite.is_playing() and $AnimatedSprite.animation == "dance" and $AnimatedSprite.frame < 8:		
+	elif $AnimatedSprite.is_playing() and $AnimatedSprite.animation == "dance" and  $AnimatedSprite.frame < $AnimatedSprite.frames.get_frame_count("dance")-1: #<8:		
 		return
-	elif $AnimatedSprite.animation == "open_arm" and $AnimatedSprite.is_playing() and $AnimatedSprite.frame <= 4:
-		if 	$AnimatedSprite.frame == 4:
+	elif $AnimatedSprite.animation == "open_arm" and $AnimatedSprite.is_playing() and $AnimatedSprite.frame < $AnimatedSprite.frames.get_frame_count("open_arm")-1: #<=4:
+		if 	$AnimatedSprite.frame == $AnimatedSprite.frames.get_frame_count("open_arm")-2: #4:
 			fin01Trigger(false)	
 		return
 	#elif $AnimatedSprite.animation == "swing":
