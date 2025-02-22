@@ -45,6 +45,10 @@ func _ready():
 	fin01.get_node("CollisionShape2D").set_deferred("disabled", true)
 	fin02.visible = false
 	fin02.get_node("CollisionShape2D").set_deferred("disabled", true)
+	
+	if not animated_sprite.is_connected("animation_finished", self, "_on_AnimatedSprite_animation_finished"):
+		animated_sprite.connect("animation_finished", self, "_on_AnimatedSprite_animation_finished")
+		print("Connected animation_finished signal")
 
 # Main process loop
 func _process(delta):
@@ -59,21 +63,19 @@ func _process(delta):
 
 # Handle all player input
 func handle_input():
-	# Movement
 	if Input.is_action_pressed("ui_right"):
 		action = "walk"
 		velocity.x += move_unit
 		is_face_right = true
-		animated_sprite.flip_h = true  # Face right (assuming default sprite faces right)
+		animated_sprite.flip_h = true
 		update_attack_position(true)
 	elif Input.is_action_pressed("ui_left"):
 		action = "walk"
 		velocity.x -= move_unit
 		is_face_right = false
-		animated_sprite.flip_h = false  # Face left
+		animated_sprite.flip_h = false
 		update_attack_position(false)
 	
-	# Attack 1
 	if Input.is_action_pressed("attack1"):
 		is_attack = true
 		attack_node.visible = true
@@ -81,17 +83,14 @@ func handle_input():
 		play_attack_animation(true)
 		return
 	
-	# Attack 2 (Finisher)
 	if Input.is_action_pressed("attack2"):
 		play_finisher()
 		return
 	
-	# Dance
 	if Input.is_action_pressed("dance"):
 		animated_sprite.play("dance")
 		return
 	
-	# Release actions
 	if Input.is_action_just_released("attack1") or Input.is_action_just_released("ui_left") or Input.is_action_just_released("ui_right"):
 		stop_attack()
 
@@ -116,7 +115,7 @@ func handle_dodging():
 	else:
 		is_dashing = false
 		collision_shape.set_deferred("disabled", false)
-		speed = 400  # Reset speed after dash
+		speed = 400
 
 # Update player movement
 func update_movement(delta):
@@ -128,10 +127,12 @@ func update_movement(delta):
 
 # Update animations based on state
 func update_animation():
-	if velocity.length() > 0 and action == "walk":
-		animated_sprite.play(action)
-	elif action == "walk":
-		play_standing_pose()
+	if action == "walk":
+		if velocity.length() > 0:
+			animated_sprite.play("walk")
+		else:
+			play_standing_pose()
+	# Don’t override if action is "finisher" or "dance"
 
 # Utility functions
 func play_standing_pose():
@@ -183,12 +184,17 @@ func play_attack_animation(play: bool):
 func stop_attack():
 	is_attack = false
 	attack_node.visible = false
-	play_standing_pose()
 	play_attack_animation(false)
+	action = "walk"
+	play_standing_pose()
 
 func fin01_trigger(enable: bool):
 	if enable:
-		animated_sprite.play("open_arm")
+		action = "finisher"
+		if animated_sprite.frames.has_animation("open_arm"):  # Check if animation exists
+			animated_sprite.play("open_arm")
+		else:
+			print("ERROR: open_arm animation not found in SpriteFrames")
 		fin01.play()
 		fin01.visible = true
 		fin01.get_node("CollisionShape2D").set_deferred("disabled", false)
@@ -196,16 +202,22 @@ func fin01_trigger(enable: bool):
 		fin01.stop()
 		fin01.visible = false
 		fin01.get_node("CollisionShape2D").set_deferred("disabled", true)
+		animated_sprite.play("stand")
 
 func fin02_trigger(enable: bool):
 	if enable:
-		animated_sprite.play("swing")
+		action = "finisher"
+		if animated_sprite.frames.has_animation("swing"):  # Check if animation exists
+			animated_sprite.play("swing")
+		else:
+			print("ERROR: swing animation not found in SpriteFrames")
 		fin02.play(animated_sprite.flip_h)
 		fin02.visible = true
 		fin02.get_node("CollisionShape2D").set_deferred("disabled", false)
 	else:
 		fin02.visible = false
 		fin02.get_node("CollisionShape2D").set_deferred("disabled", true)
+		animated_sprite.play("stand")
 
 func play_finisher():
 	var roulette = get_parent().get_node("FinisherRoulette")
@@ -226,8 +238,6 @@ func is_animation_locked() -> bool:
 	if anim == "dance" and is_playing and frame < frame_count - 1:
 		return true
 	if anim == "open_arm" and is_playing and frame < frame_count - 1:
-		if frame == frame_count - 2:
-			fin01_trigger(false)
 		return true
 	return false
 
@@ -239,11 +249,16 @@ func _on_Player_body_entered(_body):
 	$AnimInfo.play()
 	$Info.visible = true
 	animated_sprite.play("down")
-	freeze(1.0)
+	freeze(3.0)
 
 func _on_AnimatedSprite_animation_finished():
+	if animated_sprite.animation == "open_arm":
+		fin01_trigger(false)
+	elif animated_sprite.animation == "swing":
+		fin02_trigger(false)
 	action = "walk"
 	current_state = State.NORMAL
+	play_standing_pose()
 
 func _on_Attack_body_entered(body):
 	body.linear_velocity = Vector2.ZERO

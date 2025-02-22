@@ -129,9 +129,9 @@ animations = [ {
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 82 ), ExtResource( 79 ), ExtResource( 81 ), ExtResource( 84 ), ExtResource( 80 ), ExtResource( 83 ) ],
-"loop": true,
+"loop": false,
 "name": "open_arm",
-"speed": 3.0
+"speed": 4.0
 }, {
 "frames": [ ExtResource( 61 ), ExtResource( 65 ) ],
 "loop": true,
@@ -627,7 +627,6 @@ reset_on_save = false
 anims/AnimHurtInfo = SubResource( 81 )
 
 [node name="Info" type="Node2D" parent="."]
-visible = false
 position = Vector2( -60, 0 )
 
 [node name="Hurt" type="Label" parent="Info"]
