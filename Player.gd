@@ -1,299 +1,272 @@
 extends Area2D
 
+# Exported variables
 export (ShaderMaterial) var whiten_material
+export var speed = 400  # Pixels/sec
+
+# Node references
 onready var collision_shape = $CollisionShape2D
+onready var animated_sprite = $AnimatedSprite
+onready var attack_node = $Attack
+onready var fin01 = $Finisher01
+onready var fin02 = $Finisher02
 
-export var speed = 400  # How fast the player will move (pixels/sec).
-var screen_size  # Size of the game window
+# Screen and movement variables
+var screen_size: Vector2
+var velocity: Vector2 = Vector2.ZERO
 
+# State and action variables
+enum State { NORMAL, FREEZE, BULLET_TIME }
+var current_state = State.NORMAL
 var action = "walk"
-var state = "normal"
-var isFaceRight = false
-var isAttack = false
-var isBulletTimeChance = false
-var iMoveUnit = 1
-var iDashCnt = 0
-var iDashing = false
+var is_face_right = false
+var is_attack = false
+var is_bullet_time_chance = false
+var move_unit = 1
+var dash_count = 0
+var is_dashing = false
 
+# Signals
 signal EnemyDefeated
 signal BossGetHit
 signal GotHit
 
-onready var fin01 = $Finisher01
-onready var fin02 = $Finisher02
-
-# Called when the node enters the scene tree for the first time.
+# Called when the node enters the scene tree
 func _ready():
-	screen_size = get_viewport_rect().size	
-	$Attack.visible = false
-	isBulletTimeChance = false
-	iMoveUnit = 1
-#	timer.connect("timeout", self, "unfreeze")
-	iDashCnt = 0
-	iDashing = false
+	screen_size = get_viewport_rect().size
+	attack_node.visible = false
+	is_bullet_time_chance = false
+	move_unit = 1
+	dash_count = 0
+	is_dashing = false
 	$Info.visible = false
 	
 	fin01.visible = false
-	fin01.get_node("CollisionShape2D").set_deferred("disabled",true)	
+	fin01.get_node("CollisionShape2D").set_deferred("disabled", true)
 	fin02.visible = false
-	fin02.get_node("CollisionShape2D").set_deferred("disabled",true)
- 
+	fin02.get_node("CollisionShape2D").set_deferred("disabled", true)
 
-func freeze(time: float) -> void: 
-	$CollisionShape2D.disabled = true
+# Main process loop
+func _process(delta):
+	if current_state == State.FREEZE or is_animation_locked():
+		return
 	
+	velocity = Vector2.ZERO
+	handle_input()
+	handle_dodging()
+	update_movement(delta)
+	update_animation()
+
+# Handle all player input
+func handle_input():
+	# Movement
+	if Input.is_action_pressed("ui_right"):
+		action = "walk"
+		velocity.x += move_unit
+		is_face_right = true
+		animated_sprite.flip_h = true  # Face right (assuming default sprite faces right)
+		update_attack_position(true)
+	elif Input.is_action_pressed("ui_left"):
+		action = "walk"
+		velocity.x -= move_unit
+		is_face_right = false
+		animated_sprite.flip_h = false  # Face left
+		update_attack_position(false)
+	
+	# Attack 1
+	if Input.is_action_pressed("attack1"):
+		is_attack = true
+		attack_node.visible = true
+		animated_sprite.play("fire_stand")
+		play_attack_animation(true)
+		return
+	
+	# Attack 2 (Finisher)
+	if Input.is_action_pressed("attack2"):
+		play_finisher()
+		return
+	
+	# Dance
+	if Input.is_action_pressed("dance"):
+		animated_sprite.play("dance")
+		return
+	
+	# Release actions
+	if Input.is_action_just_released("attack1") or Input.is_action_just_released("ui_left") or Input.is_action_just_released("ui_right"):
+		stop_attack()
+
+# Handle dodging mechanics
+func handle_dodging():
+	if Input.is_action_just_pressed("dodge") and action != "dash" and not is_dashing:
+		collision_shape.set_deferred("disabled", true)
+		dash_count = 15
+		action = "dash"
+		is_dashing = true
+		$SndDash.play()
+		if is_bullet_time_chance:
+			entered_bullet_time(0.3)
+			speed = speed * 16
+		else:
+			speed = speed * 4
+	
+	if dash_count > 0:
+		dash_count = max(0, dash_count - 1)
+		var dash_speed = speed * (12 if is_bullet_time_chance else 4)
+		velocity.x = (move_unit if !is_face_right else -move_unit) * dash_speed
+	else:
+		is_dashing = false
+		collision_shape.set_deferred("disabled", false)
+		speed = 400  # Reset speed after dash
+
+# Update player movement
+func update_movement(delta):
+	if velocity.length() > 0:
+		velocity = velocity.normalized() * speed
+		position += velocity * delta
+		position.x = clamp(position.x, 0, screen_size.x)
+		position.y = clamp(position.y, 0, screen_size.y)
+
+# Update animations based on state
+func update_animation():
+	if velocity.length() > 0 and action == "walk":
+		animated_sprite.play(action)
+	elif action == "walk":
+		play_standing_pose()
+
+# Utility functions
+func play_standing_pose():
+	animated_sprite.play("stand")
+
+func freeze(time: float) -> void:
+	current_state = State.FREEZE
+	collision_shape.disabled = true
 	whiten_material.set_shader_param("whiten", true)
-	yield(get_tree().create_timer(time/2), "timeout")
+	yield(get_tree().create_timer(time / 2), "timeout")
 	whiten_material.set_shader_param("whiten", false)
-		
-		
-	yield(get_tree().create_timer(time/2), "timeout")
-	state = "normal"
-	$CollisionShape2D.disabled = false	
-	$AnimatedSprite.animation = "stand"
-	
-	#timer.start(time)
+	yield(get_tree().create_timer(time / 2), "timeout")
+	current_state = State.NORMAL
+	collision_shape.disabled = false
+	play_standing_pose()
 
-func enteredBulletTime(time: float) -> void: 
-	state = "bullettime"
-	$CollisionShape2D.disabled = true   
+func entered_bullet_time(time: float) -> void:
+	current_state = State.BULLET_TIME
+	collision_shape.disabled = true
 	Engine.time_scale = time
 	$TimerBulletTime.start(time)
 
 func start(pos):
 	position = pos
 	show()
-	$CollisionShape2D.disabled = false
+	collision_shape.disabled = false
 
-func playStandingPose():		
-	$AnimatedSprite.play("stand")
-	
-func fin01Trigger(trigger):	
-	
-	if trigger:
-		$AnimatedSprite.play("open_arm")
+func update_attack_position(facing_right: bool):
+	var attack_sprite = attack_node.get_node("AnimatedSpriteAttack")
+	var attack_collision = attack_node.get_node("CollisionShape2D")
+	attack_sprite.flip_h = facing_right
+	attack_sprite.position.x = animated_sprite.position.x + (200 if facing_right else -200)
+	attack_collision.position.x = animated_sprite.position.x + (200 if facing_right else -200)
+
+func play_attack_animation(play: bool):
+	var attack_sprite = attack_node.get_node("AnimatedSpriteAttack")
+	var attack_sound = attack_node.get_node("AttackSound")
+	var attack_collision = attack_node.get_node("CollisionShape2D")
+	if play:
+		attack_sprite.play()
+		attack_collision.disabled = false
+		if not attack_sound.playing:
+			attack_sound.play()
+	else:
+		attack_sprite.stop()
+		attack_sound.stop()
+		attack_collision.disabled = true
+
+func stop_attack():
+	is_attack = false
+	attack_node.visible = false
+	play_standing_pose()
+	play_attack_animation(false)
+
+func fin01_trigger(enable: bool):
+	if enable:
+		animated_sprite.play("open_arm")
 		fin01.play()
-		fin01.visible = trigger
-		fin01.get_node("CollisionShape2D").set_deferred("disabled",!trigger)	
+		fin01.visible = true
+		fin01.get_node("CollisionShape2D").set_deferred("disabled", false)
 	else:
 		fin01.stop()
-		fin01.visible = trigger
-		fin01.get_node("CollisionShape2D").set_deferred("disabled",!trigger)
-		
-func fin02Trigger(trigger):	
-	
-	if trigger:
-		$AnimatedSprite.play("swing")
-		
-		fin02.play($AnimatedSprite.flip_h)
-		fin02.visible = trigger
-		fin02.get_node("CollisionShape2D").set_deferred("disabled",!trigger)	
-	else:
-		#fin02.stop()
-		fin02.visible = trigger
-		fin02.get_node("CollisionShape2D").set_deferred("disabled",!trigger)
-	#fin01.set		
+		fin01.visible = false
+		fin01.get_node("CollisionShape2D").set_deferred("disabled", true)
 
-func playFinisher():
-	
+func fin02_trigger(enable: bool):
+	if enable:
+		animated_sprite.play("swing")
+		fin02.play(animated_sprite.flip_h)
+		fin02.visible = true
+		fin02.get_node("CollisionShape2D").set_deferred("disabled", false)
+	else:
+		fin02.visible = false
+		fin02.get_node("CollisionShape2D").set_deferred("disabled", true)
+
+func play_finisher():
 	var roulette = get_parent().get_node("FinisherRoulette")
-	var idx = roulette.get_node("AnimatedSprite").get_frame()	
-	#var idx = randi() % 2 + 1		
+	var idx = roulette.get_node("AnimatedSprite").get_frame()
 	if idx == 3:
-		fin01Trigger(true)
+		fin01_trigger(true)
 	else:
-		fin02Trigger(true)
-		
-		$AnimatedSprite.play("swing")
-		 
-func _process(delta):
-	var velocity = Vector2()  # The player's movement vector.
-	var objAttackSprite =$Attack.get_node("AnimatedSpriteAttack")
-	var objAttackSound = $Attack.get_node("AttackSound")
-	var objAttackColli = $Attack.get_node("CollisionShape2D")
-	var iActualSpeed = speed
-	var iDashSpeed = 0
-	
-	#print ($AnimatedSprite.animation,$AnimatedSprite.is_playing(), $AnimatedSprite.frame)
-		
-	if $AnimatedSprite.animation == "down":		
-		return	
-	
-	if $AnimatedSprite.is_playing() and $AnimatedSprite.animation == "swing" and $AnimatedSprite.frame < $AnimatedSprite.frames.get_frame_count("swing")-1: #<=4:	
-		return		
-	elif $AnimatedSprite.is_playing() and $AnimatedSprite.animation == "dance" and  $AnimatedSprite.frame < $AnimatedSprite.frames.get_frame_count("dance")-1: #<8:		
-		return
-	elif $AnimatedSprite.animation == "open_arm" and $AnimatedSprite.is_playing() and $AnimatedSprite.frame < $AnimatedSprite.frames.get_frame_count("open_arm")-1: #<=4:
-		if 	$AnimatedSprite.frame == $AnimatedSprite.frames.get_frame_count("open_arm")-2: #4:
-			fin01Trigger(false)	
-		return
-	#elif $AnimatedSprite.animation == "swing":
-		#$AnimatedSprite.play("stand")	
-	#	self.playStandingPose()
-	#	return
-	
-		
-	if Input.is_action_pressed("ui_right"):
-		action = "walk"
-		velocity.x += iMoveUnit
-		$AnimatedSprite.flip_h = true 
-		objAttackSprite.flip_h = true
-		objAttackSprite.position.x = $AnimatedSprite.position.x+200 
-		objAttackColli.position.x = $AnimatedSprite.position.x+200
-			
-	if Input.is_action_pressed("ui_left"):
-		action = "walk"
-		velocity.x -= iMoveUnit
-		$AnimatedSprite.flip_h = false 
-		objAttackSprite.flip_h = false
-		objAttackSprite.position.x = $AnimatedSprite.position.x - 200
-		objAttackColli.position.x = $AnimatedSprite.position.x-200
-	
-	if Input.is_action_pressed("attack1"):
-		isAttack = true
-		$Attack.visible = true	
-		
-		$AnimatedSprite.play("fire_stand")		
-		objAttackSprite.play()
-		objAttackColli.disabled = false
-		
-		if objAttackSound.playing == false:
-			objAttackSound.play()			
-		return
-		
-	if Input.is_action_pressed("attack2"):
-		#isAttack = true
-		self.playFinisher()
-		return
-		
-	if Input.is_action_pressed("dance"):
-		#isAttack = true
-		$AnimatedSprite.play("dance")				
-		return
-		
-	if Input.is_action_just_released("attack1") || Input.is_action_just_released("ui_left")  || Input.is_action_just_released("ui_right"):		
-		isAttack = false
-		$Attack.visible = false
-		#$AnimatedSprite.play("stand")
-		self.playStandingPose()
-		objAttackSprite.stop()
-		objAttackSound.stop()
-		objAttackColli.disabled = true
-		return
-		
-	#start: dodge related
-	if Input.is_action_pressed("dodge"):
-	#if Input.is_action_just_released("dodge"):
-		if action != "dash" and iDashing == false:
-			self.get_node("CollisionShape2D").set_deferred("disabled",true)
-			iDashCnt = 15
-			action = "dash"				
-			iDashing = true			
-			if isBulletTimeChance == true:
-				enteredBulletTime (0.3)		
-				iActualSpeed =  speed * 16			
-			else:
-				iActualSpeed =  speed * 4
-			
-			if $AnimatedSprite.flip_h == true:
-				velocity.x -= iMoveUnit
-			else:		
-				velocity.x += iMoveUnit
-			$SndDash.play()
-	
-	if Input.is_action_just_released("dodge"):
-		if iDashCnt>0:	
-			action = "dash"
-		iDashing = false
-						
-	iDashCnt = iDashCnt -1
-	if iDashCnt >=1:
-		self.get_node("CollisionShape2D").set_deferred("disabled",true)
-		iDashSpeed = speed * 4
-		if isBulletTimeChance == true:
-			iDashSpeed = speed * 12
-		iActualSpeed =  iDashSpeed
-		if $AnimatedSprite.flip_h == true:
-				velocity.x -= iMoveUnit
-		else:		
-				velocity.x += iMoveUnit
-	else:
-		iDashing = false
-		self.get_node("CollisionShape2D").set_deferred("disabled",false)
-			
-		
-		
-	#end: dodge related	
-	
-	if velocity.length() > 0:
-		velocity = velocity.normalized() * iActualSpeed
-		$AnimatedSprite.play(action)		
-	else:
-		if action == "walk":
-			$AnimatedSprite.stop()
-	
-	position += velocity * delta
-	position.x = clamp(position.x, 0, screen_size.x)
-	position.y = clamp(position.y, 0, screen_size.y)	
-	
-	#if not Input.is_action_just_pressed("ui_up") and  not Input.is_action_just_pressed("ui_down") and not Input.is_action_just_pressed("ui_left") and  not Input.is_action_just_pressed("ui_right"):
-	#	self.playStandingPose()
-	
-	
+		fin02_trigger(true)
 
+func is_animation_locked() -> bool:
+	var anim = animated_sprite.animation
+	var is_playing = animated_sprite.is_playing()
+	var frame = animated_sprite.frame
+	var frame_count = animated_sprite.frames.get_frame_count(anim)
+	
+	if anim == "swing" and is_playing and frame < frame_count - 1:
+		return true
+	if anim == "dance" and is_playing and frame < frame_count - 1:
+		return true
+	if anim == "open_arm" and is_playing and frame < frame_count - 1:
+		if frame == frame_count - 2:
+			fin01_trigger(false)
+		return true
+	return false
+
+# Collision and signal handlers
 func _on_Player_body_entered(_body):
-	
-	var objAttackSprite =$Attack.get_node("AnimatedSpriteAttack")
-	var objAttackSound =$Attack.get_node("AttackSound")
-	
-	#if $SndHitBy.playing == false:
 	$SndHitBy.play()
-	
-	objAttackSprite.stop()
-	$Attack.visible = false
-	objAttackSound.stop()
-	
+	stop_attack()
 	emit_signal("GotHit")
 	$AnimInfo.play()
 	$Info.visible = true
-	$AnimatedSprite.play("down")
-	state = "freeze"
-	freeze(1.0)		
-	
-	
+	animated_sprite.play("down")
+	freeze(1.0)
+
 func _on_AnimatedSprite_animation_finished():
 	action = "walk"
-	state = "normal"	
+	current_state = State.NORMAL
 
-func _on_AnimatedSpriteAttack_animation_finished():
-	pass
-
-func _on_Attack_body_entered(body):			
-	body.linear_velocity = Vector2(0,0)
-	body.get_node("CollisionShape2D").set_deferred("disabled",true)
-	$Attack.get_node("CollisionShape2D").set_deferred("disabled",true)
+func _on_Attack_body_entered(body):
+	body.linear_velocity = Vector2.ZERO
+	body.get_node("CollisionShape2D").set_deferred("disabled", true)
+	attack_node.get_node("CollisionShape2D").set_deferred("disabled", true)
 	body.setEnemyDown(body.name)
 	emit_signal("EnemyDefeated")
 
 func _on_Attack_area_entered(area):
-	if $Attack.visible and area.name == "Boss01":		
+	if attack_node.visible and area.name == "Boss01":
 		emit_signal("BossGetHit")
 
 func _on_Area2DEnemyCloser_body_entered(body):
-	self.isBulletTimeChance = true
-	body.get_node("Alerting").set_deferred("visible",true)
-	pass # Replace with function body.
-
+	is_bullet_time_chance = true
+	body.get_node("Alerting").set_deferred("visible", true)
 
 func _on_Area2DEnemyCloser_body_exited(_body):
-	self.isBulletTimeChance = false
-	
+	is_bullet_time_chance = false
 
 func _on_TimerBulletTime_timeout():
-	$CollisionShape2D.disabled = false   
+	collision_shape.disabled = false
 	Engine.time_scale = 1.0
-
+	current_state = State.NORMAL
 
 func _on_AnimInfo_animation_finished(_anim_name):
 	$Info.visible = false
-
