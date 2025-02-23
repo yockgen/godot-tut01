@@ -140,14 +140,18 @@ func play_standing_pose():
 
 func freeze(time: float) -> void:
 	current_state = State.FREEZE
-	collision_shape.disabled = true
+	collision_shape.disabled = true  # Invincibility by disabling collision
 	whiten_material.set_shader_param("whiten", true)
+	
+	# Wait half the time with whiten effect
 	yield(get_tree().create_timer(time / 2), "timeout")
 	whiten_material.set_shader_param("whiten", false)
+	
+	# Wait the remaining time, then resume
 	yield(get_tree().create_timer(time / 2), "timeout")
 	current_state = State.NORMAL
-	collision_shape.disabled = false
-	play_standing_pose()
+	collision_shape.disabled = false  # End invincibility
+	animated_sprite.play("stand")  # Resume normal animation
 
 func entered_bullet_time(time: float) -> void:
 	current_state = State.BULLET_TIME
@@ -248,8 +252,14 @@ func _on_Player_body_entered(_body):
 	emit_signal("GotHit")
 	$AnimInfo.play()
 	$Info.visible = true
+	
+	# Play "down" animation and stop on the last frame
 	animated_sprite.play("down")
-	freeze(3.0)
+	animated_sprite.set_frame(animated_sprite.frames.get_frame_count("down") - 1)
+	animated_sprite.stop()
+	
+	# Freeze and become invincible for 2 seconds
+	freeze(2.0)
 
 func _on_AnimatedSprite_animation_finished():
 	if animated_sprite.animation == "open_arm":
