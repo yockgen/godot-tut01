@@ -110,7 +110,7 @@ func get_completion_percent() -> float:
 	
 	return float(completed) / float(level_progress.size()) * 100.0
 
-def has_completed_level(level: int) -> bool:
+func has_completed_level(level: int) -> bool:
 	"""Check if level has been completed"""
 	if level in level_progress:
 		return level_progress[level]["completed"]
