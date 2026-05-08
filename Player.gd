@@ -2,7 +2,7 @@ extends Area2D
 
 # Exported variables
 #export (ShaderMaterial) var whiten_material
-export var speed = 400  # Pixels/sec
+export var speed = 400  # Pixels/sec (overridden by GameConfig at runtime)
 
 # Node references
 onready var collision_shape = $CollisionShape2D
@@ -35,6 +35,8 @@ signal GotHit
 # Called when the node enters the scene tree
 func _ready():
 	screen_size = get_viewport_rect().size
+	# Use GameConfig for speed
+	speed = GameConfig.PLAYER_SPEED
 	attack_node.visible = false
 	is_bullet_time_chance = false
 	move_unit = 1
@@ -99,24 +101,24 @@ func handle_input():
 func handle_dodging():
 	if Input.is_action_just_pressed("dodge") and action != "dash" and not is_dashing:
 		collision_shape.set_deferred("disabled", true)
-		dash_count = 15
+		dash_count = int(GameConfig.PLAYER_DASH_DURATION * 100)  # Convert to frames at 100fps
 		action = "dash"
 		is_dashing = true
 		$SndDash.play()
 		if is_bullet_time_chance:
 			entered_bullet_time(0.3)
-			speed = speed * 16
+			speed = GameConfig.PLAYER_SPEED * GameConfig.PLAYER_BULLET_TIME_DASH_MULTIPLIER
 		else:
-			speed = speed * 4
+			speed = GameConfig.PLAYER_SPEED * GameConfig.PLAYER_NORMAL_DASH_MULTIPLIER
 	
 	if dash_count > 0:
 		dash_count = max(0, dash_count - 1)
-		var dash_speed = speed * (12 if is_bullet_time_chance else 4)
+		var dash_speed = speed * (GameConfig.PLAYER_BULLET_TIME_DASH_MULTIPLIER if is_bullet_time_chance else GameConfig.PLAYER_NORMAL_DASH_MULTIPLIER)
 		velocity.x = (move_unit if !is_face_right else -move_unit) * dash_speed
 	else:
 		is_dashing = false
 		collision_shape.set_deferred("disabled", false)
-		speed = 400
+		speed = GameConfig.PLAYER_SPEED
 
 # Update player movement
 func update_movement(delta):
