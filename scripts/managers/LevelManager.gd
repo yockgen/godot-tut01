@@ -2,8 +2,6 @@ extends Node
 # Level manager
 # Handles level progression, transitions, and persistence
 
-class_name LevelManager
-
 # ============ SIGNALS ============
 signal level_loaded(level_number)
 signal level_completed

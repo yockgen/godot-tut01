@@ -2,8 +2,6 @@ extends Node
 # Upgrade applier
 # Takes skill tree upgrades and applies them to game entities
 
-class_name UpgradeApplier
-
 # ============ PROPERTIES ============
 var skill_tree = null
 var applied_upgrades = {}  # Track which upgrades are active

@@ -2,8 +2,6 @@ extends Node
 # Pause system manager
 # Centralized pause state and UI management
 
-class_name PauseManager
-
 # ============ SIGNALS ============
 signal pause_requested
 signal resumed

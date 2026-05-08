@@ -2,8 +2,6 @@ extends Node
 # Game state manager singleton
 # Autoload this in Project Settings > Autoload as "GameManager"
 
-class_name GameManager
-
 # ============ SIGNALS ============
 signal score_changed(new_score)
 signal pause_toggled(is_paused)

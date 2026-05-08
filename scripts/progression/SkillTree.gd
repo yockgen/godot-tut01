@@ -2,8 +2,6 @@ extends Node
 # Skill tree / upgrade system
 # Tracks and manages player upgrades and skill progression
 
-class_name SkillTree
-
 # ============ SIGNALS ============
 signal skill_unlocked(skill_name)
 signal skill_upgraded(skill_name, new_level)
