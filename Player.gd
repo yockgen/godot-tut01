@@ -99,11 +99,18 @@ func handle_input():
 
 # Handle dodging mechanics
 func handle_dodging():
-	if Input.is_action_just_pressed("dodge") and action != "dash" and not is_dashing:
+	
+	if Input.is_action_just_pressed("dodge") and not is_dashing:
 		collision_shape.set_deferred("disabled", true)
-		dash_count = int(GameConfig.PLAYER_DASH_DURATION * 100)  # Convert to frames at 100fps
+		dash_count = int(GameConfig.PLAYER_DASH_DURATION * 100)
 		action = "dash"
+
 		is_dashing = true
+
+		# Play dodge animation
+		if animated_sprite.frames.has_animation("dash"):
+			animated_sprite.play("dash")
+				
 		$SndDash.play()
 		if is_bullet_time_chance:
 			entered_bullet_time(0.3)
@@ -129,14 +136,36 @@ func update_movement(delta):
 		position.y = clamp(position.y, 0, screen_size.y)
 
 # Update animations based on state
+# func update_animation():
+# 	if action == "walk":
+# 		if velocity.length() > 0:
+# 			animated_sprite.play("walk")
+# 		else:
+# 			play_standing_pose()
+# 	# Don’t override if action is "finisher" or "dance"
 func update_animation():
-	if action == "walk":
-		if velocity.length() > 0:
-			animated_sprite.play("walk")
-		else:
-			play_standing_pose()
-	# Don’t override if action is "finisher" or "dance"
 
+	# Never override finisher animations
+	if action == "finisher":
+		return
+
+	# Dash animation
+	if action == "dash":
+
+		if animated_sprite.animation != "dash":
+			if animated_sprite.frames.has_animation("dash"):
+				animated_sprite.play("dash")
+
+		return
+
+	# Walking
+	if velocity.length() > 0:
+
+		if animated_sprite.animation != "walk":
+			animated_sprite.play("walk")
+
+	else:
+		play_standing_pose()
 # Utility functions
 func play_standing_pose():
 	animated_sprite.play("stand")
