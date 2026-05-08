@@ -8,8 +8,38 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Enemy",
+"class": "Boss",
+"language": "GDScript",
+"path": "res://scripts/entities/Boss.gd"
+}, {
+"base": "Entity",
+"class": "Enemy",
+"language": "GDScript",
+"path": "res://scripts/entities/Enemy.gd"
+}, {
+"base": "Node2D",
+"class": "Entity",
+"language": "GDScript",
+"path": "res://scripts/entities/Entity.gd"
+}, {
+"base": "Node",
+"class": "GameManager",
+"language": "GDScript",
+"path": "res://scripts/managers/GameManager.gd"
+}, {
+"base": "Entity",
+"class": "PlayerEntity",
+"language": "GDScript",
+"path": "res://scripts/entities/PlayerEntity.gd"
+} ]
 _global_script_class_icons={
+"Boss": "",
+"Enemy": "",
+"Entity": "",
+"GameManager": "",
+"PlayerEntity": ""
 }
 
 [application]
@@ -17,6 +47,11 @@ _global_script_class_icons={
 config/name="Game01"
 run/main_scene="res://main.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+GameManager="*res://scripts/managers/GameManager.gd"
+GameConfig="*res://scripts/config/GameConfig.gd"
 
 [display]
 
