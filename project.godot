@@ -9,6 +9,21 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node",
+"class": "AnimationController",
+"language": "GDScript",
+"path": "res://scripts/animation/AnimationController.gd"
+}, {
+"base": "Node",
+"class": "Attack",
+"language": "GDScript",
+"path": "res://scripts/combat/Attack.gd"
+}, {
+"base": "Attack",
+"class": "BasicAttack",
+"language": "GDScript",
+"path": "res://scripts/combat/BasicAttack.gd"
+}, {
 "base": "Enemy",
 "class": "Boss",
 "language": "GDScript",
@@ -24,6 +39,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/entities/Entity.gd"
 }, {
+"base": "Attack",
+"class": "Finisher01",
+"language": "GDScript",
+"path": "res://scripts/combat/Finisher01.gd"
+}, {
+"base": "Attack",
+"class": "Finisher02",
+"language": "GDScript",
+"path": "res://scripts/combat/Finisher02.gd"
+}, {
 "base": "Node",
 "class": "GameManager",
 "language": "GDScript",
@@ -35,9 +60,14 @@ _global_script_classes=[ {
 "path": "res://scripts/entities/PlayerEntity.gd"
 } ]
 _global_script_class_icons={
+"AnimationController": "",
+"Attack": "",
+"BasicAttack": "",
 "Boss": "",
 "Enemy": "",
 "Entity": "",
+"Finisher01": "",
+"Finisher02": "",
 "GameManager": "",
 "PlayerEntity": ""
 }
@@ -47,11 +77,6 @@ _global_script_class_icons={
 config/name="Game01"
 run/main_scene="res://main.tscn"
 config/icon="res://icon.png"
-
-[autoload]
-
-GameManager="*res://scripts/managers/GameManager.gd"
-GameConfig="*res://scripts/config/GameConfig.gd"
 
 [display]
 
