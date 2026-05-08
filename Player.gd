@@ -66,66 +66,122 @@ func _process(delta):
 
 # Handle all player input
 func handle_input():
-	if Input.is_action_pressed("ui_right"):
-		action = "walk"
-		velocity.x += move_unit
-		is_face_right = true
-		animated_sprite.flip_h = true
-		update_attack_position(true)
-	elif Input.is_action_pressed("ui_left"):
-		action = "walk"
-		velocity.x -= move_unit
-		is_face_right = false
-		animated_sprite.flip_h = false
-		update_attack_position(false)
-	
-	if Input.is_action_pressed("attack1"):
-		is_attack = true
-		attack_node.visible = true
-		animated_sprite.play("fire_stand")
-		play_attack_animation(true)
+
+	# Prevent input during dance
+	if action == "dance":
 		return
 	
-	if Input.is_action_pressed("attack2"):
-		play_finisher()
+	# Attack input
+	if Input.is_action_just_pressed("attack1"):
+
+		if action != "attack":
+
+			is_attack = true
+			action = "attack"
+
+			attack_node.visible = true
+
+			if animated_sprite.frames.has_animation("fire_stand"):
+				animated_sprite.play("fire_stand")
+
+			play_attack_animation(true)
+
 		return
-	
-	if Input.is_action_pressed("dance"):
-		animated_sprite.play("dance")
-		return
-	
-	if Input.is_action_just_released("attack1") or Input.is_action_just_released("ui_left") or Input.is_action_just_released("ui_right"):
+
+	# Stop attack when released
+	if Input.is_action_just_released("attack1"):
+
 		stop_attack()
+
+	# Prevent movement during attack
+	if action == "attack":
+		return
+
+	# Movement
+	if Input.is_action_pressed("ui_right"):
+
+		action = "walk"
+
+		velocity.x += move_unit
+
+		is_face_right = true
+
+		animated_sprite.flip_h = true
+
+		update_attack_position(true)
+
+	elif Input.is_action_pressed("ui_left"):
+
+		action = "walk"
+
+		velocity.x -= move_unit
+
+		is_face_right = false
+
+		animated_sprite.flip_h = false
+
+		update_attack_position(false)
+
+	# Finisher
+	if Input.is_action_just_pressed("attack2"):
+
+		play_finisher()
+
+		return
+
+	# Dance
+	if Input.is_action_just_pressed("dance"):
+
+		action = "dance"
+
+		if animated_sprite.frames.has_animation("dance"):
+			animated_sprite.play("dance")
+
+		return
 
 # Handle dodging mechanics
 func handle_dodging():
-	
+
 	if Input.is_action_just_pressed("dodge") and not is_dashing:
+
 		collision_shape.set_deferred("disabled", true)
+
 		dash_count = int(GameConfig.PLAYER_DASH_DURATION * 100)
+
 		action = "dash"
 
 		is_dashing = true
 
-		# Play dodge animation
 		if animated_sprite.frames.has_animation("dash"):
 			animated_sprite.play("dash")
-				
+
 		$SndDash.play()
+
 		if is_bullet_time_chance:
 			entered_bullet_time(0.3)
 			speed = GameConfig.PLAYER_SPEED * GameConfig.PLAYER_BULLET_TIME_DASH_MULTIPLIER
 		else:
 			speed = GameConfig.PLAYER_SPEED * GameConfig.PLAYER_NORMAL_DASH_MULTIPLIER
-	
+
 	if dash_count > 0:
-		dash_count = max(0, dash_count - 1)
-		var dash_speed = speed * (GameConfig.PLAYER_BULLET_TIME_DASH_MULTIPLIER if is_bullet_time_chance else GameConfig.PLAYER_NORMAL_DASH_MULTIPLIER)
-		velocity.x = (move_unit if !is_face_right else -move_unit) * dash_speed
+
+		dash_count -= 1
+
+		velocity.x = (
+			move_unit if !is_face_right else -move_unit
+		) * speed
+
 	else:
-		is_dashing = false
-		collision_shape.set_deferred("disabled", false)
-		speed = GameConfig.PLAYER_SPEED
+
+		if is_dashing:
+
+			is_dashing = false
+
+			action = "walk"
+
+			collision_shape.set_deferred("disabled", false)
+
+			speed = GameConfig.PLAYER_SPEED
 
 # Update player movement
 func update_movement(delta):
@@ -136,14 +192,7 @@ func update_movement(delta):
 		position.y = clamp(position.y, 0, screen_size.y)
 
 # Update animations based on state
-# func update_animation():
-# 	if action == "walk":
-# 		if velocity.length() > 0:
-# 			animated_sprite.play("walk")
-# 		else:
-# 			play_standing_pose()
 # 	# Don’t override if action is "finisher" or "dance"
-func update_animation():
 
 	# Never override finisher animations
 	if action == "finisher":
@@ -166,6 +215,41 @@ func update_animation():
 
 	else:
 		play_standing_pose()
+
+func update_animation():
+
+	# Never override attack animation
+	if action == "attack":
+		return
+
+	# Never override finisher
+	if action == "finisher":
+		return
+
+	# Never override dance
+	if action == "dance":
+		return
+
+	# Never override dash
+	if action == "dash":
+
+		if animated_sprite.animation != "dash":
+			if animated_sprite.frames.has_animation("dash"):
+				animated_sprite.play("dash")
+
+		return
+
+	# Walking
+	if velocity.length() > 0:
+
+		if animated_sprite.animation != "walk":
+			animated_sprite.play("walk")
+
+	else:
+
+		if animated_sprite.animation != "stand":
+			play_standing_pose()
+
 # Utility functions
 func play_standing_pose():
 	animated_sprite.play("stand")
@@ -224,12 +308,16 @@ func play_attack_animation(play: bool):
 		attack_collision.disabled = true
 
 func stop_attack():
-	is_attack = false
-	attack_node.visible = false
-	play_attack_animation(false)
-	action = "walk"
-	play_standing_pose()
 
+	is_attack = false
+
+	action = "walk"
+
+	attack_node.visible = false
+
+	play_attack_animation(false)
+
+	play_standing_pose()
 func fin01_trigger(enable: bool):
 	if enable:
 		action = "finisher"
@@ -313,14 +401,32 @@ func _on_Player_body_entered(_body):
 	# Freeze and become invincible
 	freeze(2.0)
 
+
 func _on_AnimatedSprite_animation_finished():
+
 	if animated_sprite.animation == "open_arm":
+
 		fin01_trigger(false)
+
 	elif animated_sprite.animation == "swing":
+
 		fin02_trigger(false)
-	else:
+
+	elif animated_sprite.animation == "dash":
+
+		return
+
+	elif animated_sprite.animation == "dance":
+
 		action = "walk"
+		play_standing_pose()
+
+	else:
+
+		action = "walk"
+
 		current_state = State.NORMAL
+
 		play_standing_pose()
 
 func _on_Attack_body_entered(body):
