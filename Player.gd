@@ -25,17 +25,15 @@ var is_bullet_time_chance = false
 var move_unit = 1
 var dash_count = 0
 var is_dashing = false
-var is_finisher_active = false  # Track finisher state
+var is_finisher_active = false
 
 # Signals
 signal EnemyDefeated
 signal BossGetHit
 signal GotHit
 
-# Called when the node enters the scene tree
 func _ready():
 	screen_size = get_viewport_rect().size
-	# Use GameConfig for speed
 	speed = GameConfig.PLAYER_SPEED
 	attack_node.visible = false
 	is_bullet_time_chance = false
@@ -44,28 +42,38 @@ func _ready():
 	is_dashing = false
 	is_finisher_active = false
 	$Info.visible = false
-	
 	fin01.visible = false
 	fin01.get_node("CollisionShape2D").set_deferred("disabled", true)
 	fin02.visible = false
 	fin02.get_node("CollisionShape2D").set_deferred("disabled", true)
-	
 	if not animated_sprite.is_connected("animation_finished", self, "_on_AnimatedSprite_animation_finished"):
 		animated_sprite.connect("animation_finished", self, "_on_AnimatedSprite_animation_finished")
 
-# Main process loop
 func _process(delta):
 	if current_state == State.FREEZE or is_animation_locked() or is_finisher_active:
-		return  # Block processing during finisher
-	
+		return
 	velocity = Vector2.ZERO
 	handle_input()
 	handle_dodging()
 	update_movement(delta)
 	update_animation()
 
-# Handle all player input
 func handle_input():
+	if action == "dance":
+		return
+	if Input.is_action_just_pressed("attack1"):
+		if action != "attack":
+			is_attack = true
+			action = "attack"
+			attack_node.visible = true
+			if animated_sprite.frames.has_animation("fire_stand"):
+				animated_sprite.play("fire_stand")
+			play_attack_animation(true)
+		return
+	if Input.is_action_just_released("attack1"):
+		stop_attack()
+	if action == "attack":
+		return
 	if Input.is_action_pressed("ui_right"):
 		action = "walk"
 		velocity.x += move_unit
@@ -78,56 +86,39 @@ func handle_input():
 		is_face_right = false
 		animated_sprite.flip_h = false
 		update_attack_position(false)
-	
-	if Input.is_action_pressed("attack1"):
-		is_attack = true
-		attack_node.visible = true
-		animated_sprite.play("fire_stand")
-		play_attack_animation(true)
-		return
-	
-	if Input.is_action_pressed("attack2"):
+	if Input.is_action_just_pressed("attack2"):
 		play_finisher()
 		return
-	
-	if Input.is_action_pressed("dance"):
-		animated_sprite.play("dance")
+	if Input.is_action_just_pressed("dance"):
+		action = "dance"
+		if animated_sprite.frames.has_animation("dance"):
+			animated_sprite.play("dance")
 		return
-	
-	if Input.is_action_just_released("attack1") or Input.is_action_just_released("ui_left") or Input.is_action_just_released("ui_right"):
-		stop_attack()
 
-# Handle dodging mechanics
 func handle_dodging():
-	
 	if Input.is_action_just_pressed("dodge") and not is_dashing:
 		collision_shape.set_deferred("disabled", true)
 		dash_count = int(GameConfig.PLAYER_DASH_DURATION * 100)
 		action = "dash"
-
 		is_dashing = true
-
-		# Play dodge animation
 		if animated_sprite.frames.has_animation("dash"):
 			animated_sprite.play("dash")
-				
 		$SndDash.play()
 		if is_bullet_time_chance:
 			entered_bullet_time(0.3)
 			speed = GameConfig.PLAYER_SPEED * GameConfig.PLAYER_BULLET_TIME_DASH_MULTIPLIER
 		else:
 			speed = GameConfig.PLAYER_SPEED * GameConfig.PLAYER_NORMAL_DASH_MULTIPLIER
-	
 	if dash_count > 0:
-		dash_count = max(0, dash_count - 1)
-		var dash_speed = speed * (GameConfig.PLAYER_BULLET_TIME_DASH_MULTIPLIER if is_bullet_time_chance else GameConfig.PLAYER_NORMAL_DASH_MULTIPLIER)
-		velocity.x = (move_unit if !is_face_right else -move_unit) * dash_speed
+		dash_count -= 1
+		velocity.x = (move_unit if !is_face_right else -move_unit) * speed
 	else:
-		is_dashing = false
-		collision_shape.set_deferred("disabled", false)
-		speed = GameConfig.PLAYER_SPEED
+		if is_dashing:
+			is_dashing = false
+			action = "walk"
+			collision_shape.set_deferred("disabled", false)
+			speed = GameConfig.PLAYER_SPEED
 
-# Update player movement
 func update_movement(delta):
 	if velocity.length() > 0:
 		velocity = velocity.normalized() * speed
@@ -135,61 +126,38 @@ func update_movement(delta):
 		position.x = clamp(position.x, 0, screen_size.x)
 		position.y = clamp(position.y, 0, screen_size.y)
 
-# Update animations based on state
-# func update_animation():
-# 	if action == "walk":
-# 		if velocity.length() > 0:
-# 			animated_sprite.play("walk")
-# 		else:
-# 			play_standing_pose()
-# 	# Don’t override if action is "finisher" or "dance"
 func update_animation():
-
-	# Never override finisher animations
-	if action == "finisher":
+	if action == "attack" or action == "finisher" or action == "dance":
 		return
-
-	# Dash animation
 	if action == "dash":
-
 		if animated_sprite.animation != "dash":
 			if animated_sprite.frames.has_animation("dash"):
 				animated_sprite.play("dash")
-
 		return
-
-	# Walking
 	if velocity.length() > 0:
-
 		if animated_sprite.animation != "walk":
 			animated_sprite.play("walk")
-
 	else:
-		play_standing_pose()
-# Utility functions
+		if animated_sprite.animation != "stand":
+			play_standing_pose()
+
 func play_standing_pose():
 	animated_sprite.play("stand")
 
 func freeze(time: float) -> void:
 	current_state = State.FREEZE
-	collision_shape.disabled = true  # Invincibility by disabling collision
-	Engine.time_scale = 1.0  # Reset time scale
-	
-	# Blink 10 times
-	for i in range(10):
-		#whiten_material.set_shader_param("whiten", true)
+	collision_shape.disabled = true
+	Engine.time_scale = 1.0
+	for _i in range(10):
 		self.visible = false
 		yield(get_tree().create_timer(0.3), "timeout")
-		
-		#whiten_material.set_shader_param("whiten", false)
 		self.visible = true
 		yield(get_tree().create_timer(0.05), "timeout")
-	
 	yield(get_tree().create_timer(time / 2), "timeout")
 	current_state = State.NORMAL
-	collision_shape.disabled = false  # End invincibility
-	animated_sprite.play("stand")  # Resume normal animation
-	is_finisher_active = false  # Ensure reset in case of overlap
+	collision_shape.disabled = false
+	animated_sprite.play("stand")
+	is_finisher_active = false
 
 func entered_bullet_time(time: float) -> void:
 	current_state = State.BULLET_TIME
@@ -225,9 +193,9 @@ func play_attack_animation(play: bool):
 
 func stop_attack():
 	is_attack = false
+	action = "walk"
 	attack_node.visible = false
 	play_attack_animation(false)
-	action = "walk"
 	play_standing_pose()
 
 func fin01_trigger(enable: bool):
@@ -246,9 +214,9 @@ func fin01_trigger(enable: bool):
 		fin01.visible = false
 		fin01.get_node("CollisionShape2D").set_deferred("disabled", true)
 		animated_sprite.play("stand")
-		is_finisher_active = false  # Reset explicitly
+		is_finisher_active = false
 		action = "walk"
-		current_state = State.NORMAL  # Ensure state reset
+		current_state = State.NORMAL
 
 func fin02_trigger(enable: bool):
 	if enable:
@@ -265,9 +233,9 @@ func fin02_trigger(enable: bool):
 		fin02.visible = false
 		fin02.get_node("CollisionShape2D").set_deferred("disabled", true)
 		animated_sprite.play("stand")
-		is_finisher_active = false  # Reset explicitly
+		is_finisher_active = false
 		action = "walk"
-		current_state = State.NORMAL  # Ensure state reset
+		current_state = State.NORMAL
 
 func play_finisher():
 	var roulette = get_parent().get_node("FinisherRoulette")
@@ -282,7 +250,6 @@ func is_animation_locked() -> bool:
 	var is_playing = animated_sprite.is_playing()
 	var frame = animated_sprite.frame
 	var frame_count = animated_sprite.frames.get_frame_count(anim)
-	
 	if anim == "swing" and is_playing and frame < frame_count - 1:
 		return true
 	if anim == "dance" and is_playing and frame < frame_count - 1:
@@ -291,26 +258,19 @@ func is_animation_locked() -> bool:
 		return true
 	return false
 
-# Collision and signal handlers
 func _on_Player_body_entered(_body):
 	if is_finisher_active:
-		return  # Ignore hits during finisher (optional, remove if you want hits to interrupt)
+		return
 	$SndHitBy.play()
 	stop_attack()
 	emit_signal("GotHit")
 	$AnimInfo.play()
 	$Info.visible = true
-	
-	# Reset any lingering BULLET_TIME effects
 	Engine.time_scale = 1.0
 	$TimerBulletTime.stop()
-	
-	# Force stop and reset animation state
 	animated_sprite.stop()
-	animated_sprite.animation = "down"  # Set animation directly
+	animated_sprite.animation = "down"
 	animated_sprite.frame = animated_sprite.frames.get_frame_count("down") - 1
-	
-	# Freeze and become invincible
 	freeze(2.0)
 
 func _on_AnimatedSprite_animation_finished():
@@ -318,6 +278,11 @@ func _on_AnimatedSprite_animation_finished():
 		fin01_trigger(false)
 	elif animated_sprite.animation == "swing":
 		fin02_trigger(false)
+	elif animated_sprite.animation == "dash":
+		return
+	elif animated_sprite.animation == "dance":
+		action = "walk"
+		play_standing_pose()
 	else:
 		action = "walk"
 		current_state = State.NORMAL
@@ -345,9 +310,9 @@ func _on_TimerBulletTime_timeout():
 	collision_shape.disabled = false
 	Engine.time_scale = 1.0
 	current_state = State.NORMAL
-	animated_sprite.stop()  # Ensure animation resets
-	play_standing_pose()    # Reset to standing pose
-	is_finisher_active = false  # Ensure reset in case of overlap
+	animated_sprite.stop()
+	play_standing_pose()
+	is_finisher_active = false
 
 func _on_AnimInfo_animation_finished(_anim_name):
 	$Info.visible = false
