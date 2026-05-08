@@ -10,6 +10,11 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Node",
+"class": "AIBehavior",
+"language": "GDScript",
+"path": "res://scripts/ai/AIBehavior.gd"
+}, {
+"base": "Node",
 "class": "AnimationController",
 "language": "GDScript",
 "path": "res://scripts/animation/AnimationController.gd"
@@ -18,6 +23,11 @@ _global_script_classes=[ {
 "class": "Attack",
 "language": "GDScript",
 "path": "res://scripts/combat/Attack.gd"
+}, {
+"base": "AIBehavior",
+"class": "AttackBehavior",
+"language": "GDScript",
+"path": "res://scripts/ai/AttackBehavior.gd"
 }, {
 "base": "Attack",
 "class": "BasicAttack",
@@ -28,6 +38,11 @@ _global_script_classes=[ {
 "class": "Boss",
 "language": "GDScript",
 "path": "res://scripts/entities/Boss.gd"
+}, {
+"base": "AIBehavior",
+"class": "ChaseBehavior",
+"language": "GDScript",
+"path": "res://scripts/ai/ChaseBehavior.gd"
 }, {
 "base": "Entity",
 "class": "Enemy",
@@ -54,21 +69,30 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/managers/GameManager.gd"
 }, {
+"base": "AIBehavior",
+"class": "PatrolBehavior",
+"language": "GDScript",
+"path": "res://scripts/ai/PatrolBehavior.gd"
+}, {
 "base": "Entity",
 "class": "PlayerEntity",
 "language": "GDScript",
 "path": "res://scripts/entities/PlayerEntity.gd"
 } ]
 _global_script_class_icons={
+"AIBehavior": "",
 "AnimationController": "",
 "Attack": "",
+"AttackBehavior": "",
 "BasicAttack": "",
 "Boss": "",
+"ChaseBehavior": "",
 "Enemy": "",
 "Entity": "",
 "Finisher01": "",
 "Finisher02": "",
 "GameManager": "",
+"PatrolBehavior": "",
 "PlayerEntity": ""
 }
 
