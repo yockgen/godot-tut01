@@ -62,30 +62,28 @@ func add_skill_points(amount: int):
 	print("Skill points +%d (Total: %d)" % [amount, total_skill_points])
 
 func upgrade_skill(skill_name: String) -> bool:
-	"""Upgrade a skill, returns true if successful"""
-	if skill_name not in skills:
+	if not skills.has(skill_name):
 		push_error("Skill '%s' not found!" % skill_name)
 		return false
 	
 	var skill = skills[skill_name]
 	
-	# Check if max level reached
 	if skill["level"] >= skill["max_level"]:
 		print("Skill '%s' already at max level!" % skill_name)
 		return false
 	
-	# Check if have skill points
 	if skill_points <= 0:
 		print("Not enough skill points!")
 		return false
 	
-	# Perform upgrade
 	skill["level"] += 1
 	skill_points -= 1
+	
 	emit_signal("skill_upgraded", skill_name, skill["level"])
 	emit_signal("skill_points_changed", skill_points)
 	
 	print("Upgraded '%s' to level %d" % [skill_name, skill["level"]])
+	
 	return true
 
 # ============ SKILL QUERIES ============
@@ -98,7 +96,7 @@ func get_skill_level(skill_name: String) -> int:
 
 func is_skill_maxed(skill_name: String) -> bool:
 	"""Check if skill is at max level"""
-	if skill_name not in skills:
+	if not skills.has(skill_name):
 		return false
 	
 	var skill = skills[skill_name]
@@ -106,7 +104,7 @@ func is_skill_maxed(skill_name: String) -> bool:
 
 func get_skill_effect(skill_name: String, effect_name: String) -> int:
 	"""Get current effect value for a skill"""
-	if skill_name not in skills:
+	if not skills.has(skill_name):
 		return 0
 	
 	var skill = skills[skill_name]

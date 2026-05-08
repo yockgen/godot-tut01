@@ -68,7 +68,7 @@ func _enter_phase(phase_num: int):
 
 func _spawn_death_effect():
 	"""Boss death is more dramatic"""
-	.._spawn_death_effect()
+	._spawn_death_effect()
 	# Add custom boss death effects
 	print("Boss %s defeated!" % boss_name)
 

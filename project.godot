@@ -64,40 +64,15 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/combat/Finisher02.gd"
 }, {
-"base": "Node",
-"class": "GameManager",
-"language": "GDScript",
-"path": "res://scripts/managers/GameManager.gd"
-}, {
-"base": "Node",
-"class": "LevelManager",
-"language": "GDScript",
-"path": "res://scripts/managers/LevelManager.gd"
-}, {
 "base": "AIBehavior",
 "class": "PatrolBehavior",
 "language": "GDScript",
 "path": "res://scripts/ai/PatrolBehavior.gd"
 }, {
-"base": "Node",
-"class": "PauseManager",
-"language": "GDScript",
-"path": "res://scripts/ui/PauseManager.gd"
-}, {
 "base": "Entity",
 "class": "PlayerEntity",
 "language": "GDScript",
 "path": "res://scripts/entities/PlayerEntity.gd"
-}, {
-"base": "Node",
-"class": "SkillTree",
-"language": "GDScript",
-"path": "res://scripts/progression/SkillTree.gd"
-}, {
-"base": "Node",
-"class": "UpgradeApplier",
-"language": "GDScript",
-"path": "res://scripts/progression/UpgradeApplier.gd"
 } ]
 _global_script_class_icons={
 "AIBehavior": "",
@@ -111,13 +86,8 @@ _global_script_class_icons={
 "Entity": "",
 "Finisher01": "",
 "Finisher02": "",
-"GameManager": "",
-"LevelManager": "",
 "PatrolBehavior": "",
-"PauseManager": "",
-"PlayerEntity": "",
-"SkillTree": "",
-"UpgradeApplier": ""
+"PlayerEntity": ""
 }
 
 [application]
