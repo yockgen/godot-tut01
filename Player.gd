@@ -2,7 +2,7 @@ extends Area2D
 
 # Exported variables
 #export (ShaderMaterial) var whiten_material
-export var speed = 400  # Pixels/sec
+export var speed = 400  # Pixels/sec (overridden by GameConfig at runtime)
 
 # Node references
 onready var collision_shape = $CollisionShape2D
@@ -35,6 +35,8 @@ signal GotHit
 # Called when the node enters the scene tree
 func _ready():
 	screen_size = get_viewport_rect().size
+	# Use GameConfig for speed
+	speed = GameConfig.PLAYER_SPEED
 	attack_node.visible = false
 	is_bullet_time_chance = false
 	move_unit = 1
@@ -97,26 +99,33 @@ func handle_input():
 
 # Handle dodging mechanics
 func handle_dodging():
-	if Input.is_action_just_pressed("dodge") and action != "dash" and not is_dashing:
+	
+	if Input.is_action_just_pressed("dodge") and not is_dashing:
 		collision_shape.set_deferred("disabled", true)
-		dash_count = 15
+		dash_count = int(GameConfig.PLAYER_DASH_DURATION * 100)
 		action = "dash"
+
 		is_dashing = true
+
+		# Play dodge animation
+		if animated_sprite.frames.has_animation("dash"):
+			animated_sprite.play("dash")
+				
 		$SndDash.play()
 		if is_bullet_time_chance:
 			entered_bullet_time(0.3)
-			speed = speed * 16
+			speed = GameConfig.PLAYER_SPEED * GameConfig.PLAYER_BULLET_TIME_DASH_MULTIPLIER
 		else:
-			speed = speed * 4
+			speed = GameConfig.PLAYER_SPEED * GameConfig.PLAYER_NORMAL_DASH_MULTIPLIER
 	
 	if dash_count > 0:
 		dash_count = max(0, dash_count - 1)
-		var dash_speed = speed * (12 if is_bullet_time_chance else 4)
+		var dash_speed = speed * (GameConfig.PLAYER_BULLET_TIME_DASH_MULTIPLIER if is_bullet_time_chance else GameConfig.PLAYER_NORMAL_DASH_MULTIPLIER)
 		velocity.x = (move_unit if !is_face_right else -move_unit) * dash_speed
 	else:
 		is_dashing = false
 		collision_shape.set_deferred("disabled", false)
-		speed = 400
+		speed = GameConfig.PLAYER_SPEED
 
 # Update player movement
 func update_movement(delta):
@@ -127,14 +136,36 @@ func update_movement(delta):
 		position.y = clamp(position.y, 0, screen_size.y)
 
 # Update animations based on state
+# func update_animation():
+# 	if action == "walk":
+# 		if velocity.length() > 0:
+# 			animated_sprite.play("walk")
+# 		else:
+# 			play_standing_pose()
+# 	# Don’t override if action is "finisher" or "dance"
 func update_animation():
-	if action == "walk":
-		if velocity.length() > 0:
-			animated_sprite.play("walk")
-		else:
-			play_standing_pose()
-	# Don’t override if action is "finisher" or "dance"
 
+	# Never override finisher animations
+	if action == "finisher":
+		return
+
+	# Dash animation
+	if action == "dash":
+
+		if animated_sprite.animation != "dash":
+			if animated_sprite.frames.has_animation("dash"):
+				animated_sprite.play("dash")
+
+		return
+
+	# Walking
+	if velocity.length() > 0:
+
+		if animated_sprite.animation != "walk":
+			animated_sprite.play("walk")
+
+	else:
+		play_standing_pose()
 # Utility functions
 func play_standing_pose():
 	animated_sprite.play("stand")
