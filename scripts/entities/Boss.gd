@@ -107,15 +107,6 @@ func _spawn_death_effect():
 		% boss_name
 	)
 
-# ============ UTILITIES ============
-
-func get_health_percent() -> float:
-
-	if max_health <= 0:
-		return 0.0
-
-	return float(health) / float(max_health)
-
 # ============ DEBUG ============
 
 func get_debug_info() -> String:

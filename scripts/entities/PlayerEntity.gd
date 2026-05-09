@@ -338,56 +338,6 @@ func take_damage(damage: int) -> bool:
 	freeze(GameConfig.PLAYER_INVINCIBILITY_DURATION)
 	return false
 
-func heal(amount: int):
-	"""Restore health up to max"""
-	var old_health = health
-	health = min(health + amount, max_health)
-	if health != old_health:
-		emit_signal("health_changed", old_health, health)
-
-func _set_health(value: int):
-	"""Private setter with signal emission"""
-	if value == health:
-		return
-	var old_health = health
-	health = value
-	emit_signal("health_changed", old_health, health)
-
-func _get_health() -> int:
-	"""Private getter"""
-	return health
-
-func change_state(new_state: int) -> bool:
-	"""Change entity state"""
-	if new_state == current_state or is_dead:
-		return false
-	var old_state = current_state
-	current_state = new_state
-	emit_signal("state_changed", old_state, new_state)
-	return true
-
-func get_state() -> int:
-	return current_state
-
-func get_state_name() -> String:
-	match current_state:
-		State.NORMAL:
-			return "NORMAL"
-		State.FREEZE:
-			return "FREEZE"
-		State.BULLET_TIME:
-			return "BULLET_TIME"
-		_:
-			return "UNKNOWN"
-
-func is_alive() -> bool:
-	return not is_dead and health > 0
-
-func get_health_percent() -> float:
-	if max_health == 0:
-		return 0.0
-	return float(health) / float(max_health)
-
 func _on_player_death():
 	"""Called when health reaches 0"""
 	is_dead = true
