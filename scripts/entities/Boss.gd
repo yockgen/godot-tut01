@@ -107,6 +107,16 @@ func _spawn_death_effect():
 		% boss_name
 	)
 
+func setGetHit():
+	if has_node("SndHitBy"):
+		$SndHitBy.play()
+	if has_node("Sprite"):
+		var sprite_node = $Sprite
+		if sprite_node.material is ShaderMaterial:
+			sprite_node.material.set_shader_param("whiten", true)
+			yield(get_tree().create_timer(0.3), "timeout")
+			sprite_node.material.set_shader_param("whiten", false)
+
 # ============ DEBUG ============
 
 func get_debug_info() -> String:
