@@ -44,7 +44,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/ai/ChaseBehavior.gd"
 }, {
-"base": "Entity",
+"base": "RigidBody2D",
 "class": "Enemy",
 "language": "GDScript",
 "path": "res://scripts/entities/Enemy.gd"
@@ -69,7 +69,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/ai/PatrolBehavior.gd"
 }, {
-"base": "Entity",
+"base": "Area2D",
 "class": "PlayerEntity",
 "language": "GDScript",
 "path": "res://scripts/entities/PlayerEntity.gd"

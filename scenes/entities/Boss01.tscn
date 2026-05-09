@@ -10,7 +10,7 @@
 [ext_resource path="res://assets/enemy/boss-01/08.png" type="Texture" id=8]
 [ext_resource path="res://blink-boss01.tres" type="Material" id=9]
 [ext_resource path="res://assets/Sound/explosion.ogg" type="AudioStream" id=10]
-[ext_resource path="res://Boss01.gd" type="Script" id=11]
+[ext_resource path="res://scripts/legacy/Boss01.gd" type="Script" id=11]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
