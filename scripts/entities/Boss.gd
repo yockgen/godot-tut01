@@ -107,14 +107,15 @@ func _spawn_death_effect():
 		% boss_name
 	)
 
-# ============ UTILITIES ============
-
-func get_health_percent() -> float:
-
-	if max_health <= 0:
-		return 0.0
-
-	return float(health) / float(max_health)
+func setGetHit():
+	if has_node("SndHitBy"):
+		$SndHitBy.play()
+	if has_node("Sprite"):
+		var sprite_node = $Sprite
+		if sprite_node.material is ShaderMaterial:
+			sprite_node.material.set_shader_param("whiten", true)
+			yield(get_tree().create_timer(0.3), "timeout")
+			sprite_node.material.set_shader_param("whiten", false)
 
 # ============ DEBUG ============
 
