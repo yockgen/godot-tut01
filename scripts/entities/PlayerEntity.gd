@@ -28,12 +28,25 @@ var dash_count = 0
 var is_dashing = false
 var is_finisher_active = false
 
-# Signals
+# Entity system properties
+export var max_health = 1
+export var collision_damage = 10
+var health = 1 setget _set_health, _get_health
+var is_dead = false
+
+# Signals - Gameplay
 signal EnemyDefeated
 signal BossGetHit
 signal GotHit
 
+# Signals - Entity system
+signal health_changed(old_value, new_value)
+signal died
+signal state_changed(old_state, new_state)
+signal hit_received(damage_amount)
+
 func _ready():
+	health = max_health
 	screen_size = get_viewport_rect().size
 	speed = GameConfig.PLAYER_SPEED
 	attack_node.visible = false
@@ -47,6 +60,7 @@ func _ready():
 	fin01.get_node("CollisionShape2D").set_deferred("disabled", true)
 	fin02.visible = false
 	fin02.get_node("CollisionShape2D").set_deferred("disabled", true)
+	add_to_group("player")
 	if not animated_sprite.is_connected("animation_finished", self, "_on_AnimatedSprite_animation_finished"):
 		animated_sprite.connect("animation_finished", self, "_on_AnimatedSprite_animation_finished")
 
@@ -317,3 +331,90 @@ func _on_TimerBulletTime_timeout():
 
 func _on_AnimInfo_animation_finished(_anim_name):
 	$Info.visible = false
+
+# ============ ENTITY SYSTEM METHODS ============
+
+func take_damage(damage: int) -> bool:
+	"""Apply damage to player. Returns true if player died."""
+	if is_dead or current_state == State.FREEZE:
+		return false
+	
+	var old_health = health
+	health -= damage
+	emit_signal("hit_received", damage)
+	
+	if health <= 0:
+		health = 0
+		_on_player_death()
+		return true
+	
+	# Apply invincibility
+	GameManager.add_score(GameConfig.SCORE_PLAYER_HIT, "Player hit")
+	freeze(GameConfig.PLAYER_INVINCIBILITY_DURATION)
+	return false
+
+func heal(amount: int):
+	"""Restore health up to max"""
+	var old_health = health
+	health = min(health + amount, max_health)
+	if health != old_health:
+		emit_signal("health_changed", old_health, health)
+
+func _set_health(value: int):
+	"""Private setter with signal emission"""
+	if value == health:
+		return
+	var old_health = health
+	health = value
+	emit_signal("health_changed", old_health, health)
+
+func _get_health() -> int:
+	"""Private getter"""
+	return health
+
+func change_state(new_state: int) -> bool:
+	"""Change entity state"""
+	if new_state == current_state or is_dead:
+		return false
+	var old_state = current_state
+	current_state = new_state
+	emit_signal("state_changed", old_state, new_state)
+	return true
+
+func get_state() -> int:
+	return current_state
+
+func get_state_name() -> String:
+	match current_state:
+		State.NORMAL:
+			return "NORMAL"
+		State.FREEZE:
+			return "FREEZE"
+		State.BULLET_TIME:
+			return "BULLET_TIME"
+		_:
+			return "UNKNOWN"
+
+func is_alive() -> bool:
+	return not is_dead and health > 0
+
+func get_health_percent() -> float:
+	if max_health == 0:
+		return 0.0
+	return float(health) / float(max_health)
+
+func _on_player_death():
+	"""Called when health reaches 0"""
+	is_dead = true
+	current_state = State.FREEZE
+	emit_signal("died")
+	print("Player defeated!")
+
+func on_collision_with_entity(other):
+	"""Handle collision with other entities"""
+	if other.is_in_group("enemy"):
+		take_damage(other.collision_damage)
+
+func get_debug_info() -> String:
+	"""Return player debug info"""
+	return "Player | HP: %d | State: %s | Action: %s" % [health, get_state_name(), action]
