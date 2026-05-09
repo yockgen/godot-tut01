@@ -1,4 +1,4 @@
-﻿extends Area2D
+﻿extends Entity
 class_name PlayerEntity
 
 # Exported variables
@@ -17,8 +17,6 @@ var screen_size: Vector2
 var velocity: Vector2 = Vector2.ZERO
 
 # State and action variables
-enum State { NORMAL, FREEZE, BULLET_TIME }
-var current_state = State.NORMAL
 var action = "walk"
 var is_face_right = false
 var is_attack = false
@@ -28,22 +26,10 @@ var dash_count = 0
 var is_dashing = false
 var is_finisher_active = false
 
-# Entity system properties
-export var max_health = 1
-export var collision_damage = 10
-var health = 1 setget _set_health, _get_health
-var is_dead = false
-
 # Signals - Gameplay
 signal EnemyDefeated
 signal BossGetHit
 signal GotHit
-
-# Signals - Entity system
-signal health_changed(old_value, new_value)
-signal died
-signal state_changed(old_state, new_state)
-signal hit_received(damage_amount)
 
 func _ready():
 	health = max_health
@@ -339,7 +325,6 @@ func take_damage(damage: int) -> bool:
 	if is_dead or current_state == State.FREEZE:
 		return false
 	
-	var old_health = health
 	health -= damage
 	emit_signal("hit_received", damage)
 	
@@ -413,7 +398,7 @@ func _on_player_death():
 func on_collision_with_entity(other):
 	"""Handle collision with other entities"""
 	if other.is_in_group("enemy"):
-		take_damage(other.collision_damage)
+		var _damage_result = take_damage(other.collision_damage)
 
 func get_debug_info() -> String:
 	"""Return player debug info"""

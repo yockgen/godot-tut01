@@ -1,45 +1,29 @@
-extends RigidBody2D
+extends Entity
 # Base class for all enemies (Mob, Boss, etc.)
-# Extends RigidBody2D with enemy-specific behavior
-# Includes Entity base functionality
+# Extends Entity with enemy-specific behavior
 
 class_name Enemy
 
-# ============ SIGNALS ============
-signal health_changed(old_value, new_value)
-signal died
-signal state_changed(old_state, new_state)
-signal hit_received(damage_amount)
-
 # ============ PROPERTIES ============
-export var max_health = 1
-export var collision_damage = 10  # Damage dealt to player on collision
 export var score_on_defeat = 150
 export var movement_speed = 100
 export var particleBooming : PackedScene
 
 var enemy = ""
 var isGrounded = false
-var health = 1 setget _set_health, _get_health
-var current_state = State.NORMAL
-var is_dead = false
 
 var ai_behavior = null  # Reference to AIBehavior, set by spawner
 var player_ref = null   # Reference to player for targeting
 
 # ============ STATE ENUM ============
-enum State {
-	NORMAL,      # Regular movement/behavior
-	FREEZE,      # Knocked back/stunned (invincible)
-	BULLET_TIME, # Slow motion state
-	DEAD         # Dead/dying
-}
+# Inherited from Entity
 
 # ============ LIFECYCLE ============
 
 func _ready():
-	health = max_health
-	call_deferred("_initialize")
+	._ready()
+	# Connect to death signal
+	var _connect_result = connect("died", self, "_on_enemy_died")
 
 func _initialize():
 	"""Set up enemy-specific initialization"""
@@ -47,11 +31,6 @@ func _initialize():
 	health = max_health
 	collision_damage = GameConfig.MOB_DAMAGE
 	add_to_group("enemy")
-
-func _ready_override():
-	._ready()
-	# Connect to death signal
-	connect("died", self, "_on_enemy_died")
 
 # ============ HEALTH & DAMAGE ============
 
@@ -63,7 +42,6 @@ func take_damage(damage: int) -> bool:
 	if is_dead:
 		return false
 	
-	var old_health = health
 	health -= damage
 	emit_signal("hit_received", damage)
 	
@@ -131,7 +109,7 @@ func get_state_name() -> String:
 func _on_death():
 	"""Called when health reaches 0. Override in subclasses for death effects."""
 	is_dead = true
-	change_state(State.DEAD)
+	var _change_state_result = change_state(State.DEAD)
 	emit_signal("died")
 	_spawn_death_effect()
 	yield(get_tree(), "idle_frame")
@@ -203,7 +181,7 @@ func setEnemyDown(id):
 	
 	call_deferred("queue_free")
 
-func setEnemyGrounded(id):
+func setEnemyGrounded(_id):
 	isGrounded = true
 	if has_node("AnimatedSprite"):
 		$AnimatedSprite.play("grounded")
