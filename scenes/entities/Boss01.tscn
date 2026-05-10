@@ -8,7 +8,7 @@
 [ext_resource path="res://assets/enemy/boss-01/04.png" type="Texture" id=6]
 [ext_resource path="res://assets/enemy/boss-01/01.png" type="Texture" id=7]
 [ext_resource path="res://assets/enemy/boss-01/08.png" type="Texture" id=8]
-[ext_resource path="res://blink-boss01.tres" type="Material" id=9]
+[ext_resource path="res://assets/materials/shader-boss01-material.tres" type="Material" id=9]
 [ext_resource path="res://assets/Sound/explosion.ogg" type="AudioStream" id=10]
 [ext_resource path="res://scripts/entities/Boss.gd" type="Script" id=11]
 
