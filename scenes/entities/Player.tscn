@@ -42,7 +42,7 @@
 [ext_resource path="res://assets/Platinium Star/monkey/03.png" type="Texture" id=40]
 [ext_resource path="res://assets/Platinium Star/monkey/04.png" type="Texture" id=41]
 [ext_resource path="res://assets/Platinium Star/monkey/05.png" type="Texture" id=42]
-[ext_resource path="res://blink-player.tres" type="Material" id=43]
+[ext_resource path="res://assets/materials/shader-player-material.tres" type="Material" id=43]
 [ext_resource path="res://assets/DanHeng/dance/09.png" type="Texture" id=44]
 [ext_resource path="res://assets/DanHeng/dance/06.png" type="Texture" id=45]
 [ext_resource path="res://assets/DanHeng/dance/04.png" type="Texture" id=46]

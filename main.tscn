@@ -10,7 +10,7 @@
 [ext_resource path="res://assets/bgr/block02.png" type="Texture" id=8]
 [ext_resource path="res://assets/font/SHADSER.TTF" type="DynamicFontData" id=9]
 [ext_resource path="res://scenes/entities/Boss01.tscn" type="PackedScene" id=10]
-[ext_resource path="res://blink-boss01.tres" type="Material" id=11]
+[ext_resource path="res://assets/materials/shader-boss01-material.tres" type="Material" id=11]
 [ext_resource path="res://Finisher/FinisherRoulette.tscn" type="PackedScene" id=13]
 
 [sub_resource type="Curve2D" id=1]
