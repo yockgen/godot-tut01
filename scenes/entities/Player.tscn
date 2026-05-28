@@ -1,0 +1,658 @@
+[gd_scene load_steps=165 format=2]
+
+[ext_resource path="res://assets/Yu/Battle Effects/vr_bc211_01.png" type="Texture" id=1]
+[ext_resource path="res://assets/Yu/bc030_09.png" type="Texture" id=2]
+[ext_resource path="res://scripts/entities/PlayerEntity.gd" type="Script" id=3]
+[ext_resource path="res://assets/Yu/bc205_04.png" type="Texture" id=4]
+[ext_resource path="res://assets/Yu/bc030_00.png" type="Texture" id=5]
+[ext_resource path="res://assets/Sound/jojos-bizarre-adventure-asb-ora-ora-ora.ogg" type="AudioStream" id=6]
+[ext_resource path="res://assets/Sound/dash.ogg" type="AudioStream" id=7]
+[ext_resource path="res://assets/Yu/bc030_08.png" type="Texture" id=8]
+[ext_resource path="res://assets/Yu/bc030_10.png" type="Texture" id=9]
+[ext_resource path="res://assets/Yu/bc030_01.png" type="Texture" id=10]
+[ext_resource path="res://assets/Yu/bc030_02.png" type="Texture" id=11]
+[ext_resource path="res://assets/Yu/bc030_03.png" type="Texture" id=12]
+[ext_resource path="res://assets/Yu/bc030_11.png" type="Texture" id=13]
+[ext_resource path="res://assets/Yu/bc030_05.png" type="Texture" id=14]
+[ext_resource path="res://assets/Yu/bc030_04.png" type="Texture" id=15]
+[ext_resource path="res://assets/Yu/bc030_06.png" type="Texture" id=16]
+[ext_resource path="res://assets/Yu/bc030_07.png" type="Texture" id=17]
+[ext_resource path="res://assets/Yu/bc205_00.png" type="Texture" id=18]
+[ext_resource path="res://assets/Yu/bc205_06.png" type="Texture" id=19]
+[ext_resource path="res://assets/Yu/bc205_02.png" type="Texture" id=20]
+[ext_resource path="res://assets/Yu/bc033_03.png" type="Texture" id=21]
+[ext_resource path="res://assets/Yu/bc205_01.png" type="Texture" id=22]
+[ext_resource path="res://assets/Yu/bc205_05.png" type="Texture" id=23]
+[ext_resource path="res://assets/Yu/bc205_03.png" type="Texture" id=24]
+[ext_resource path="res://assets/Platinium Star/ezgif.com-gif-maker.png" type="Texture" id=25]
+[ext_resource path="res://assets/Yu/bc060_01.png" type="Texture" id=26]
+[ext_resource path="res://assets/Yu/bc060_07.png" type="Texture" id=27]
+[ext_resource path="res://assets/Yu/bc060_03.png" type="Texture" id=28]
+[ext_resource path="res://assets/Yu/bc060_10.png" type="Texture" id=29]
+[ext_resource path="res://assets/Yu/bc060_09.png" type="Texture" id=30]
+[ext_resource path="res://assets/Yu/bc060_00.png" type="Texture" id=31]
+[ext_resource path="res://assets/Yu/bc060_05.png" type="Texture" id=32]
+[ext_resource path="res://assets/Sound/gotPunch.ogg" type="AudioStream" id=33]
+[ext_resource path="res://assets/Yu/bc033_00.png" type="Texture" id=34]
+[ext_resource path="res://assets/Yu/bc033_01.png" type="Texture" id=35]
+[ext_resource path="res://assets/Yu/bc033_04.png" type="Texture" id=36]
+[ext_resource path="res://assets/font/SHADSER.TTF" type="DynamicFontData" id=37]
+[ext_resource path="res://assets/Platinium Star/monkey/02.png" type="Texture" id=38]
+[ext_resource path="res://assets/Platinium Star/monkey/01.png" type="Texture" id=39]
+[ext_resource path="res://assets/Platinium Star/monkey/03.png" type="Texture" id=40]
+[ext_resource path="res://assets/Platinium Star/monkey/04.png" type="Texture" id=41]
+[ext_resource path="res://assets/Platinium Star/monkey/05.png" type="Texture" id=42]
+[ext_resource path="res://assets/materials/shader-player-material.tres" type="Material" id=43]
+[ext_resource path="res://assets/DanHeng/dance/09.png" type="Texture" id=44]
+[ext_resource path="res://assets/DanHeng/dance/06.png" type="Texture" id=45]
+[ext_resource path="res://assets/DanHeng/dance/04.png" type="Texture" id=46]
+[ext_resource path="res://assets/DanHeng/dance/01.png" type="Texture" id=47]
+[ext_resource path="res://assets/DanHeng/dance/07.png" type="Texture" id=48]
+[ext_resource path="res://assets/DanHeng/dance/02.png" type="Texture" id=49]
+[ext_resource path="res://assets/DanHeng/walk/03.png" type="Texture" id=50]
+[ext_resource path="res://assets/DanHeng/dance/05.png" type="Texture" id=51]
+[ext_resource path="res://assets/DanHeng/walk/02.png" type="Texture" id=52]
+[ext_resource path="res://assets/DanHeng/walk/04.png" type="Texture" id=53]
+[ext_resource path="res://assets/DanHeng/dance/10.png" type="Texture" id=54]
+[ext_resource path="res://assets/DanHeng/walk/06.png" type="Texture" id=55]
+[ext_resource path="res://assets/DanHeng/dance/08.png" type="Texture" id=56]
+[ext_resource path="res://assets/DanHeng/dance/03.png" type="Texture" id=57]
+[ext_resource path="res://assets/DanHeng/walk/05.png" type="Texture" id=58]
+[ext_resource path="res://assets/DanHeng/walk/01.png" type="Texture" id=59]
+[ext_resource path="res://assets/DanHeng/swing/02.png" type="Texture" id=60]
+[ext_resource path="res://assets/DanHeng/stand/01.png" type="Texture" id=61]
+[ext_resource path="res://assets/DanHeng/fire-stand/01.png" type="Texture" id=62]
+[ext_resource path="res://assets/DanHeng/fire-stand/02.png" type="Texture" id=63]
+[ext_resource path="res://assets/DanHeng/fire-stand/03.png" type="Texture" id=64]
+[ext_resource path="res://assets/DanHeng/stand/02.png" type="Texture" id=65]
+[ext_resource path="res://assets/DanHeng/fire-stand/04.png" type="Texture" id=66]
+[ext_resource path="res://assets/DanHeng/fire-stand/05.png" type="Texture" id=67]
+[ext_resource path="res://assets/DanHeng/fire-stand/07.png" type="Texture" id=68]
+[ext_resource path="res://assets/DanHeng/fire-stand/06.png" type="Texture" id=69]
+[ext_resource path="res://assets/DanHeng/fall/02.png" type="Texture" id=70]
+[ext_resource path="res://assets/DanHeng/dash/09.png" type="Texture" id=71]
+[ext_resource path="res://assets/DanHeng/fall/01.png" type="Texture" id=72]
+[ext_resource path="res://assets/DanHeng/dash/07.png" type="Texture" id=73]
+[ext_resource path="res://assets/DanHeng/swing/04.png" type="Texture" id=74]
+[ext_resource path="res://assets/DanHeng/swing/03.png" type="Texture" id=75]
+[ext_resource path="res://assets/DanHeng/swing/06.png" type="Texture" id=76]
+[ext_resource path="res://assets/DanHeng/swing/01.png" type="Texture" id=77]
+[ext_resource path="res://assets/DanHeng/swing/05.png" type="Texture" id=78]
+[ext_resource path="res://assets/DanHeng/openarm/02.png" type="Texture" id=79]
+[ext_resource path="res://assets/DanHeng/openarm/05.png" type="Texture" id=80]
+[ext_resource path="res://assets/DanHeng/openarm/03.png" type="Texture" id=81]
+[ext_resource path="res://assets/DanHeng/openarm/01.png" type="Texture" id=82]
+[ext_resource path="res://assets/DanHeng/openarm/06.png" type="Texture" id=83]
+[ext_resource path="res://assets/DanHeng/openarm/04.png" type="Texture" id=84]
+[ext_resource path="res://Finisher/Finisher01.tscn" type="PackedScene" id=85]
+[ext_resource path="res://Finisher/Finisher02.tscn" type="PackedScene" id=86]
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 60.0
+height = 186.0
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 47 ), ExtResource( 49 ), ExtResource( 57 ), ExtResource( 46 ), ExtResource( 51 ), ExtResource( 45 ), ExtResource( 48 ), ExtResource( 56 ), ExtResource( 44 ), ExtResource( 54 ) ],
+"loop": false,
+"name": "dance",
+"speed": 3.0
+}, {
+"frames": [ ExtResource( 71 ), ExtResource( 73 ), ExtResource( 73 ), ExtResource( 73 ), ExtResource( 73 ), ExtResource( 73 ), ExtResource( 71 ) ],
+"loop": true,
+"name": "dash",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 34 ), ExtResource( 35 ), ExtResource( 35 ), ExtResource( 35 ), ExtResource( 21 ), ExtResource( 36 ), ExtResource( 5 ) ],
+"loop": false,
+"name": "dash01",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 72 ), ExtResource( 72 ), ExtResource( 72 ), ExtResource( 72 ), ExtResource( 72 ), ExtResource( 70 ) ],
+"loop": false,
+"name": "down",
+"speed": 2.0
+}, {
+"frames": [ ExtResource( 31 ), ExtResource( 26 ), ExtResource( 28 ), ExtResource( 32 ), ExtResource( 27 ), ExtResource( 30 ), ExtResource( 29 ) ],
+"loop": false,
+"name": "down01",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 62 ), ExtResource( 63 ), ExtResource( 64 ), ExtResource( 66 ), ExtResource( 67 ), ExtResource( 69 ), ExtResource( 68 ) ],
+"loop": false,
+"name": "fire_stand",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 18 ), ExtResource( 22 ), ExtResource( 20 ), ExtResource( 24 ), ExtResource( 4 ), ExtResource( 23 ), ExtResource( 19 ) ],
+"loop": false,
+"name": "fire_stand01",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 82 ), ExtResource( 79 ), ExtResource( 81 ), ExtResource( 84 ), ExtResource( 80 ), ExtResource( 83 ) ],
+"loop": false,
+"name": "open_arm",
+"speed": 4.0
+}, {
+"frames": [ ExtResource( 61 ), ExtResource( 65 ) ],
+"loop": true,
+"name": "stand",
+"speed": 1.0
+}, {
+"frames": [ ExtResource( 5 ) ],
+"loop": true,
+"name": "stand03",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 77 ), ExtResource( 60 ), ExtResource( 75 ), ExtResource( 74 ), ExtResource( 78 ), ExtResource( 76 ), ExtResource( 76 ) ],
+"loop": false,
+"name": "swing",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 59 ), ExtResource( 52 ), ExtResource( 50 ), ExtResource( 53 ), ExtResource( 58 ), ExtResource( 55 ) ],
+"loop": true,
+"name": "walk",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 8 ), ExtResource( 2 ), ExtResource( 13 ), ExtResource( 9 ) ],
+"loop": true,
+"name": "walk04",
+"speed": 4.98
+} ]
+
+[sub_resource type="AtlasTexture" id=4]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 0, 0, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=5]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 152, 0, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=6]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 304, 0, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=7]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 456, 0, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=8]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 608, 0, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=9]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 0, 128, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=10]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 152, 128, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=11]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 304, 128, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=12]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 456, 128, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=13]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 608, 128, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=14]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 0, 256, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=15]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 152, 256, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=16]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 304, 256, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=17]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 456, 256, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=18]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 608, 256, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=19]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 0, 384, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=20]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 152, 384, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=21]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 304, 384, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=22]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 456, 384, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=23]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 608, 384, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=24]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 0, 512, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=25]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 152, 512, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=26]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 304, 512, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=27]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 456, 512, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=28]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 608, 512, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=29]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 0, 640, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=30]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 152, 640, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=31]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 304, 640, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=32]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 456, 640, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=33]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 608, 640, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=34]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 0, 768, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=35]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 152, 768, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=36]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 304, 768, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=37]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 456, 768, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=38]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 608, 768, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=39]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 0, 896, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=40]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 152, 896, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=41]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 304, 896, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=42]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 456, 896, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=43]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 608, 896, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=44]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 0, 1024, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=45]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 152, 1024, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=46]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 304, 1024, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=47]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 456, 1024, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=48]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 608, 1024, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=49]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 0, 1152, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=50]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 152, 1152, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=51]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 304, 1152, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=52]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 456, 1152, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=53]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 608, 1152, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=54]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 0, 1280, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=55]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 152, 1280, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=56]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 304, 1280, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=57]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 456, 1280, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=58]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 608, 1280, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=59]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 0, 1408, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=60]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 152, 1408, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=61]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 304, 1408, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=62]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 456, 1408, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=63]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 608, 1408, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=64]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 0, 1536, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=65]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 152, 1536, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=66]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 304, 1536, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=67]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 456, 1536, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=68]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 608, 1536, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=69]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 0, 1664, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=70]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 152, 1664, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=71]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 304, 1664, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=72]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 456, 1664, 152, 128 )
+
+[sub_resource type="AtlasTexture" id=73]
+flags = 4
+atlas = ExtResource( 25 )
+region = Rect2( 608, 1664, 152, 128 )
+
+[sub_resource type="SpriteFrames" id=74]
+animations = [ {
+"frames": [ SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ), SubResource( 40 ), SubResource( 41 ), SubResource( 42 ), SubResource( 43 ), SubResource( 44 ), SubResource( 45 ), SubResource( 46 ), SubResource( 47 ), SubResource( 48 ), SubResource( 49 ), SubResource( 50 ), SubResource( 51 ), SubResource( 52 ), SubResource( 53 ), SubResource( 54 ), SubResource( 55 ), SubResource( 56 ), SubResource( 57 ), SubResource( 58 ), SubResource( 59 ), SubResource( 60 ), SubResource( 61 ), SubResource( 62 ), SubResource( 63 ), SubResource( 64 ), SubResource( 65 ), SubResource( 66 ), SubResource( 67 ), SubResource( 68 ), SubResource( 69 ), SubResource( 70 ), SubResource( 71 ), SubResource( 72 ), SubResource( 73 ) ],
+"loop": true,
+"name": "Set001",
+"speed": 40.0
+}, {
+"frames": [ ExtResource( 39 ), ExtResource( 40 ), ExtResource( 38 ), ExtResource( 41 ), ExtResource( 42 ) ],
+"loop": true,
+"name": "Set002",
+"speed": 20.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=78]
+extents = Vector2( 163.5, 124.5 )
+
+[sub_resource type="Environment" id=82]
+background_mode = 4
+glow_enabled = true
+glow_strength = 0.75
+glow_high_quality = true
+
+[sub_resource type="RectangleShape2D" id=79]
+extents = Vector2( 68, 133 )
+
+[sub_resource type="Animation" id=81]
+resource_name = "AnimHurtInfo"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/path = NodePath("Info:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 1, 1.5, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true, false, true ]
+}
+
+[sub_resource type="DynamicFont" id=80]
+size = 28
+outline_size = 2
+font_data = ExtResource( 37 )
+
+[node name="Player" type="Area2D"]
+position = Vector2( 22, 10 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="ShadowImg" type="Sprite" parent="."]
+position = Vector2( 200, 190 )
+scale = Vector2( 0.4, 0.189 )
+texture = ExtResource( 1 )
+offset = Vector2( -520, -200 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -10 )
+shape = SubResource( 2 )
+__meta__ = {
+"_editor_description_": "Collision of player"
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+material = ExtResource( 43 )
+position = Vector2( 0, 2.223 )
+scale = Vector2( 0.8, 0.75 )
+frames = SubResource( 1 )
+animation = "stand"
+speed_scale = 2.0
+
+[node name="Attack" type="Area2D" parent="."]
+
+[node name="AnimatedSpriteAttack" type="AnimatedSprite" parent="Attack"]
+self_modulate = Color( 1, 1, 6.36078, 0.780392 )
+position = Vector2( -200, -60 )
+scale = Vector2( 0.9, 0.9 )
+frames = SubResource( 74 )
+animation = "Set002"
+
+[node name="AttackSound" type="AudioStreamPlayer2D" parent="Attack"]
+stream = ExtResource( 6 )
+volume_db = 8.739
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Attack"]
+position = Vector2( -147.5, -76.5 )
+shape = SubResource( 78 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Attack"]
+environment = SubResource( 82 )
+
+[node name="SndHitBy" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 33 )
+volume_db = 6.118
+
+[node name="SndDash" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 7 )
+volume_db = 20.0
+
+[node name="Area2DEnemyCloser" type="Area2D" parent="."]
+position = Vector2( -20, -20 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2DEnemyCloser"]
+position = Vector2( -38, -47 )
+shape = SubResource( 79 )
+
+[node name="TimerBulletTime" type="Timer" parent="."]
+
+[node name="AnimInfo" type="AnimationPlayer" parent="."]
+autoplay = "AnimHurtInfo"
+reset_on_save = false
+anims/AnimHurtInfo = SubResource( 81 )
+
+[node name="Info" type="Node2D" parent="."]
+position = Vector2( -60, 0 )
+
+[node name="Hurt" type="Label" parent="Info"]
+margin_top = -12.0
+margin_right = 117.0
+margin_bottom = 18.0
+custom_colors/font_color = Color( 1, 0.0862745, 0.145098, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 80 )
+text = "100"
+
+[node name="Finisher01" parent="." instance=ExtResource( 85 )]
+z_as_relative = false
+collision_layer = 15
+
+[node name="Finisher02" parent="." instance=ExtResource( 86 )]
+position = Vector2( -200, -100 )
+scale = Vector2( 0.4, 0.4 )
+
+[connection signal="body_entered" from="." to="." method="_on_Player_body_entered"]
+[connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
+[connection signal="area_entered" from="Attack" to="." method="_on_Attack_area_entered"]
+[connection signal="body_entered" from="Attack" to="." method="_on_Attack_body_entered"]
+[connection signal="animation_finished" from="Attack/AnimatedSpriteAttack" to="." method="_on_AnimatedSprite_animation_finished"]
+[connection signal="animation_finished" from="Attack/AnimatedSpriteAttack" to="." method="_on_AnimatedSpriteAttack_animation_finished"]
+[connection signal="body_entered" from="Area2DEnemyCloser" to="." method="_on_Area2DEnemyCloser_body_entered"]
+[connection signal="body_exited" from="Area2DEnemyCloser" to="." method="_on_Area2DEnemyCloser_body_exited"]
+[connection signal="timeout" from="TimerBulletTime" to="." method="_on_TimerBulletTime_timeout"]
+[connection signal="animation_finished" from="AnimInfo" to="." method="_on_AnimInfo_animation_finished"]

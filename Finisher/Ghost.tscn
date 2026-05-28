@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://assets/Svarog/Attack01/04.png" type="Texture" id=2]
+[ext_resource path="res://assets/Svarog/Attack01/02.png" type="Texture" id=3]
+[ext_resource path="res://assets/Svarog/Attack01/01.png" type="Texture" id=4]
+[ext_resource path="res://assets/Svarog/Attack01/03.png" type="Texture" id=5]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 4 ), ExtResource( 3 ), ExtResource( 5 ), ExtResource( 2 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends AnimatedSprite
+
+func _ready():
+	ghosting()
+	pass
+	
+func set_ghost_property(tx_pos, tx_scale):
+	position = tx_pos
+	scale = tx_scale	
+
+func ghosting():
+	var tween_fade = get_tree().create_tween()
+	tween_fade.tween_property(self, \"self_modulate\",Color(1,1,0),0.75)
+	yield(get_tree().create_timer(0.3), \"timeout\")
+	#await tween_fade.finished
+	queue_free()
+"
+
+[node name="Ghost" type="AnimatedSprite"]
+modulate = Color( 1, 1, 1, 0.423529 )
+show_behind_parent = true
+frames = SubResource( 1 )
+frame = 2
+playing = true
+script = SubResource( 2 )

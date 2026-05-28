@@ -1,17 +1,16 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=22 format=2]
 
-[ext_resource path="res://Mob.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/entities/Mob.tscn" type="PackedScene" id=1]
 [ext_resource path="res://main.gd" type="Script" id=2]
-[ext_resource path="res://Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/entities/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://assets/bgr/bgr02.png" type="Texture" id=4]
 [ext_resource path="res://assets/music/bgr01.ogg" type="AudioStream" id=5]
-[ext_resource path="res://PauseCtrl.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/ui/PauseCtrl.tscn" type="PackedScene" id=6]
 [ext_resource path="res://assets/bgr/block01.png" type="Texture" id=7]
 [ext_resource path="res://assets/bgr/block02.png" type="Texture" id=8]
 [ext_resource path="res://assets/font/SHADSER.TTF" type="DynamicFontData" id=9]
-[ext_resource path="res://Boss01.tscn" type="PackedScene" id=10]
-[ext_resource path="res://blink-boss01.tres" type="Material" id=11]
-[ext_resource path="res://blink-player.tres" type="Material" id=12]
+[ext_resource path="res://scenes/entities/Boss01.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Finisher/FinisherRoulette.tscn" type="PackedScene" id=13]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
@@ -92,15 +91,14 @@ texture = ExtResource( 4 )
 position = Vector2( -66, 96 )
 collision_layer = 15
 collision_mask = 15
-whiten_material = ExtResource( 11 )
 
 [node name="PauseCtrl" parent="." instance=ExtResource( 6 )]
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
-position = Vector2( 636, 915 )
+position = Vector2( 646, 917 )
+scale = Vector2( 0.9, 0.9 )
 collision_layer = 15
 collision_mask = 15
-whiten_material = ExtResource( 12 )
 
 [node name="MobTimer" type="Timer" parent="."]
 wait_time = 0.5
@@ -130,14 +128,14 @@ volume_db = -13.152
 autoplay = true
 
 [node name="StreetItem01" type="Sprite" parent="."]
-position = Vector2( 1492, 1017.77 )
-scale = Vector2( 0.482621, 0.557655 )
+position = Vector2( 1532, 991 )
+scale = Vector2( 0.627166, 0.741372 )
 z_index = 10
 texture = ExtResource( 7 )
 
 [node name="StreetItem02" type="Sprite" parent="."]
-position = Vector2( 215, 1010 )
-scale = Vector2( 0.546987, 0.619192 )
+position = Vector2( 225, 970 )
+scale = Vector2( 0.585401, 0.853164 )
 z_index = 10
 texture = ExtResource( 8 )
 
@@ -171,6 +169,10 @@ process_material = SubResource( 5 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
 position = Vector2( 954, 1049.63 )
 shape = SubResource( 11 )
+
+[node name="FinisherRoulette" parent="." instance=ExtResource( 13 )]
+position = Vector2( 1820, 177 )
+scale = Vector2( 0.7, 0.7 )
 
 [connection signal="timeout" from="MobTimer" to="." method="_on_MobTimer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]
