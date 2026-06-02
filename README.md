@@ -5,6 +5,11 @@ Simple 2d Beat-em-up game tutorial using Godot Engine ([version: v3 LTS](https:/
 2. Collision Detection
 3. Event Handler
 
+Concept Art
+===========
+![Concept Art 1](img/01.jpg)
+![Concept Art 3](img/03.jpg)
+
 Setup
 =====
 
