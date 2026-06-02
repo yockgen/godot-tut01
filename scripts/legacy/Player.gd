@@ -247,15 +247,10 @@ func play_finisher():
 
 func is_animation_locked() -> bool:
 	var anim = animated_sprite.animation
-	var is_playing = animated_sprite.is_playing()
-	var frame = animated_sprite.frame
-	var frame_count = animated_sprite.frames.get_frame_count(anim)
-	if anim == "swing" and is_playing and frame < frame_count - 1:
-		return true
-	if anim == "dance" and is_playing and frame < frame_count - 1:
-		return true
-	if anim == "open_arm" and is_playing and frame < frame_count - 1:
-		return true
+	if animated_sprite.is_playing() and anim in ["swing", "dance", "open_arm"]:
+		var frame = animated_sprite.frame
+		var frame_count = animated_sprite.frames.get_frame_count(anim)
+		return frame < frame_count - 1
 	return false
 
 func _on_Player_body_entered(_body):

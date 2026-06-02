@@ -1,4 +1,4 @@
-# 🎮 Godot Project Architecture Refactor - COMPLETE ✅
+# 🎮 Godot Project Architecture Refactor - Developer Tutorial
 
 ## Executive Summary
 
@@ -175,66 +175,416 @@ Created game management systems:
 
 ---
 
-## How to Add Content (Examples)
+## Developer Tutorials
 
-### Add a New Attack (20 min)
+This section provides step-by-step guides for common development tasks. Each tutorial includes prerequisites, implementation steps, and testing procedures.
+
+### Tutorial 1: Adding a New Enemy Type
+
+**Time Required:** 30-45 minutes  
+**Difficulty:** Beginner  
+**Prerequisites:** Basic GDScript knowledge, understanding of Entity inheritance
+
+#### Step 1: Create the Enemy Script
+Create a new file `scripts/entities/YourEnemyName.gd`:
+
 ```gdscript
-# Create scripts/combat/PowerSlash.gd
+extends Enemy
+class_name YourEnemyName
+
+# Override _initialize() to set enemy-specific properties
+func _initialize():
+    max_health = 30
+    score_on_defeat = 100
+    # Set any other enemy-specific properties here
+
+# Override _ready() for additional setup
+func _ready():
+    ._ready()  # Call parent _ready()
+    # Add enemy-specific initialization here
+    # e.g., set up animations, timers, etc.
+
+# Override _process() for custom behavior
+func _process(delta):
+    ._process(delta)  # Call parent _process()
+    # Add custom enemy logic here
+```
+
+#### Step 2: Create the Scene
+1. Create a new scene file `scenes/entities/YourEnemyName.tscn`
+2. Add a Node2D as root
+3. Attach your `YourEnemyName.gd` script
+4. Add child nodes for visuals (Sprite, AnimatedSprite), collision shapes, etc.
+5. Set up animations and collision detection
+
+#### Step 3: Assign AI Behavior
+In your enemy script or spawning code:
+
+```gdscript
+# In _ready() or initialization function
+var behavior = PatrolBehavior.new()  # Or ChaseBehavior, AttackBehavior, etc.
+set_ai_behavior(behavior)
+```
+
+#### Step 4: Add to Spawning System
+Modify `scripts/managers/LevelManager.gd` or your spawning logic:
+
+```gdscript
+# Example spawning function
+func spawn_your_enemy(position: Vector2):
+    var enemy_scene = preload("res://scenes/entities/YourEnemyName.tscn")
+    var enemy = enemy_scene.instance()
+    enemy.position = position
+    add_child(enemy)
+    return enemy
+```
+
+#### Step 5: Test Your Enemy
+1. Run the game
+2. Spawn your enemy using the spawning function
+3. Verify it moves, takes damage, and awards score when defeated
+4. Check for any console errors
+
+**Common Pitfalls:**
+- Forgetting to call parent `_ready()` or `_process()`
+- Not setting `max_health` in `_initialize()`
+- Incorrect scene paths in preload statements
+
+---
+
+### Tutorial 2: Creating a New Combat Action
+
+**Time Required:** 20-30 minutes  
+**Difficulty:** Intermediate  
+**Prerequisites:** Understanding of Attack base class, animation system
+
+#### Step 1: Create the Attack Script
+Create `scripts/combat/YourAttackName.gd`:
+
+```gdscript
 extends Attack
-class_name PowerSlash
+class_name YourAttackName
 
 func _ready():
-	attack_name = "Power Slash"
-	damage = 25
-	cooldown = 1.0
-	animation_name = "power_slash"
+    attack_name = "Your Attack Name"
+    damage = 15
+    cooldown = 0.8
+    animation_name = "your_attack_animation"  # Must match animation in AnimatedSprite
 
-func _perform_attack(target: Vector2):
-	# Play animation, deal damage, etc.
-	yield(get_tree().create_timer(0.6), "timeout")
-	finish_execution()
+func _perform_attack(target_position: Vector2):
+    # Implement attack logic here
+    # This is called when the attack executes
+    
+    # Example: Play animation and deal damage
+    var animated_sprite = get_parent().get_node("AnimatedSprite")
+    animated_sprite.play(animation_name)
+    
+    # Wait for animation to reach damage frame
+    yield(get_tree().create_timer(0.3), "timeout")
+    
+    # Deal damage to enemies in range
+    var hitbox = get_parent().get_node("Hitbox")  # Assuming you have a hitbox
+    var bodies = hitbox.get_overlapping_bodies()
+    for body in bodies:
+        if body is Enemy:
+            body.take_damage(damage)
+    
+    # Wait for animation to complete
+    yield(animated_sprite, "animation_finished")
+    
+    # Finish the attack
+    finish_execution()
 ```
 
-### Add a New Enemy (30 min)
+#### Step 2: Add Animation
+1. Open your entity's AnimatedSprite
+2. Add a new animation with the name matching `animation_name`
+3. Set up frames and timing
+
+#### Step 3: Integrate with Player Input
+Modify `scripts/entities/PlayerEntity.gd` to use your attack:
+
 ```gdscript
-# Create scripts/entities/Dragon.gd
-extends Enemy
-class_name Dragon
+# In _ready() or input handling
+var your_attack = YourAttackName.new()
+add_child(your_attack)
 
-func _initialize():
-	max_health = 50
-	score_on_defeat = 500
+# In input handling (e.g., when attack button pressed)
+if Input.is_action_just_pressed("attack") and your_attack.can_execute():
+    your_attack.execute(get_global_mouse_position())
 ```
 
-Then spawn with behavior:
+#### Step 4: Add Visual Effects (Optional)
+- Add particles for impact effects
+- Add sound effects
+- Add screen shake for powerful attacks
+
+#### Step 5: Test the Attack
+1. Run the game
+2. Trigger your attack input
+3. Verify animation plays, damage is dealt, and cooldown works
+4. Test against different enemy types
+
+**Common Pitfalls:**
+- Not calling `finish_execution()` at the end
+- Incorrect animation names
+- Forgetting to check `can_execute()` before calling `execute()`
+
+---
+
+### Tutorial 3: Modifying Game Balance
+
+**Time Required:** 5-10 minutes  
+**Difficulty:** Beginner  
+**Prerequisites:** Access to GameConfig.gd
+
+#### Step 1: Open GameConfig.gd
+Navigate to `scripts/config/GameConfig.gd`
+
+#### Step 2: Modify Constants
+Find and update the relevant constants:
+
 ```gdscript
-var dragon = Dragon.new()
-dragon.set_ai_behavior(ChaseBehavior.new())
-add_child(dragon)
+# Example changes
+const PLAYER_MAX_HEALTH = 150  # Was 100
+const ENEMY_DAMAGE = 25        # Was 20
+const DASH_COOLDOWN = 0.5      # Was 1.0
+const SCORE_MULTIPLIER = 2.0   # Was 1.0
 ```
 
-### Adjust Balance (5 min)
-Open `scripts/config/GameConfig.gd` and change constants. That's it!
+#### Step 3: Test Changes
+1. Run the game
+2. Verify the changes take effect immediately
+3. Adjust values as needed for desired balance
 
-See `docs/ADDING_CONTENT.md` for detailed examples.
+**Best Practices:**
+- Test small changes incrementally
+- Document why you changed values in commit messages
+- Consider creating separate config files for different difficulty levels
+
+---
+
+### Tutorial 4: Extending AI Behaviors
+
+**Time Required:** 45-60 minutes  
+**Difficulty:** Intermediate  
+**Prerequisites:** Understanding of AIBehavior base class
+
+#### Step 1: Create New Behavior Script
+Create `scripts/ai/YourBehavior.gd`:
+
+```gdscript
+extends AIBehavior
+class_name YourBehavior
+
+func _ready():
+    behavior_name = "Your Behavior"
+
+func _update_behavior(delta: float):
+    # Implement your custom AI logic here
+    var entity = get_parent()
+    
+    # Example: Move towards player but keep distance
+    var player = get_tree().get_nodes_in_group("player")[0]
+    var direction = (player.position - entity.position).normalized()
+    var distance = entity.position.distance_to(player.position)
+    
+    if distance > 200:  # Too far, move closer
+        entity.move_and_slide(direction * entity.speed)
+    elif distance < 100:  # Too close, move away
+        entity.move_and_slide(-direction * entity.speed)
+    else:
+        # In sweet spot, do something else (e.g., attack)
+        attempt_attack()
+```
+
+#### Step 2: Add Behavior-Specific Methods
+```gdscript
+func attempt_attack():
+    # Custom attack logic for this behavior
+    var entity = get_parent()
+    if entity.has_method("perform_attack"):
+        entity.perform_attack()
+```
+
+#### Step 3: Assign to Enemies
+In enemy initialization:
+
+```gdscript
+var behavior = YourBehavior.new()
+enemy.set_ai_behavior(behavior)
+```
+
+#### Step 4: Test Behavior
+1. Assign the behavior to an enemy
+2. Run the game and observe AI behavior
+3. Test edge cases (player movement, obstacles, etc.)
+
+**Common Pitfalls:**
+- Not calling parent methods when overriding
+- Assuming enemy has certain methods without checking
+- Performance issues with complex AI logic
+
+---
+
+### Tutorial 5: Adding New Managers
+
+**Time Required:** 30-45 minutes  
+**Difficulty:** Intermediate  
+**Prerequisites:** Understanding of singleton pattern, autoloads
+
+#### Step 1: Create Manager Script
+Create `scripts/managers/YourManager.gd`:
+
+```gdscript
+extends Node
+class_name YourManager
+
+# Signals
+signal your_event_happened(data)
+
+# Variables
+var your_data = {}
+
+func _ready():
+    # Initialize manager
+    pass
+
+# Public methods
+func do_something():
+    # Implement functionality
+    emit_signal("your_event_happened", your_data)
+```
+
+#### Step 2: Add to Autoload
+1. Open Project Settings
+2. Go to Autoload tab
+3. Add `scripts/managers/YourManager.gd` as singleton
+4. Give it a name (e.g., "YourManager")
+
+#### Step 3: Access from Other Scripts
+```gdscript
+# Access the manager from anywhere
+YourManager.do_something()
+
+# Connect to signals
+YourManager.connect("your_event_happened", self, "_on_your_event")
+```
+
+#### Step 4: Test Manager
+1. Run the game
+2. Verify manager initializes without errors
+3. Test functionality and signal emission
+
+**Best Practices:**
+- Keep managers focused on single responsibilities
+- Use signals for communication, not direct method calls
+- Document public API clearly
+
+---
+
+### Tutorial 6: Updating UI Elements
+
+**Time Required:** 20-30 minutes  
+**Difficulty:** Beginner to Intermediate  
+**Prerequisites:** Basic UI knowledge, understanding of signals
+
+#### Step 1: Identify UI Scene
+Find or create your UI scene (e.g., `scenes/ui/YourUI.tscn`)
+
+#### Step 2: Connect to Manager Signals
+In your UI script:
+
+```gdscript
+func _ready():
+    # Connect to relevant managers
+    GameManager.connect("score_changed", self, "_on_score_changed")
+    PlayerEntity.connect("health_changed", self, "_on_health_changed")
+
+func _on_score_changed(new_score):
+    $ScoreLabel.text = str(new_score)
+
+func _on_health_changed(new_health, max_health):
+    $HealthBar.value = new_health
+    $HealthBar.max_value = max_health
+```
+
+#### Step 3: Update UI Layout
+- Add new UI elements in the scene editor
+- Position and style them appropriately
+- Add animations for smooth transitions
+
+#### Step 4: Test UI Updates
+1. Run the game
+2. Trigger events that should update UI
+3. Verify values display correctly
+4. Test responsive design if applicable
+
+**Common Pitfalls:**
+- Not connecting signals properly
+- UI not updating due to scope issues
+- Performance problems with frequent updates
+
+---
+
+## Best Practices
+
+### Code Organization
+- Always extend base classes (Entity, Attack, AIBehavior, etc.)
+- Keep scripts focused on single responsibilities
+- Use signals for inter-object communication
+- Document public methods and signals
+
+### Testing
+- Test each new feature in isolation
+- Verify no console errors on startup
+- Check performance impact of new features
+- Test edge cases and error conditions
+
+### Version Control
+- Make small, focused commits
+- Use descriptive commit messages
+- Test before committing
+- Keep refactor and feature branches separate
+
+### Performance
+- Avoid complex calculations in `_process()`
+- Use object pooling for frequently spawned objects
+- Profile performance with Godot's built-in tools
+- Cache references to frequently accessed nodes
+
+---
+
+## Common Pitfalls & Solutions
+
+### Entity Inheritance Issues
+**Problem:** New entity doesn't behave as expected  
+**Solution:** Ensure you're calling parent `_ready()`, `_process()`, and `_initialize()` methods
+
+### Signal Connection Errors
+**Problem:** Signals not firing or connecting  
+**Solution:** Check signal names match exactly, ensure objects exist when connecting
+
+### Scene Loading Problems
+**Problem:** Scenes fail to load or instantiate  
+**Solution:** Verify file paths are correct, check for missing dependencies
+
+### Performance Degradation
+**Problem:** Game slows down with new features  
+**Solution:** Profile with Godot's profiler, optimize expensive operations, consider object pooling
 
 ---
 
 ## Testing Checklist
 
-Before merging to main, verify:
+Before committing changes, verify:
 
-- [x] No Godot console errors on startup
-- [x] GameManager singleton loads (check autoload list)
-- [x] Existing gameplay still works (enemies spawn, score updates)
-- [x] New Attack base class can be instantiated
-- [x] New Enemy base class can be instantiated
-- [x] AI behaviors initialize without errors
-- [x] Memory usage stable after 5 minutes of play
-- [x] All debug info methods work (`get_debug_info()`)
-- [x] Documentation links work and are readable
-- [x] Git history clean (8 commits, each logical)
-- [x] **GAME IS FULLY PLAYABLE WITH NEW ARCHITECTURE**
+- [ ] No Godot console errors on startup
+- [ ] New features work as intended
+- [ ] Existing gameplay still functions
+- [ ] Performance is acceptable
+- [ ] Code follows project conventions
+- [ ] Documentation is updated if needed
 
 ---
 
