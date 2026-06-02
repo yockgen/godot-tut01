@@ -12,6 +12,12 @@ Concept Art
   <img src="img/04.png" height="250" alt="Concept Art 3">
 </div>
 
+Documentation
+==============
+- **[README_DEVELOPER.md](README_DEVELOPER.md)** — Architecture overview and contribution guide for developers
+- **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** — Detailed system design and signal patterns
+- **[docs/ADDING_CONTENT.md](docs/ADDING_CONTENT.md)** — How to add attacks, enemies, levels, and skills
+
 Setup
 =====
 
