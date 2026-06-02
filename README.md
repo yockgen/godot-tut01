@@ -7,8 +7,10 @@ Simple 2d Beat-em-up game tutorial using Godot Engine ([version: v3 LTS](https:/
 
 Concept Art
 ===========
-![Concept Art 1](img/01.jpg)
-![Concept Art 3](img/03.jpg)
+<div style="display: flex; gap: 20px; justify-content: center; align-items: center;">
+  <img src="img/01.png" width="250" alt="Concept Art 1">
+  <img src="img/04.png" height="250" alt="Concept Art 3">
+</div>
 
 Setup
 =====
