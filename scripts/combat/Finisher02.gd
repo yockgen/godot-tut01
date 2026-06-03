@@ -25,14 +25,24 @@ func _ready():
 
 # ============ ATTACK EXECUTION ============
 
+func play(flip_h: bool = false):
+	"""Start the finisher attack (called from PlayerEntity)"""
+	var target_pos = player_ref.global_position if player_ref else Vector2.ZERO
+	execute(target_pos)
+
 func _perform_attack(target_position: Vector2):
 	"""Execute ghost trail dash attack"""
 	if player_ref == null:
 		return
 	
-		# Hide player during finisher
-		player_ref.visible = false
-		
+	# Hide player during finisher
+	player_ref.visible = false
+	
+	is_dashing = true
+	dash_timer = dash_duration
+	
+	# Get player's facing direction
+	var direction = 1
 	if player_ref.has_node("AnimatedSprite"):
 		var sprite = player_ref.get_node("AnimatedSprite")
 		if sprite.flip_h:
@@ -127,14 +137,23 @@ func _finish_dash():
 	for ghost in ghost_nodes:
 		ghost.visible = false
 	
-		# Show player again
-		if player_ref:
-			player_ref.visible = true
-		
-			body.get_node("CollisionShape2D").set_deferred("disabled", true)
+	# Show player again
+	if player_ref:
+		player_ref.visible = true
+	
+	finish_execution()
+
+func _on_dash_body_entered(body):
+	"""Hit physical body"""
+	if is_dashing and body.has_method("take_damage"):
+		body.take_damage(damage)
+		# End dash early on hit
+		_finish_dash()
 
 func _on_dash_area_entered(area):
 	"""Hit area (boss)"""
-	if area.name == "Boss01":
+	if is_dashing and area.name == "Boss01":
 		if area.has_method("take_damage"):
 			area.take_damage(damage)
+			# End dash early on hit
+			_finish_dash()
