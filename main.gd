@@ -83,9 +83,12 @@ func spawn (obj):
 	var direction = $MobPath/MobSpawnLocation.rotation + PI / 2
 	obj.position = $MobPath/MobSpawnLocation.position
 	direction += rand_range(-PI / 4, PI / 4)
-	obj.rotation = direction
-	obj.linear_velocity = Vector2(rand_range(150, 200), 0)
-	obj.linear_velocity = obj.linear_velocity.rotated(direction)
+	obj.rotation = 0
+	obj.angular_velocity = 0
+	obj.linear_velocity = Vector2(rand_range(150, 200), 0).rotated(direction)
+	if obj.has_node("AnimatedSprite"):
+		var sprite = obj.get_node("AnimatedSprite")
+		sprite.flip_h = obj.linear_velocity.x < 0
 
 func setscore(val):
 	Score += val

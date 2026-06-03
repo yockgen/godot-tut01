@@ -25,6 +25,7 @@ var move_unit = 1
 var dash_count = 0
 var is_dashing = false
 var is_finisher_active = false
+var is_invincible = false
 
 # Signals - Gameplay
 signal EnemyDefeated
@@ -146,18 +147,38 @@ func play_standing_pose():
 	animated_sprite.play("stand")
 
 func freeze(time: float) -> void:
+	# Enter invincibility / freeze state
 	current_state = State.FREEZE
-	collision_shape.disabled = true
+	is_invincible = true
+	# Disable collision safely (deferred to avoid physics callback issues)
+	collision_shape.set_deferred("disabled", true)
 	Engine.time_scale = 1.0
-	for _i in range(10):
+
+	# Blink loop: toggle visibility at short intervals for the given time
+	# Visible 70% of the time, invisible 30%
+	var blink_interval_on = 0.112
+	var blink_interval_off = 0.048
+	var elapsed := 0.0
+	# Ensure starting visible state is true so blink toggles are consistent
+	self.visible = true
+	while elapsed < time:
+		# turn off
 		self.visible = false
-		yield(get_tree().create_timer(0.3), "timeout")
+		yield(get_tree().create_timer(blink_interval_off), "timeout")
+		elapsed += blink_interval_off
+		if elapsed >= time:
+			break
+		# turn on
 		self.visible = true
-		yield(get_tree().create_timer(0.05), "timeout")
-	yield(get_tree().create_timer(time / 2), "timeout")
+		yield(get_tree().create_timer(blink_interval_on), "timeout")
+		elapsed += blink_interval_on
+
+	# End invincibility
+	is_invincible = false
 	current_state = State.NORMAL
-	collision_shape.disabled = false
+	collision_shape.set_deferred("disabled", false)
 	animated_sprite.play("stand")
+	self.visible = true
 	is_finisher_active = false
 
 func entered_bullet_time(time: float) -> void:
@@ -172,11 +193,12 @@ func start(pos):
 	collision_shape.disabled = false
 
 func update_attack_position(facing_right: bool):
+	var offset = 300
 	var attack_sprite = attack_node.get_node("AnimatedSpriteAttack")
 	var attack_collision = attack_node.get_node("CollisionShape2D")
 	attack_sprite.flip_h = facing_right
-	attack_sprite.position.x = animated_sprite.position.x + (200 if facing_right else -200)
-	attack_collision.position.x = animated_sprite.position.x + (200 if facing_right else -200)
+	attack_sprite.position.x = animated_sprite.position.x + (offset if facing_right else -offset)
+	attack_collision.position.x = animated_sprite.position.x + (offset if facing_right else -offset)
 
 func play_attack_animation(play: bool):
 	var attack_sprite = attack_node.get_node("AnimatedSpriteAttack")
@@ -260,7 +282,8 @@ func is_animation_locked() -> bool:
 	return false
 
 func _on_Player_body_entered(_body):
-	if is_finisher_active:
+	# Ignore hits while performing finisher or while invincible/frozen
+	if is_finisher_active or is_invincible or current_state == State.FREEZE:
 		return
 	$SndHitBy.play()
 	stop_attack()
@@ -322,7 +345,7 @@ func _on_AnimInfo_animation_finished(_anim_name):
 
 func take_damage(damage: int) -> bool:
 	"""Apply damage to player. Returns true if player died."""
-	if is_dead or current_state == State.FREEZE:
+	if is_dead or current_state == State.FREEZE or is_invincible:
 		return false
 	
 	health -= damage

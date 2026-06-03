@@ -6,12 +6,12 @@ extends Node
 const PLAYER_SPEED = 400
 const PLAYER_DASH_COOLDOWN = 0.5  # seconds
 const PLAYER_DASH_DURATION = 0.15  # seconds (frames: 15 at 100fps)
-const PLAYER_INVINCIBILITY_DURATION = 1.0  # seconds
+const PLAYER_INVINCIBILITY_DURATION = 5.0  # seconds
 const PLAYER_BLINK_SPEED = 0.1  # blink animation speed during freeze
 
 # Damage and boost multipliers
 const PLAYER_NORMAL_DASH_MULTIPLIER = 4.0
-const PLAYER_BULLET_TIME_DASH_MULTIPLIER = 16.0
+const PLAYER_BULLET_TIME_DASH_MULTIPLIER = 8.2  # adjusted bullet-time dash speed
 
 # Attack cooldowns
 const ATTACK_BASIC_COOLDOWN = 0.3
