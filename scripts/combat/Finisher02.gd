@@ -6,7 +6,7 @@ class_name Finisher02
 
 # ============ PROPERTIES ============
 export var dash_speed = 400  # Movement speed during dash
-export var dash_duration = 0.5  # Duration of dash
+export var dash_duration = 1.0  # Duration of dash
 export var ghost_count = 3  # Number of ghost images
 export var ghost_offset = 200  # Distance between ghosts
 
@@ -30,11 +30,9 @@ func _perform_attack(target_position: Vector2):
 	if player_ref == null:
 		return
 	
-	is_dashing = true
-	dash_timer = dash_duration
-	
-	# Get player's facing direction
-	var direction = 1
+		# Hide player during finisher
+		player_ref.visible = false
+		
 	if player_ref.has_node("AnimatedSprite"):
 		var sprite = player_ref.get_node("AnimatedSprite")
 		if sprite.flip_h:
@@ -129,16 +127,10 @@ func _finish_dash():
 	for ghost in ghost_nodes:
 		ghost.visible = false
 	
-	finish_execution()
-
-# ============ HITBOX DETECTION ============
-
-func _on_dash_body_entered(body):
-	"""Hit rigid body (enemy)"""
-	if body.has_method("take_damage"):
-		body.take_damage(damage)
-		# Disable collision temporarily
-		if body.has_node("CollisionShape2D"):
+		# Show player again
+		if player_ref:
+			player_ref.visible = true
+		
 			body.get_node("CollisionShape2D").set_deferred("disabled", true)
 
 func _on_dash_area_entered(area):
