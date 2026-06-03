@@ -1,4 +1,4 @@
-[gd_scene load_steps=180 format=2]
+[gd_scene load_steps=185 format=2]
 
 [ext_resource path="res://assets/Yu/Battle Effects/vr_bc211_01.png" type="Texture" id=1]
 [ext_resource path="res://assets/Yu/bc030_09.png" type="Texture" id=2]
@@ -100,7 +100,12 @@
 [ext_resource path="res://assets/Revenant/bc205_00.png" type="Texture" id=98]
 [ext_resource path="res://assets/Revenant/bc205_03.png" type="Texture" id=99]
 [ext_resource path="res://assets/Revenant/bc070_04.png" type="Texture" id=100]
+[ext_resource path="res://assets/Revenant/bc203_02.png" type="Texture" id=101]
 [ext_resource path="res://assets/Revenant/bc070_00.png" type="Texture" id=102]
+[ext_resource path="res://assets/Revenant/bc203_03.png" type="Texture" id=103]
+[ext_resource path="res://assets/Revenant/bc203_01.png" type="Texture" id=104]
+[ext_resource path="res://assets/Revenant/bc203_04.png" type="Texture" id=105]
+[ext_resource path="res://assets/Revenant/bc203_05.png" type="Texture" id=106]
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 60.0
@@ -153,15 +158,20 @@ animations = [ {
 "name": "fire_stand",
 "speed": 10.0
 }, {
-"frames": [ ExtResource( 18 ), ExtResource( 22 ), ExtResource( 20 ), ExtResource( 24 ), ExtResource( 4 ), ExtResource( 23 ), ExtResource( 19 ) ],
-"loop": false,
-"name": "fire_stand01",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 62 ), ExtResource( 63 ), ExtResource( 64 ), ExtResource( 66 ), ExtResource( 67 ), ExtResource( 69 ), ExtResource( 68 ) ],
 "loop": false,
 "name": "fire_stand02",
 "speed": 10.0
+}, {
+"frames": [ ExtResource( 104 ), ExtResource( 101 ), ExtResource( 103 ), ExtResource( 105 ), ExtResource( 106 ) ],
+"loop": true,
+"name": "fire_stand03",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 18 ), ExtResource( 22 ), ExtResource( 20 ), ExtResource( 24 ), ExtResource( 4 ), ExtResource( 23 ), ExtResource( 19 ) ],
+"loop": false,
+"name": "fire_stand04",
+"speed": 5.0
 }, {
 "frames": [ ExtResource( 98 ), ExtResource( 98 ), ExtResource( 87 ), ExtResource( 87 ), ExtResource( 99 ), ExtResource( 99 ) ],
 "loop": true,
@@ -636,7 +646,7 @@ material = ExtResource( 43 )
 position = Vector2( 0, 2.223 )
 scale = Vector2( 0.8, 0.75 )
 frames = SubResource( 1 )
-animation = "swing"
+animation = "fire_stand03"
 speed_scale = 2.0
 
 [node name="Attack" type="Area2D" parent="."]
@@ -705,8 +715,8 @@ scale = Vector2( 0.4, 0.4 )
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="area_entered" from="Attack" to="." method="_on_Attack_area_entered"]
 [connection signal="body_entered" from="Attack" to="." method="_on_Attack_body_entered"]
-[connection signal="animation_finished" from="Attack/AnimatedSpriteAttack" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="animation_finished" from="Attack/AnimatedSpriteAttack" to="." method="_on_AnimatedSpriteAttack_animation_finished"]
+[connection signal="animation_finished" from="Attack/AnimatedSpriteAttack" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="body_entered" from="Area2DEnemyCloser" to="." method="_on_Area2DEnemyCloser_body_entered"]
 [connection signal="body_exited" from="Area2DEnemyCloser" to="." method="_on_Area2DEnemyCloser_body_exited"]
 [connection signal="timeout" from="TimerBulletTime" to="." method="_on_TimerBulletTime_timeout"]
