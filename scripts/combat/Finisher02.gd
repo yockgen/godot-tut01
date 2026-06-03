@@ -6,7 +6,7 @@ class_name Finisher02
 
 # ============ PROPERTIES ============
 export var dash_speed = 400  # Movement speed during dash
-export var dash_duration = 0.5  # Duration of dash
+export var dash_duration = 1.0  # Duration of dash
 export var ghost_count = 3  # Number of ghost images
 export var ghost_offset = 200  # Distance between ghosts
 
@@ -25,10 +25,18 @@ func _ready():
 
 # ============ ATTACK EXECUTION ============
 
+func play(flip_h: bool = false):
+	"""Start the finisher attack (called from PlayerEntity)"""
+	var target_pos = player_ref.global_position if player_ref else Vector2.ZERO
+	execute(target_pos)
+
 func _perform_attack(target_position: Vector2):
 	"""Execute ghost trail dash attack"""
 	if player_ref == null:
 		return
+	
+	# Hide player during finisher
+	player_ref.visible = false
 	
 	is_dashing = true
 	dash_timer = dash_duration
@@ -129,20 +137,23 @@ func _finish_dash():
 	for ghost in ghost_nodes:
 		ghost.visible = false
 	
+	# Show player again
+	if player_ref:
+		player_ref.visible = true
+	
 	finish_execution()
 
-# ============ HITBOX DETECTION ============
-
 func _on_dash_body_entered(body):
-	"""Hit rigid body (enemy)"""
-	if body.has_method("take_damage"):
+	"""Hit physical body"""
+	if is_dashing and body.has_method("take_damage"):
 		body.take_damage(damage)
-		# Disable collision temporarily
-		if body.has_node("CollisionShape2D"):
-			body.get_node("CollisionShape2D").set_deferred("disabled", true)
+		# End dash early on hit
+		_finish_dash()
 
 func _on_dash_area_entered(area):
 	"""Hit area (boss)"""
-	if area.name == "Boss01":
+	if is_dashing and area.name == "Boss01":
 		if area.has_method("take_damage"):
 			area.take_damage(damage)
+			# End dash early on hit
+			_finish_dash()
