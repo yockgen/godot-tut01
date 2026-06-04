@@ -113,7 +113,7 @@ height = 186.0
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 98 ), ExtResource( 87 ), ExtResource( 99 ) ],
+"frames": [ ExtResource( 98 ), ExtResource( 87 ), ExtResource( 87 ), ExtResource( 99 ), ExtResource( 99 ) ],
 "loop": true,
 "name": "dance",
 "speed": 5.0
