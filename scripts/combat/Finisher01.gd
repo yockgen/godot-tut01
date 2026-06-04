@@ -50,7 +50,7 @@ func _perform_attack(target_position: Vector2):
 	spin_node.rotation = 0
 
 func _process(delta):
-	.._process(delta)
+	._process(delta)
 	
 	if not is_spinning:
 		return

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/chainsaw.png-71b19fefdb9a8e345db77d966d51ddaf.stex"
+path="res://.import/chainsaw.png-0493ae80ace5964a8dc249f4a65b96f3.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/weapons/chainsaw.png"
-dest_files=[ "res://.import/chainsaw.png-71b19fefdb9a8e345db77d966d51ddaf.stex" ]
+source_file="res://assets/Weapons/chainsaw.png"
+dest_files=[ "res://.import/chainsaw.png-0493ae80ace5964a8dc249f4a65b96f3.stex" ]
 
 [params]
 

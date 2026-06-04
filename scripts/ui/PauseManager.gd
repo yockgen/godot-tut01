@@ -10,7 +10,7 @@ signal pause_screen_hidden
 
 # ============ PROPERTIES ============
 var is_paused = false
-var pause_ui = null  # Reference to pause UI panel
+var _pause_ui = null  # Reference to pause UI panel
 
 # ============ LIFECYCLE ============
 

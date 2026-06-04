@@ -46,7 +46,7 @@ func take_damage(damage: int) -> bool:
 	if is_dead:
 		return false
 	
-	var old_health = health
+	var _old_health = health
 	health -= damage
 	emit_signal("hit_received", damage)
 	
@@ -114,7 +114,7 @@ func get_state_name() -> String:
 func _on_death():
 	"""Called when health reaches 0. Override in subclasses for death effects."""
 	is_dead = true
-	change_state(State.DEAD)
+	var _discard = change_state(State.DEAD)
 	emit_signal("died")
 	_spawn_death_effect()
 	yield(get_tree(), "idle_frame")
@@ -126,7 +126,7 @@ func _spawn_death_effect():
 
 # ============ COLLISION HANDLING ============
 
-func on_collision_with_entity(other: Entity):
+func on_collision_with_entity(_other: Entity):
 	"""
 	Called when this entity collides with another entity.
 	Override in subclasses for custom collision behavior.

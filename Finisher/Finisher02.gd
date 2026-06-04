@@ -14,7 +14,7 @@ func _ready():
 	isPlay = false
 	$AnimatedSprite.stop()  
 	
-func _process(delta):
+func _process(_delta):
 	if !isPlay:		
 		return
 	

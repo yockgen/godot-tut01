@@ -20,7 +20,7 @@ export var animation_locked_frames = 5  # Frames during which input is blocked
 var player_ref = null
 var cooldown_timer = 0.0
 var is_executing = false
-var last_execution_time = 0.0
+var _last_execution_time = 0.0
 
 # ============ LIFECYCLE ============
 
@@ -53,7 +53,7 @@ func execute(target_position: Vector2 = Vector2.ZERO) -> bool:
 		return false
 	
 	is_executing = true
-	last_execution_time = Time.get_ticks_msec()
+	_last_execution_time = Time.get_ticks_msec()
 	
 	emit_signal("executed")
 	emit_signal("started")

@@ -190,8 +190,3 @@ playing = true
 stream = ExtResource( 9 )
 volume_db = 8.756
 
-[connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
-[connection signal="frame_changed" from="AnimatedSprite" to="." method="_on_AnimatedSprite_frame_changed"]
-[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
-[connection signal="finished" from="SoundDown" to="." method="_on_SoundDown_finished"]
-[connection signal="finished" from="SndExplosion" to="." method="_on_SoundDown_finished"]
