@@ -46,7 +46,7 @@ func apply_upgrades_to_player(player: PlayerEntity):
 	var dash_level = skill_tree.get_skill_level("dash_cooldown")
 	if dash_level > 0:
 		var cooldown_reduction = skill_tree.get_skill_effect("dash_cooldown", "dash_cooldown_reduction")
-		var new_cooldown = GameConfig.PLAYER_DASH_COOLDOWN * (1.0 - cooldown_reduction)
+		var _new_cooldown = GameConfig.PLAYER_DASH_COOLDOWN * (1.0 - cooldown_reduction)
 		# Apply to dash system (needs to be wired up in Player.gd)
 
 func apply_upgrades_to_enemy(enemy: Enemy):
@@ -71,7 +71,7 @@ func apply_upgrades_to_boss(boss: Boss):
 
 # ============ HELPER METHODS ============
 
-func _apply_damage_bonus_to_attacks(player, damage_bonus: int):
+func _apply_damage_bonus_to_attacks(_player, damage_bonus: int):
 	"""
 	Apply damage bonus to player's attacks.
 	This requires attacks to be stored in player for reference.

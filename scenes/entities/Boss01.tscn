@@ -44,6 +44,3 @@ stream = ExtResource( 10 )
 volume_db = 13.051
 pitch_scale = 2.02
 
-[connection signal="area_entered" from="." to="." method="_on_Boss01_area_entered"]
-[connection signal="body_entered" from="." to="." method="_on_Boss01_body_entered"]
-[connection signal="body_shape_entered" from="." to="." method="_on_Boss01_body_shape_entered"]

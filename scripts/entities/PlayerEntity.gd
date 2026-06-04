@@ -206,13 +206,13 @@ func play_attack_animation(play: bool):
 	var attack_collision = attack_node.get_node("CollisionShape2D")
 	if play:
 		attack_sprite.play()
-		attack_collision.disabled = false
+		attack_collision.set_deferred("disabled", false)
 		if not attack_sound.playing:
 			attack_sound.play()
 	else:
 		attack_sprite.stop()
 		attack_sound.stop()
-		attack_collision.disabled = true
+		attack_collision.set_deferred("disabled", true)
 
 func stop_attack():
 	is_attack = false

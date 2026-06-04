@@ -43,10 +43,16 @@ func load_level(level_number):
 	
 	current_level = level_number
 	var level_path = level_scenes[level_number]
-	print("Loading level")
+	print("Loading level %d: %s" % [level_number, level_path])
 	GameManager.reset_game()
 	emit_signal("level_loaded", level_number)
-	get_tree().reload_current_scene()
+	
+	# Load the specific scene for this level
+	var result = get_tree().change_scene_to_file(level_path)
+	if result != OK:
+		push_error("Failed to load level scene: " + level_path)
+		return false
+	
 	return true
 
 func restart_level() -> bool:

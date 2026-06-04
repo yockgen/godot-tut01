@@ -4,16 +4,16 @@ export (PackedScene) var Mob
 export (int) var Score
 
 func _ready():
-	$Player.connect("EnemyDefeated", self, "on_MinionGetHit")
-	$Player.connect("GotHit", self, "on_PlayerGotHit")
-	$Player.connect("BossGetHit", self, "on_BossGetHit")	
-	$Player.get_node("Finisher01").connect("EnemyDefeated", self, "on_MinionGetHit")
-	$Player.get_node("Finisher01").connect("BossGetHit", self, "on_BossGetHit")
-	$Player.get_node("Finisher02").connect("EnemyDefeated", self, "on_MinionGetHit")
-	$Player.get_node("Finisher02").connect("BossGetHit", self, "on_BossGetFinisher2Hit")
+	var _discard = $Player.connect("EnemyDefeated", self, "on_MinionGetHit")
+	_discard = $Player.connect("GotHit", self, "on_PlayerGotHit")
+	_discard = $Player.connect("BossGetHit", self, "on_BossGetHit")	
+	_discard = $Player.get_node("Finisher01").connect("EnemyDefeated", self, "on_MinionGetHit")
+	_discard = $Player.get_node("Finisher01").connect("BossGetHit", self, "on_BossGetHit")
+	_discard = $Player.get_node("Finisher02").connect("EnemyDefeated", self, "on_MinionGetHit")
+	_discard = $Player.get_node("Finisher02").connect("BossGetHit", self, "on_BossGetFinisher2Hit")
 	
 	
-	$PauseCtrl.connect("Restart", self, "on_Restart")
+	_discard = $PauseCtrl.connect("Restart", self, "on_Restart")
 	randomize()
 	new_game()
 

@@ -28,7 +28,8 @@ func _ready():
 	locked_animations = ["swing", "dance", "open_arm", "fire_stand"]
 	
 	# Connect to sprite signals
-	animated_sprite.connect("animation_finished", self, "_on_animation_finished")
+	if not animated_sprite.is_connected("animation_finished", self, "_on_animation_finished"):
+		animated_sprite.connect("animation_finished", self, "_on_animation_finished")
 
 func _process(_delta):
 	"""Check for animation locks"""

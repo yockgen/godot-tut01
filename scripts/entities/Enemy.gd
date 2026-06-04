@@ -9,7 +9,7 @@ export var score_on_defeat = 150
 export var movement_speed = 100
 export var particleBooming : PackedScene
 
-var enemy = ""
+var _enemy_id = ""
 var isGrounded = false
 
 var ai_behavior = null  # Reference to AIBehavior, set by spawner
@@ -22,8 +22,9 @@ var player_ref = null   # Reference to player for targeting
 
 func _ready():
 	._ready()
-	# Connect to death signal
-	var _connect_result = connect("died", self, "_on_enemy_died")
+	# Connect to death signal (safely avoid duplicate connections)
+	if not is_connected("died", self, "_on_enemy_died"):
+		var _connect_result = connect("died", self, "_on_enemy_died")
 
 func _initialize():
 	"""Set up enemy-specific initialization"""
@@ -94,7 +95,7 @@ func _on_enemy_died():
 	print("Enemy %s defeated! Score +%d" % [name, score_on_defeat])
 
 func setEnemyDown(id):
-	enemy = id
+	_enemy_id = id
 	if has_node("SoundDown") and not $SoundDown.playing:
 		$SoundDown.play()
 	

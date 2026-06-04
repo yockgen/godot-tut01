@@ -79,6 +79,10 @@ func upgrade_skill(skill_name: String) -> bool:
 	skill["level"] += 1
 	skill_points -= 1
 	
+	# Emit skill_unlocked if this is the first level (0 -> 1)
+	if skill["level"] == 1:
+		emit_signal("skill_unlocked", skill_name)
+	
 	emit_signal("skill_upgraded", skill_name, skill["level"])
 	emit_signal("skill_points_changed", skill_points)
 	

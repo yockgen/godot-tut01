@@ -97,21 +97,21 @@ func _create_ghosts():
 			ghost.texture = sprite.frames.get_frame(sprite.animation, 0)
 			ghost.flip_h = sprite.flip_h
 
-func _process(delta):
-	.._process(delta)
+func _process(_delta):
+	._process(_delta)
 	
 	if not is_dashing:
 		return
 	
 	# Move dash node forward
 	if dash_node:
-		var movement = dash_speed * dash_node.direction * delta
+		var movement = dash_speed * dash_node.direction * _delta
 		dash_node.position.x += movement
 		
 		# Update ghost positions
 		_update_ghosts()
 	
-	dash_timer -= delta
+	dash_timer -= _delta
 	
 	if dash_timer <= 0:
 		_finish_dash()
