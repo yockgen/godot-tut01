@@ -24,15 +24,41 @@ func _ready():
 	_initialize_levels()
 
 func _initialize_levels():
-	# TODO: Load from config file or JSON
-	# For now, scaffold with level 1 only
+	# Integrate with StageManager if available
+	var stage_manager = _get_stage_manager()
+	if stage_manager != null:
+		available_levels = stage_manager.get_stage_list()
+		level_scenes.clear()
+		level_progress.clear()
+		for stage_id in stage_manager.get_stage_list():
+			var stage_data = stage_manager.get_stage_data(stage_id)
+			if stage_data and stage_data.level_scene:
+				level_scenes[stage_id] = stage_data.level_scene.resource_path
+				level_progress[stage_id] = {
+					"visited": stage_manager.is_stage_unlocked(stage_id),
+					"completed": false,
+					"best_score": 0
+				}
+		max_level = level_scenes.size()
+		return
+	
+	# Fallback: scaffold with level 1 only (no StageManager loaded)
 	available_levels = [1]
 	level_scenes = {
-		1: "res://main.tscn"  # Current level
+		1: "res://main.tscn"
 	}
 	level_progress = {
 		1: {"visited": false, "completed": false, "best_score": 0}
 	}
+
+func _get_stage_manager():
+	"""Get StageManager instance if available"""
+	if get_tree() == null:
+		return null
+	var nodes = get_tree().get_nodes_in_group("stage_manager")
+	if nodes.size() > 0:
+		return nodes[0]
+	return null
 
 # ============ LEVEL LOADING ============
 
