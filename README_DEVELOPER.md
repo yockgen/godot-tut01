@@ -1,36 +1,47 @@
-# 🎮 Godot Project Architecture Refactor - Developer Tutorial
 
-## Executive Summary
 
-Your Godot project has been successfully refactored with a modern, extensible architecture. **All phases complete** with unified Entity system, working gameplay, and zero breaking changes. The game runs perfectly with the new architecture.
 
-### What Changed
-- ✅ Entity system unified (Player/Enemy/Boss inherit from Entity base class)
-- ✅ Attack system abstracted (new attacks don't require editing Player.gd)
-- ✅ Enemy AI behavior composable (reuse behaviors, create variety easily)
-- ✅ Centralized managers (GameManager, StageManager, LevelManager, SkillTree as singletons)
-- ✅ Stage/level system with data-driven StageResource (add stages via .tres files)
-- ✅ All config centralized (GameConfig.gd = single source of truth)
-- ✅ Documentation complete (ARCHITECTURE.md + ADDING_CONTENT.md)
-- ✅ Bug fixes applied (dead code removed, resource leaks fixed)
-- ✅ Legacy cleanup complete (old scripts preserved in scripts/legacy/)
 
-### Current Status
-- 🎯 **Game is fully playable** with new Entity architecture
-- 🎯 **All entities use unified inheritance** (Entity → PlayerEntity/Enemy/Boss)
-- 🎯 **Stage system ready** — add new stages by creating .tres resources + scenes
-- 🎯 **Scenes updated** to use new script paths
-- 🎯 **Legacy scripts preserved** for reference in scripts/legacy/
-- 🎯 **Zero regressions** - all original gameplay mechanics work
+# 🎮 Godot Project Architecture - Developer Tutorial
 
-### Ready For
-- 🎯 Multiple enemy types (use behavior composition)
-- 🎯 Complex boss patterns (phase system ready)
-- 🎯 New attacks/combos (Attack base class ready)
-- 🎯 Level progression (data-driven StageManager)
-- 🎯 Player upgrades (SkillTree + UpgradeApplier ready)
-- 🎯 Stage selection screen (StageSelectUI ready)
-- 🎯 New stages with different enemies, bosses, backgrounds
+## Project Overview
+
+This document describes the architecture and development workflow for the game. The project uses a modular, inheritance-based design built around **Entity → PlayerEntity/Enemy/Boss** hierarchy, a **data-driven stage system**, **composable AI behaviors**, and **centralized managers** for game state, scoring, and progression.
+
+### Architecture Principles
+- **Inheritance over duplication** — base classes provide shared logic; subclasses add specifics only
+- **Data-driven stages** — add new stages by creating `.tres` resource files + scene files
+- **Composable behaviors** — AI, attacks, and upgrades use composition for variety without code duplication
+- **Decoupled via signals** — systems communicate through Godot signals, not direct references
+- **Single source of truth** — `GameConfig.gd` holds all balance constants; managers hold all state
+
+### Project Layout
+
+| Directory | Purpose |
+|-----------|---------|
+| `scripts/entities/` | Entity base classes (Entity, Enemy, Boss, PlayerEntity) |
+| `scripts/combat/` | Attack system (Attack, BasicAttack, Finisher01/02) |
+| `scripts/ai/` | AI behaviors (AIBehavior, Patrol, Chase, Attack) |
+| `scripts/managers/` | Singletons (GameManager, StageManager, LevelManager) |
+| `scripts/stages/` | Stage system (StageResource, EnemyPoolEntry, StageSelectUI) |
+| `scripts/config/` | Balance constants (GameConfig) |
+| `scripts/legacy/` | Original scripts preserved for reference |
+| `scenes/entities/` | Scene files for each entity type |
+| `scenes/stages/` | Stage selection UI scene |
+| `stages/` | Stage data files (.tres) |
+| `docs/` | Architecture and content creation guides |
+
+### When to Use What
+
+| Task | Start Here |
+|------|-----------|
+| Add a new enemy | Extend `Enemy.gd`, assign an AI behavior |
+| Add a new boss | Extend `Boss.gd` |
+| Add a new attack | Extend `Attack.gd` |
+| Add a new AI pattern | Extend `AIBehavior.gd` |
+| Add a new stage | Create a `StageResource` `.tres` + a `.tscn` scene |
+| Change game balance | Edit `GameConfig.gd` |
+| Add a manager singleton | Create in `scripts/managers/`, register as autoload |
 
 ---
 
@@ -87,97 +98,6 @@ Your Godot project has been successfully refactored with a modern, extensible ar
         ├─ Upgrade Applier
         └─ Stage Select UI
 ```
-
----
-
-## By the Numbers
-
-| Metric | Value |
-|--------|-------|
-| New Files Created | 45+ |
-| New Lines of Code | ~4,000 |
-| Systems Implemented | 7 major |
-| Stages Defined | 1 (data-driven, extensible) |
-| Bug Fixes | 12+ |
-| Documentation Pages | 4 |
-| Commits | 10 (clean, atomic) |
-| Backward Compatibility | 100% ✅ |
-| Magic Numbers Eliminated | 6+ |
-| Dead Code Removed | 3 functions |
-| Resource Leaks Fixed | 2 |
-| Legacy Scripts Preserved | ✅ |
-| Game Fully Playable | ✅ |
-
----
-
-## Phase Breakdown
-
-### Phase 1: Foundation (Entity System) ✅
-**Time: 2-3 days | Complexity: Medium | Status: COMPLETE**
-
-Created unified entity inheritance hierarchy:
-- `Entity.gd` - Base for all combatants (health, state, signals)
-- `Enemy.gd` - Enemy-specific (scoring, AI hooks)
-- `Boss.gd` - Boss-specific (phases, health bars)
-- `PlayerEntity.gd` - Player-specific (dash, invincibility)
-
-**Before:** Player=Area2D, Mob=RigidBody2D, Boss=Area2D (inconsistent)  
-**After:** All extend Entity with clear inheritance chain  
-**Result:** Unified interface for all entities + type safety + WORKING GAMEPLAY
-
-### Phase 2: Combat System (Attack Framework) ✅
-**Time: 2-3 days | Complexity: High**
-
-Created extensible attack system:
-- `Attack.gd` - Base for all attacks (cooldown, execution)
-- `BasicAttack.gd` - Simple melee
-- `Finisher01/02.gd` - Special attacks (refactored from originals)
-- `AnimationController.gd` - Animation state machine
-
-**Before:** Attack logic hardcoded in Player.gd, animation checks scattered  
-**After:** Attacks extend Attack base class, animation automatically locked  
-**Result:** New attacks added without touching Player.gd input code
-
-### Phase 3: Enemy AI System ✅
-**Time: 2-3 days | Complexity: High**
-
-Created composable behavior system:
-- `AIBehavior.gd` - Base behavior state machine
-- `PatrolBehavior.gd` - Patrol + chase hybrid
-- `ChaseBehavior.gd` - Aggressive pursuit
-- `AttackBehavior.gd` - Stationary attacker
-
-**Before:** Mob only follows Path2D, no variety possible  
-**After:** Enemies combine behaviors, create custom types easily  
-**Result:** 4 behavior patterns, infinite combinations for enemy variety
-
-### Phase 4: Managers & Progression ✅
-**Time: 2-3 days | Complexity: Medium**
-
-Created game management systems:
-- `GameManager.gd` - Score, pause, global state (singleton)
-- `StageManager.gd` - Stage flow, unlock tracking, save/load (autoload)
-- `LevelManager.gd` - Level transitions, progression (integrates with StageManager)
-- `PauseManager.gd` - Pause UI coordination
-- `SkillTree.gd` - Player upgrades
-- `UpgradeApplier.gd` - Apply upgrades to entities
-- `StageResource.gd` - Data-driven stage definition
-- `StageSelectUI.gd` - Stage selection screen
-
-**Before:** Score logic in main.gd, no pause system, no progression structure  
-**After:** Centralized managers accessible from anywhere via signals, data-driven stages  
-**Result:** Foundation for level progression, skill system, and multi-stage campaigns
-
-### Phase 5: Cleanup & Documentation ✅
-**Time: 1-2 days | Complexity: Low**
-
-- Removed 3 dead callback functions (Boss01.gd)
-- Fixed 2 resource leaks (ParticleBooming, Mob)
-- Replaced 6+ hardcoded numbers with GameConfig
-- Created 2 comprehensive documentation files
-- Added git commits with detailed messages
-
-**Result:** Production-ready code with clear documentation
 
 ---
 
@@ -705,36 +625,6 @@ Before committing changes, verify:
 - [ ] Performance is acceptable
 - [ ] Code follows project conventions
 - [ ] Documentation is updated if needed
-
----
-
-## Integration Timeline
-
-### Immediate (This Week) ✅
-- [x] Code review by team
-- [x] Run test checklist
-- [x] Merge to main branch
-- [x] **GAME RUNS PERFECTLY WITH NEW ARCHITECTURE**
-- [x] Stage system implemented (StageManager + StageResource)
-- [x] Stage 1 data (.tres) pointing to main.tscn
-
-### Short Term (Next 1-2 Weeks)
-- [ ] Integrate Player.gd with Attack system
-- [ ] Create enemy spawning factory
-- [ ] Add UI for pause menu
-- [ ] Register StageManager as autoload in Project Settings
-- [ ] Create stage 2 (.tres + .tscn)
-
-### Medium Term (Next 1 Month)
-- [ ] Implement 3-5 new enemy types
-- [ ] Add stage progression UI (between-stage transitions)
-- [ ] Implement skill/upgrade UI
-- [ ] Create 3+ stages with unique themes
-
-### Long Term (Next 2-3 Months)
-- [ ] Advanced boss AI patterns
-- [ ] Combo detection system
-- [ ] Persistent progression/save system (beyond stage unlock)
 
 ---
 
