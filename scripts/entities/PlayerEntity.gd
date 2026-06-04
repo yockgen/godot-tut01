@@ -223,6 +223,8 @@ func stop_attack():
 
 func fin01_trigger(enable: bool):
 	if enable:
+		if is_finisher_active:
+			return
 		action = "finisher"
 		is_finisher_active = true
 		if animated_sprite.frames.has_animation("open_arm"):
@@ -243,6 +245,8 @@ func fin01_trigger(enable: bool):
 
 func fin02_trigger(enable: bool):
 	if enable:
+		if is_finisher_active:
+			return
 		action = "finisher"
 		is_finisher_active = true
 		if animated_sprite.frames.has_animation("swing"):
@@ -261,6 +265,8 @@ func fin02_trigger(enable: bool):
 		current_state = State.NORMAL
 
 func play_finisher():
+	if is_finisher_active or action == "finisher":
+		return
 	var roulette = get_parent().get_node("FinisherRoulette")
 	var idx = roulette.get_node("AnimatedSprite").get_frame()
 	if idx == 3:
