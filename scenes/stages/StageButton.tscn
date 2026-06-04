@@ -1,0 +1,14 @@
+[gd_scene format=2]
+
+[node name="StageButton" type="Button"]
+margin_right = 400.0
+margin_bottom = 60.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = SubResource( 1 )
+text = "STAGE 1"
+__meta__ = {
+"_editor_description_": "Stage selection button — populated by StageSelectUI.gd"
+}
+
+[sub_resource type="Theme" id=1]

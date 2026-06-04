@@ -1,0 +1,17 @@
+[gd_resource type=Resource format=2]
+
+[resource]
+script = ExtResource("res://scripts/stages/StageResource.gd")
+stage_id = 1
+stage_name = "Street Brawl"
+stage_description = "Fight through the streets!"
+level_scene = ExtResource("res://main.tscn")
+spawn_rate = 1.5
+max_concurrent_enemies = 5
+use_boss = true
+boss_scene = ExtResource("res://scenes/entities/Boss01.tscn")
+target_score = 0
+defeat_boss_to_win = true
+survival_time = 0.0
+base_score_reward = 500
+unlock_next_stage = true
