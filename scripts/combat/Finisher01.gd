@@ -5,12 +5,12 @@ extends Attack
 class_name Finisher01
 
 # ============ PROPERTIES ============
-export var spin_speed = 4.0  # Rotation speed per second
-export var spin_duration = 0.5  # How long to spin
+@export var spin_speed = 4.0  # Rotation speed per second
+@export var spin_duration = 0.5  # How long to spin
 
 var is_spinning = false
 var spin_timer = 0.0
-var spin_node = null  # Reference to the spinning node (Area2D)
+var spin_node = null  # RefCounted to the spinning node (Area2D)
 
 # ============ CONFIGURATION ============
 
@@ -44,13 +44,13 @@ func _perform_attack(target_position: Vector2):
 		spin_node.add_child(collision)
 		
 		# Connect signals
-		spin_node.connect("body_entered", self, "_on_hitbox_body_entered")
-		spin_node.connect("area_entered", self, "_on_hitbox_area_entered")
+		spin_node.connect("body_entered", Callable(self, "_on_hitbox_body_entered"))
+		spin_node.connect("area_entered", Callable(self, "_on_hitbox_area_entered"))
 	
 	spin_node.rotation = 0
 
 func _process(delta):
-	._process(delta)
+	super._process(delta)
 	
 	if not is_spinning:
 		return

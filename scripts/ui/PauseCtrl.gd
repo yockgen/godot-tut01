@@ -1,6 +1,6 @@
 extends Node
 
-export(bool) var can_toggle_pause: bool = true
+@export var can_toggle_pause: bool = true
 signal Restart
 
 func _process(_delta):
@@ -12,13 +12,13 @@ func _process(_delta):
 
 func pause():
 	if can_toggle_pause:
-		get_tree().set_deferred("paused", true)
+		get_tree().paused = true
 		$PauseMenu.visible = true
 		$PauseMenu/VBoxContainer/ResumeBtn.grab_focus()
 
 func resume():
 	if can_toggle_pause:
-		get_tree().set_deferred("paused", false)
+		get_tree().paused = false
 		$PauseMenu.visible = false
 
 func gameover():

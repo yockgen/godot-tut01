@@ -9,8 +9,8 @@ signal health_bar_updated(percent)
 signal phase_changed(phase_number)
 
 # ============ PROPERTIES ============
-export var boss_name = "Boss"
-export var score_on_hit = 1
+@export var boss_name = "Boss"
+@export var score_on_hit = 1
 
 var current_phase = 0
 var phases = []
@@ -34,7 +34,7 @@ func _ready():
 	_initialize()
 
 	# Call parent ready
-	._ready()
+	super._ready()
 
 	print(
 		"Boss %s initialized with %d HP"
@@ -50,10 +50,10 @@ func take_damage(damage: int) -> bool:
 		return true
 
 	# Parent damage handling
-	var died = .take_damage(damage)
+	var was_fatal = super.take_damage(damage)
 
 	# Only add hit score if still alive
-	if not died:
+	if not was_fatal:
 		GameManager.add_score(
 			score_on_hit,
 			"Boss hit"
@@ -66,10 +66,10 @@ func take_damage(damage: int) -> bool:
 	)
 
 	# Check phase transitions only if alive
-	if not died:
+	if not was_fatal:
 		_check_phase_transition()
 
-	return died
+	return was_fatal
 
 func _check_phase_transition():
 	# Override in subclasses
@@ -100,7 +100,7 @@ func _enter_phase(phase_num: int):
 func _spawn_death_effect():
 
 	# Parent death effect
-	._spawn_death_effect()
+	super._spawn_death_effect()
 
 	print(
 		"Boss %s defeated!"
@@ -110,12 +110,12 @@ func _spawn_death_effect():
 func setGetHit():
 	if has_node("SndHitBy"):
 		$SndHitBy.play()
-	if has_node("Sprite"):
-		var sprite_node = $Sprite
+	if has_node("Sprite2D"):
+		var sprite_node = $Sprite2D
 		if sprite_node.material is ShaderMaterial:
-			sprite_node.material.set_shader_param("whiten", true)
-			yield(get_tree().create_timer(0.3), "timeout")
-			sprite_node.material.set_shader_param("whiten", false)
+			sprite_node.material.set_shader_parameter("whiten", true)
+			await get_tree().create_timer(0.3).timeout
+			sprite_node.material.set_shader_parameter("whiten", false)
 
 # ============ DEBUG ============
 

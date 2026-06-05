@@ -1,16 +1,16 @@
-﻿extends Entity
+extends Entity
 class_name PlayerEntity
 
 # Exported variables
 #export (ShaderMaterial) var whiten_material
-export var speed = 400  # Pixels/sec (overridden by GameConfig at runtime)
+@export var speed = 400  # Pixels/sec (overridden by GameConfig at runtime)
 
 # Node references
-onready var collision_shape = $CollisionShape2D
-onready var animated_sprite = $AnimatedSprite
-onready var attack_node = $Attack
-onready var fin01 = $Finisher01
-onready var fin02 = $Finisher02
+@onready var collision_shape = $CollisionShape2D
+@onready var animated_sprite = $AnimatedSprite2D
+@onready var attack_node = $Attack
+@onready var fin01 = $Finisher01
+@onready var fin02 = $Finisher02
 
 # Screen and movement variables
 var screen_size: Vector2
@@ -48,8 +48,8 @@ func _ready():
 	fin02.visible = false
 	fin02.get_node("CollisionShape2D").set_deferred("disabled", true)
 	add_to_group("player")
-	if not animated_sprite.is_connected("animation_finished", self, "_on_AnimatedSprite_animation_finished"):
-		animated_sprite.connect("animation_finished", self, "_on_AnimatedSprite_animation_finished")
+	if not animated_sprite.animation_finished.is_connected(Callable(self, "_on_AnimatedSprite_animation_finished")):
+		animated_sprite.animation_finished.connect(Callable(self, "_on_AnimatedSprite_animation_finished"))
 
 func _process(delta):
 	if current_state == State.FREEZE or is_animation_locked() or is_finisher_active:
@@ -68,7 +68,7 @@ func handle_input():
 			is_attack = true
 			action = "attack"
 			attack_node.visible = true
-			if animated_sprite.frames.has_animation("fire_stand"):
+			if animated_sprite.sprite_frames.has_animation("fire_stand"):
 				animated_sprite.play("fire_stand")
 			play_attack_animation(true)
 		return
@@ -93,7 +93,7 @@ func handle_input():
 		return
 	if Input.is_action_just_pressed("dance"):
 		action = "dance"
-		if animated_sprite.frames.has_animation("dance"):
+		if animated_sprite.sprite_frames.has_animation("dance"):
 			animated_sprite.play("dance")
 		return
 
@@ -103,7 +103,7 @@ func handle_dodging():
 		dash_count = int(GameConfig.PLAYER_DASH_DURATION * 100)
 		action = "dash"
 		is_dashing = true
-		if animated_sprite.frames.has_animation("dash"):
+		if animated_sprite.sprite_frames.has_animation("dash"):
 			animated_sprite.play("dash")
 		$SndDash.play()
 		if is_bullet_time_chance:
@@ -133,7 +133,7 @@ func update_animation():
 		return
 	if action == "dash":
 		if animated_sprite.animation != "dash":
-			if animated_sprite.frames.has_animation("dash"):
+			if animated_sprite.sprite_frames.has_animation("dash"):
 				animated_sprite.play("dash")
 		return
 	if velocity.length() > 0:
@@ -164,13 +164,13 @@ func freeze(time: float) -> void:
 	while elapsed < time:
 		# turn off
 		self.visible = false
-		yield(get_tree().create_timer(blink_interval_off), "timeout")
+		await get_tree().create_timer(blink_interval_off).timeout
 		elapsed += blink_interval_off
 		if elapsed >= time:
 			break
 		# turn on
 		self.visible = true
-		yield(get_tree().create_timer(blink_interval_on), "timeout")
+		await get_tree().create_timer(blink_interval_on).timeout
 		elapsed += blink_interval_on
 
 	# End invincibility
@@ -227,7 +227,7 @@ func fin01_trigger(enable: bool):
 			return
 		action = "finisher"
 		is_finisher_active = true
-		if animated_sprite.frames.has_animation("open_arm"):
+		if animated_sprite.sprite_frames.has_animation("open_arm"):
 			animated_sprite.play("open_arm")
 		else:
 			print("ERROR: open_arm animation not found in SpriteFrames")
@@ -249,7 +249,7 @@ func fin02_trigger(enable: bool):
 			return
 		action = "finisher"
 		is_finisher_active = true
-		if animated_sprite.frames.has_animation("swing"):
+		if animated_sprite.sprite_frames.has_animation("swing"):
 			animated_sprite.play("swing")
 		else:
 			print("ERROR: swing animation not found in SpriteFrames")
@@ -267,8 +267,11 @@ func fin02_trigger(enable: bool):
 func play_finisher():
 	if is_finisher_active or action == "finisher":
 		return
+	
+	# Read the current roulette frame to determine which finisher to use
 	var roulette = get_parent().get_node("FinisherRoulette")
-	var idx = roulette.get_node("AnimatedSprite").get_frame()
+	var idx = roulette.get_selected_finisher()
+	
 	if idx == 3:
 		fin01_trigger(true)
 	else:
@@ -278,7 +281,7 @@ func is_animation_locked() -> bool:
 	var anim = animated_sprite.animation
 	var is_playing = animated_sprite.is_playing()
 	var frame = animated_sprite.frame
-	var frame_count = animated_sprite.frames.get_frame_count(anim)
+	var frame_count = animated_sprite.sprite_frames.get_frame_count(anim)
 	if anim == "swing" and is_playing and frame < frame_count - 1:
 		return true
 	if anim == "dance" and is_playing and frame < frame_count - 1:
@@ -300,7 +303,7 @@ func _on_Player_body_entered(_body):
 	$TimerBulletTime.stop()
 	animated_sprite.stop()
 	animated_sprite.animation = "down"
-	animated_sprite.frame = animated_sprite.frames.get_frame_count("down") - 1
+	animated_sprite.frame = animated_sprite.sprite_frames.get_frame_count("down") - 1
 	freeze(2.0)
 
 func _on_AnimatedSprite_animation_finished():

@@ -5,14 +5,14 @@ signal BossGetHit
 
 var isPlay
 var speed = -18
-onready var g0 = $AnimatedSprite
-onready var g1 = $Ghost1
-onready var g2 = $Ghost2
-onready var g3 = $Ghost3
+@onready var g0 = $AnimatedSprite2D
+@onready var g1 = $Ghost1
+@onready var g2 = $Ghost2
+@onready var g3 = $Ghost3
 
 func _ready(): 
 	isPlay = false
-	$AnimatedSprite.stop()  
+	$AnimatedSprite2D.stop()  
 	
 func _process(_delta):
 	if !isPlay:		
@@ -20,7 +20,7 @@ func _process(_delta):
 	
 	if get_parent():
 		var iActSpd = 0	
-		if !$AnimatedSprite.flip_h:
+		if !$AnimatedSprite2D.flip_h:
 			iActSpd = speed
 		else:
 			iActSpd = -speed	 
@@ -50,12 +50,12 @@ func _on_Finisher01_body_entered(body):
 	emit_signal("EnemyDefeated")	
 
 func play (isFlipH):	
-	$AnimatedSprite.flip_h = isFlipH
+	$AnimatedSprite2D.flip_h = isFlipH
 	set_position(Vector2(0, -100))
 	isPlay = true
-	$AnimatedSprite.frame = 0
-	$AnimatedSprite.visible = true
-	$AnimatedSprite.play()
+	$AnimatedSprite2D.frame = 0
+	$AnimatedSprite2D.visible = true
+	$AnimatedSprite2D.play()
 	
 	g1.flip_h = isFlipH
 	g1.frame = 0
@@ -81,8 +81,8 @@ func _on_Finisher02_area_entered(area):
 
 func _on_AnimatedSprite_animation_finished():
 	isPlay = false
-	$AnimatedSprite.frame = 0
-	$AnimatedSprite.visible = false
+	$AnimatedSprite2D.frame = 0
+	$AnimatedSprite2D.visible = false
 	
 	g1.frame = 0
 	g1.visible = false

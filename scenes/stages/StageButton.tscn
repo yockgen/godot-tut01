@@ -1,8 +1,8 @@
-[gd_scene format=2]
+[gd_scene format=3]
 
 [node name="StageButton" type="Button"]
-margin_right = 400.0
-margin_bottom = 60.0
+offset_right = 400.0
+offset_bottom = 60.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = SubResource( 1 )

@@ -2,14 +2,14 @@ extends Area2D
 
 # Exported variables
 #export (ShaderMaterial) var whiten_material
-export var speed = 400  # Pixels/sec (overridden by GameConfig at runtime)
+@export var speed = 400  # Pixels/sec (overridden by GameConfig at runtime)
 
 # Node references
-onready var collision_shape = $CollisionShape2D
-onready var animated_sprite = $AnimatedSprite
-onready var attack_node = $Attack
-onready var fin01 = $Finisher01
-onready var fin02 = $Finisher02
+@onready var collision_shape = $CollisionShape2D
+@onready var animated_sprite = $AnimatedSprite2D
+@onready var attack_node = $Attack
+@onready var fin01 = $Finisher01
+@onready var fin02 = $Finisher02
 
 # Screen and movement variables
 var screen_size: Vector2
@@ -46,8 +46,8 @@ func _ready():
 	fin01.get_node("CollisionShape2D").set_deferred("disabled", true)
 	fin02.visible = false
 	fin02.get_node("CollisionShape2D").set_deferred("disabled", true)
-	if not animated_sprite.is_connected("animation_finished", self, "_on_AnimatedSprite_animation_finished"):
-		animated_sprite.connect("animation_finished", self, "_on_AnimatedSprite_animation_finished")
+	if not animated_sprite.is_connected("animation_finished", Callable(self, "_on_AnimatedSprite_animation_finished")):
+		animated_sprite.connect("animation_finished", Callable(self, "_on_AnimatedSprite_animation_finished"))
 
 func _process(delta):
 	if current_state == State.FREEZE or is_animation_locked() or is_finisher_active:
@@ -150,10 +150,10 @@ func freeze(time: float) -> void:
 	Engine.time_scale = 1.0
 	for _i in range(10):
 		self.visible = false
-		yield(get_tree().create_timer(0.3), "timeout")
+		await get_tree().create_timer(0.3).timeout
 		self.visible = true
-		yield(get_tree().create_timer(0.05), "timeout")
-	yield(get_tree().create_timer(time / 2), "timeout")
+		await get_tree().create_timer(0.05).timeout
+	await get_tree().create_timer(time / 2).timeout
 	current_state = State.NORMAL
 	collision_shape.disabled = false
 	animated_sprite.play("stand")
@@ -239,7 +239,7 @@ func fin02_trigger(enable: bool):
 
 func play_finisher():
 	var roulette = get_parent().get_node("FinisherRoulette")
-	var idx = roulette.get_node("AnimatedSprite").get_frame()
+	var idx = roulette.get_selected_finisher()
 	if idx == 3:
 		fin01_trigger(true)
 	else:

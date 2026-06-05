@@ -28,8 +28,8 @@ func _ready():
 	locked_animations = ["swing", "dance", "open_arm", "fire_stand"]
 	
 	# Connect to sprite signals
-	if not animated_sprite.is_connected("animation_finished", self, "_on_animation_finished"):
-		animated_sprite.connect("animation_finished", self, "_on_animation_finished")
+	if not animated_sprite.animation_finished.is_connected(Callable(self, "_on_animation_finished")):
+		animated_sprite.animation_finished.connect(Callable(self, "_on_animation_finished"))
 
 func _process(_delta):
 	"""Check for animation locks"""
@@ -41,7 +41,7 @@ func _process(_delta):
 	current_frame = animated_sprite.frame
 	
 	# Check if we're in a locked animation
-	var frame_count = animated_sprite.frames.get_frame_count(current_animation)
+	var frame_count = animated_sprite.sprite_frames.get_frame_count(current_animation)
 	
 	# Lock if animation is in the locked list and not on last frame
 	if current_animation in locked_animations:
@@ -112,7 +112,7 @@ func lock_input(duration: float = -1.0):
 	_update_lock_status(true)
 	
 	if duration > 0:
-		yield(get_tree().create_timer(duration), "timeout")
+		await get_tree().create_timer(duration).timeout
 		if is_locked:
 			_update_lock_status(false)
 

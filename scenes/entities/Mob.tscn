@@ -1,132 +1,110 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=35 format=3]
 
-[ext_resource path="res://assets/effect/explosion.png" type="Texture" id=1]
+[ext_resource path="res://assets/effect/explosion.png" type="Texture2D" id=1]
 [ext_resource path="res://scripts/entities/Enemy.gd" type="Script" id=2]
-[ext_resource path="res://assets/misc/exp2.png" type="Texture" id=4]
+[ext_resource path="res://assets/misc/exp2.png" type="Texture2D" id=4]
 [ext_resource path="res://assets/Sound/hitted.ogg" type="AudioStream" id=5]
-[ext_resource path="res://assets/Yu/Battle Effects/vr_bc600_00.png" type="Texture" id=6]
+[ext_resource path="res://assets/Yu/Battle Effects/vr_bc600_00.png" type="Texture2D" id=6]
 [ext_resource path="res://scenes/effects/ParticleBooming.tscn" type="PackedScene" id=7]
 [ext_resource path="res://assets/Sound/explosion.ogg" type="AudioStream" id=9]
-[ext_resource path="res://assets/enemy/minion-bull.png" type="Texture" id=10]
+[ext_resource path="res://assets/enemy/minion-bull.png" type="Texture2D" id=10]
 
 [sub_resource type="AtlasTexture" id=88]
-flags = 4
 atlas = ExtResource( 1 )
 region = Rect2( 816, 204, 204, 204 )
 
 [sub_resource type="AtlasTexture" id=89]
-flags = 4
 atlas = ExtResource( 1 )
 region = Rect2( 0, 0, 204, 204 )
 
 [sub_resource type="AtlasTexture" id=90]
-flags = 4
 atlas = ExtResource( 1 )
 region = Rect2( 612, 0, 204, 204 )
 
 [sub_resource type="AtlasTexture" id=91]
-flags = 4
 atlas = ExtResource( 1 )
 region = Rect2( 816, 0, 204, 204 )
 
 [sub_resource type="AtlasTexture" id=70]
-flags = 4
 atlas = ExtResource( 4 )
 region = Rect2( 192, 64, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=71]
-flags = 4
 atlas = ExtResource( 4 )
 region = Rect2( 0, 128, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=72]
-flags = 4
 atlas = ExtResource( 4 )
 region = Rect2( 64, 128, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=73]
-flags = 4
 atlas = ExtResource( 4 )
 region = Rect2( 128, 128, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=74]
-flags = 4
 atlas = ExtResource( 4 )
 region = Rect2( 192, 128, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=75]
-flags = 4
 atlas = ExtResource( 4 )
 region = Rect2( 0, 192, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=76]
-flags = 4
 atlas = ExtResource( 4 )
 region = Rect2( 64, 192, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=77]
-flags = 4
 atlas = ExtResource( 4 )
 region = Rect2( 128, 192, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=78]
-flags = 4
 atlas = ExtResource( 4 )
 region = Rect2( 192, 192, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=79]
-flags = 4
 atlas = ExtResource( 10 )
 region = Rect2( 0, 0, 271, 336 )
 
 [sub_resource type="AtlasTexture" id=80]
-flags = 4
 atlas = ExtResource( 10 )
 region = Rect2( 271, 0, 271, 336 )
 
 [sub_resource type="AtlasTexture" id=81]
-flags = 4
 atlas = ExtResource( 10 )
 region = Rect2( 542, 0, 271, 336 )
 
 [sub_resource type="AtlasTexture" id=82]
-flags = 4
 atlas = ExtResource( 10 )
 region = Rect2( 0, 336, 271, 336 )
 
 [sub_resource type="AtlasTexture" id=83]
-flags = 4
 atlas = ExtResource( 10 )
 region = Rect2( 271, 336, 271, 336 )
 
 [sub_resource type="AtlasTexture" id=84]
-flags = 4
 atlas = ExtResource( 10 )
 region = Rect2( 542, 336, 271, 336 )
 
 [sub_resource type="AtlasTexture" id=85]
-flags = 4
 atlas = ExtResource( 10 )
 region = Rect2( 0, 672, 271, 336 )
 
 [sub_resource type="AtlasTexture" id=86]
-flags = 4
 atlas = ExtResource( 10 )
 region = Rect2( 271, 672, 271, 336 )
 
 [sub_resource type="AtlasTexture" id=87]
-flags = 4
 atlas = ExtResource( 10 )
 region = Rect2( 542, 672, 271, 336 )
 
 [sub_resource type="SpriteFrames" id=10]
 animations = [ {
-"frames": [ SubResource( 88 ), SubResource( 89 ), SubResource( 90 ), SubResource( 91 ), SubResource( 70 ), SubResource( 71 ), SubResource( 72 ), SubResource( 73 ), SubResource( 74 ), SubResource( 75 ), SubResource( 76 ), SubResource( 77 ), SubResource( 78 ) ],
+"frames": [{"texture": SubResource( 88 ), "duration": 1.0}, {"texture": SubResource( 89 ), "duration": 1.0}, {"texture": SubResource( 90 ), "duration": 1.0}, {"texture": SubResource( 91 ), "duration": 1.0}, {"texture": SubResource( 70 ), "duration": 1.0}, {"texture": SubResource( 71 ), "duration": 1.0}, {"texture": SubResource( 72 ), "duration": 1.0}, {"texture": SubResource( 73 ), "duration": 1.0}, {"texture": SubResource( 74 ), "duration": 1.0}, {"texture": SubResource( 75 ), "duration": 1.0}, {"texture": SubResource( 76 ), "duration": 1.0}, {"texture": SubResource( 77 ), "duration": 1.0}, {"texture": SubResource( 78 ), "duration": 1.0}],
 "loop": true,
 "name": "grounded",
 "speed": 4.0
 }, {
-"frames": [ SubResource( 79 ), SubResource( 80 ), SubResource( 81 ), SubResource( 82 ), SubResource( 83 ), SubResource( 84 ), SubResource( 85 ), SubResource( 86 ), SubResource( 87 ) ],
+"frames": [{"texture": SubResource( 79 ), "duration": 1.0}, {"texture": SubResource( 80 ), "duration": 1.0}, {"texture": SubResource( 81 ), "duration": 1.0}, {"texture": SubResource( 82 ), "duration": 1.0}, {"texture": SubResource( 83 ), "duration": 1.0}, {"texture": SubResource( 84 ), "duration": 1.0}, {"texture": SubResource( 85 ), "duration": 1.0}, {"texture": SubResource( 86 ), "duration": 1.0}, {"texture": SubResource( 87 ), "duration": 1.0}],
 "loop": true,
 "name": "walk",
 "speed": 2.0
@@ -136,13 +114,12 @@ animations = [ {
 extents = Vector2( 64.0002, 31.5 )
 
 [sub_resource type="AtlasTexture" id=51]
-flags = 4
 atlas = ExtResource( 6 )
 region = Rect2( 0, 0, 30, 35 )
 
 [sub_resource type="SpriteFrames" id=52]
 animations = [ {
-"frames": [ SubResource( 51 ), null, SubResource( 51 ), null, SubResource( 51 ), null, SubResource( 51 ) ],
+"frames": [{"texture": SubResource( 51 ), "duration": 1.0}, {"texture": SubResource( 51 ), "duration": 1.0}, {"texture": SubResource( 51 ), "duration": 1.0}, {"texture": SubResource( 51 ), "duration": 1.0}, {"texture": SubResource( 51 ), "duration": 1.0}, {"texture": SubResource( 51 ), "duration": 1.0}, {"texture": SubResource( 51 ), "duration": 1.0}],
 "loop": true,
 "name": "default",
 "speed": 5.0
@@ -159,7 +136,7 @@ __meta__ = {
 }
 particleBooming = ExtResource( 7 )
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2( -24.4656, 4.00001 )
 scale = Vector2( 0.6, 0.6 )
 frames = SubResource( 10 )
@@ -173,13 +150,13 @@ position = Vector2( -23.272, 25.0231 )
 rotation = 1.5708
 shape = SubResource( 53 )
 
-[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 
 [node name="SoundDown" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 5 )
 volume_db = 8.756
 
-[node name="Alerting" type="AnimatedSprite" parent="."]
+[node name="Alerting" type="AnimatedSprite2D" parent="."]
 position = Vector2( 27.228, -31.477 )
 scale = Vector2( 0.733334, 0.657143 )
 frames = SubResource( 52 )

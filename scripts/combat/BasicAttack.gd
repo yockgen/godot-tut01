@@ -20,8 +20,8 @@ func _perform_attack(target_position: Vector2):
 		return
 	
 	# Play attack animation
-	if player_ref.has_node("AnimatedSprite"):
-		var sprite = player_ref.get_node("AnimatedSprite")
+	if player_ref.has_node("AnimatedSprite2D"):
+		var sprite = player_ref.get_node("AnimatedSprite2D")
 		sprite.animation = animation_name
 		sprite.play()
 	
@@ -30,16 +30,16 @@ func _perform_attack(target_position: Vector2):
 	
 	# Schedule finish after animation
 	var animation_length = _get_animation_length()
-	yield(get_tree().create_timer(animation_length), "timeout")
+	await get_tree().create_timer(animation_length).timeout
 	finish_execution()
 
 func _get_animation_length() -> float:
 	"""Get duration of attack animation"""
-	if player_ref == null or not player_ref.has_node("AnimatedSprite"):
+	if player_ref == null or not player_ref.has_node("AnimatedSprite2D"):
 		return 0.3
 	
-	var sprite = player_ref.get_node("AnimatedSprite")
-	var frames = sprite.frames
+	var sprite = player_ref.get_node("AnimatedSprite2D")
+	var frames = sprite.sprite_frames
 	
 	if frames == null or not frames.has_animation(animation_name):
 		return 0.3

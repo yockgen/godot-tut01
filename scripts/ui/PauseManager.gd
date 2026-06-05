@@ -10,8 +10,6 @@ signal pause_screen_hidden
 
 # ============ PROPERTIES ============
 var is_paused = false
-var _pause_ui = null  # Reference to pause UI panel
-
 # ============ LIFECYCLE ============
 
 func _ready():
@@ -22,7 +20,7 @@ func _input(event):
 	"""Handle pause input"""
 	if event.is_action_pressed("ui_cancel"):  # ESC key
 		toggle_pause()
-		get_tree().set_input_as_handled()
+		get_viewport().set_input_as_handled()
 
 # ============ PAUSE CONTROL ============
 

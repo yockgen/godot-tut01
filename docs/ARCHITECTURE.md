@@ -171,9 +171,9 @@ func _ready():
     animation_name = "my_animation"
 
 func _perform_attack(target_position: Vector2):
-    # Implement attack logic here
+        # Implement attack logic here
     # Play animation, create hitbox, apply effects
-    yield(get_tree().create_timer(animation_length), "timeout")
+    await get_tree().create_timer(animation_length).timeout
     finish_execution()
 ```
 

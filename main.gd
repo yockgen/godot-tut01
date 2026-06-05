@@ -1,19 +1,19 @@
 extends Node
 
-export (PackedScene) var Mob
-export (int) var Score
+@export var Mob: PackedScene
+@export var Score: int
 
 func _ready():
-	var _discard = $Player.connect("EnemyDefeated", self, "on_MinionGetHit")
-	_discard = $Player.connect("GotHit", self, "on_PlayerGotHit")
-	_discard = $Player.connect("BossGetHit", self, "on_BossGetHit")	
-	_discard = $Player.get_node("Finisher01").connect("EnemyDefeated", self, "on_MinionGetHit")
-	_discard = $Player.get_node("Finisher01").connect("BossGetHit", self, "on_BossGetHit")
-	_discard = $Player.get_node("Finisher02").connect("EnemyDefeated", self, "on_MinionGetHit")
-	_discard = $Player.get_node("Finisher02").connect("BossGetHit", self, "on_BossGetFinisher2Hit")
+	var _discard = $Player.connect("EnemyDefeated", Callable(self, "on_MinionGetHit"))
+	_discard = $Player.connect("GotHit", Callable(self, "on_PlayerGotHit"))
+	_discard = $Player.connect("BossGetHit", Callable(self, "on_BossGetHit"))	
+	_discard = $Player.get_node("Finisher01").connect("EnemyDefeated", Callable(self, "on_MinionGetHit"))
+	_discard = $Player.get_node("Finisher01").connect("BossGetHit", Callable(self, "on_BossGetHit"))
+	_discard = $Player.get_node("Finisher02").connect("EnemyDefeated", Callable(self, "on_MinionGetHit"))
+	_discard = $Player.get_node("Finisher02").connect("BossGetHit", Callable(self, "on_BossGetFinisher2Hit"))
 	
 	
-	_discard = $PauseCtrl.connect("Restart", self, "on_Restart")
+	_discard = $PauseCtrl.connect("Restart", Callable(self, "on_Restart"))
 	randomize()
 	new_game()
 
@@ -71,9 +71,9 @@ func _on_StartTimer_timeout():
 
 func _on_MobTimer_timeout():
  # Choose a random location on Path2D.
-	$MobPath/MobSpawnLocation.offset = randi()
+	$MobPath/MobSpawnLocation.progress_ratio = randf()
 	# Create a Mob instance and add it to the scene.
-	var mob = Mob.instance()
+	var mob = Mob.instantiate()
 	mob.name="enemy"
 	
 	add_child(mob)
@@ -82,12 +82,12 @@ func _on_MobTimer_timeout():
 func spawn (obj): 
 	var direction = $MobPath/MobSpawnLocation.rotation + PI / 2
 	obj.position = $MobPath/MobSpawnLocation.position
-	direction += rand_range(-PI / 4, PI / 4)
+	direction += randf_range(-PI / 4, PI / 4)
 	obj.rotation = 0
 	obj.angular_velocity = 0
-	obj.linear_velocity = Vector2(rand_range(150, 200), 0).rotated(direction)
-	if obj.has_node("AnimatedSprite"):
-		var sprite = obj.get_node("AnimatedSprite")
+	obj.linear_velocity = Vector2(randf_range(150, 200), 0).rotated(direction)
+	if obj.has_node("AnimatedSprite2D"):
+		var sprite = obj.get_node("AnimatedSprite2D")
 		sprite.flip_h = obj.linear_velocity.x < 0
 
 func setscore(val):
@@ -96,4 +96,3 @@ func setscore(val):
 		Score = 0
 		game_over()		
 	$UserInterface/Score.text = "Confidence " + str(Score).pad_zeros(9)
-

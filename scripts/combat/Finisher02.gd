@@ -5,10 +5,10 @@ extends Attack
 class_name Finisher02
 
 # ============ PROPERTIES ============
-export var dash_speed = 400  # Movement speed during dash
-export var dash_duration = 1.0  # Duration of dash
-export var ghost_count = 3  # Number of ghost images
-export var ghost_offset = 200  # Distance between ghosts
+@export var dash_speed = 400  # Movement speed during dash
+@export var dash_duration = 1.0  # Duration of dash
+@export var ghost_count = 3  # Number of ghost images
+@export var ghost_offset = 200  # Distance between ghosts
 
 var is_dashing = false
 var dash_timer = 0.0
@@ -43,8 +43,8 @@ func _perform_attack(target_position: Vector2):
 	
 	# Get player's facing direction
 	var direction = 1
-	if player_ref.has_node("AnimatedSprite"):
-		var sprite = player_ref.get_node("AnimatedSprite")
+	if player_ref.has_node("AnimatedSprite2D"):
+		var sprite = player_ref.get_node("AnimatedSprite2D")
 		if sprite.flip_h:
 			direction = -1
 	
@@ -73,8 +73,8 @@ func _setup_dash_node():
 	dash_node.add_child(collision)
 	
 	# Connect signals
-	dash_node.connect("body_entered", self, "_on_dash_body_entered")
-	dash_node.connect("area_entered", self, "_on_dash_area_entered")
+	dash_node.connect("body_entered", Callable(self, "_on_dash_body_entered"))
+	dash_node.connect("area_entered", Callable(self, "_on_dash_area_entered"))
 	dash_node.direction = 1
 
 func _create_ghosts():
@@ -86,19 +86,19 @@ func _create_ghosts():
 	
 	# Create new ghosts
 	for i in range(ghost_count):
-		var ghost = Sprite.new()
+		var ghost = Sprite2D.new()
 		ghost.name = "Ghost_%d" % i
 		dash_node.add_child(ghost)
 		ghost_nodes.append(ghost)
 		
 		# Show ghost at offset position (will update during dash)
-		if player_ref.has_node("AnimatedSprite"):
-			var sprite = player_ref.get_node("AnimatedSprite")
-			ghost.texture = sprite.frames.get_frame(sprite.animation, 0)
+		if player_ref.has_node("AnimatedSprite2D"):
+			var sprite = player_ref.get_node("AnimatedSprite2D")
+			ghost.texture = sprite.sprite_frames.get_frame(sprite.animation, 0)
 			ghost.flip_h = sprite.flip_h
 
 func _process(_delta):
-	._process(_delta)
+	super._process(_delta)
 	
 	if not is_dashing:
 		return
@@ -118,7 +118,7 @@ func _process(_delta):
 
 func _update_ghosts():
 	"""Update ghost trail positions"""
-	if dash_node == null or ghost_nodes.empty():
+	if dash_node == null or ghost_nodes.is_empty():
 		return
 	
 	# Position ghosts in a trail behind the main dash position

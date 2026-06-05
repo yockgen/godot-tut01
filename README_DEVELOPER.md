@@ -135,7 +135,6 @@ This document describes the architecture and development workflow for the game. 
 ### 📖 Documentation
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) - System design & signals
 - [`docs/ADDING_CONTENT.md`](docs/ADDING_CONTENT.md) - How-to guide
-- [`REFACTOR_SUMMARY.md`](REFACTOR_SUMMARY.md) - What changed
 
 ---
 
@@ -432,7 +431,7 @@ func do_something():
 YourManager.do_something()
 
 # Connect to signals
-YourManager.connect("your_event_happened", self, "_on_your_event")
+YourManager.your_event_happened.connect(_on_your_event)
 ```
 
 #### Step 4: Test Manager
@@ -462,8 +461,8 @@ In your UI script:
 ```gdscript
 func _ready():
     # Connect to relevant managers
-    GameManager.connect("score_changed", self, "_on_score_changed")
-    PlayerEntity.connect("health_changed", self, "_on_health_changed")
+    GameManager.score_changed.connect(_on_score_changed)
+    PlayerEntity.health_changed.connect(_on_health_changed)
 
 func _on_score_changed(new_score):
     $ScoreLabel.text = str(new_score)
@@ -631,15 +630,14 @@ Before committing changes, verify:
 ## Git Commands Reference
 
 ```bash
-# View changes on refactor branch
-git diff honkai-branch refactor/architecture
+# View changes on godot-4 branch
+git diff master godot-4
 
-# See all commits
-git log refactor/architecture --oneline
+# See all commits on the migration branch
+git log godot-4 --oneline
 
-# Merge when ready
-git checkout honkai-branch
-git merge refactor/architecture
+# Switch to the Godot 4 migration branch
+git checkout godot-4
 ```
 
 ---
@@ -688,7 +686,7 @@ A: Yes, but GameConfig is cleaner for global constants. exports are better for p
 A: Input handling is unchanged. Add input mappings to project.godot and update Player.gd input code.
 
 **Q: How do I debug signals?**  
-A: Connect with `print()`: `entity.connect("died", self, "print", ["died!"])`
+A: Connect with a lambda: `entity.died.connect(func(): print("died!"))`
 
 **Q: How do I add a new stage?**  
 A: Create a `.tres` resource from `StageResource`, create a `.tscn` scene for it, register it in `StageManager._register_stages()`. See Tutorial 7.
@@ -751,7 +749,6 @@ For questions about:
 - **Architecture** → Check `docs/ARCHITECTURE.md`
 - **Adding content** → Check `docs/ADDING_CONTENT.md`
 - **Specific code** → Check docstrings in .gd files
-- **Integration** → Check `REFACTOR_SUMMARY.md`
 - **Git history** → Run `git log --oneline`
 
 ---
@@ -771,9 +768,9 @@ Your Godot project now has a **professional, scalable architecture** ready for y
 
 ---
 
-**Status:** ✅ Ready for team review and integration  
-**Branch:** `refactor/architecture`  
-**Commits:** 10 (clean, reviewed, documented)  
+**Status:** ✅ Ready for development  
+**Branch:** `godot-4`  
+**Commits:** 2 (migration to Godot 4 complete)  
 **Payoff:** Future features 3-5x faster to implement
 
 🚀 **Let's build something great!**

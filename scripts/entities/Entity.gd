@@ -11,10 +11,10 @@ signal state_changed(old_state, new_state)
 signal hit_received(damage_amount)
 
 # ============ PROPERTIES ============
-export var max_health = 1
-export var collision_damage = 10  # Damage dealt to player on collision
+@export var max_health = 1
+@export var collision_damage = 10  # Damage dealt to player on collision
 
-var health = 1 setget _set_health, _get_health
+var health = 1: get = _get_health, set = _set_health
 var current_state = State.NORMAL
 var is_dead = false
 
@@ -78,7 +78,7 @@ func _get_health() -> int:
 
 # ============ STATE MANAGEMENT ============
 
-func change_state(new_state: int) -> bool:
+func change_state(new_state: State) -> bool:
 	"""
 	Transition to new state. Returns true if transition was successful.
 	Override in subclasses for state-specific logic.
@@ -91,7 +91,7 @@ func change_state(new_state: int) -> bool:
 	emit_signal("state_changed", old_state, new_state)
 	return true
 
-func get_state() -> int:
+func get_state() -> State:
 	"""Return current state"""
 	return current_state
 
@@ -117,7 +117,7 @@ func _on_death():
 	var _discard = change_state(State.DEAD)
 	emit_signal("died")
 	_spawn_death_effect()
-	yield(get_tree(), "idle_frame")
+	await get_tree().process_frame
 	queue_free()
 
 func _spawn_death_effect():

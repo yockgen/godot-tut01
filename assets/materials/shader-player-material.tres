@@ -1,4 +1,4 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -12,10 +12,10 @@ void fragment() {
 		vec3 whitened_texture_rgb = mix(texture_color.rgb, white, 0.7);
 		COLOR = vec4(whitened_texture_rgb, texture_color.a);
 	} else {
-		COLOR = texture_color
+		COLOR = texture_color;
 	}
 }"
 
 [resource]
 shader = SubResource( 1 )
-shader_param/whiten = false
+shader_parameter/whiten = false

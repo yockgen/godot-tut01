@@ -1,23 +1,23 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=9 format=3]
 
-[ext_resource path="res://assets/Svarog/Attack01/02.png" type="Texture" id=1]
-[ext_resource path="res://assets/Svarog/Attack01/01.png" type="Texture" id=2]
-[ext_resource path="res://assets/Svarog/Attack01/03.png" type="Texture" id=3]
-[ext_resource path="res://assets/Svarog/Attack01/04.png" type="Texture" id=4]
+[ext_resource path="res://assets/Svarog/Attack01/02.png" type="Texture2D" id=1]
+[ext_resource path="res://assets/Svarog/Attack01/01.png" type="Texture2D" id=2]
+[ext_resource path="res://assets/Svarog/Attack01/03.png" type="Texture2D" id=3]
+[ext_resource path="res://assets/Svarog/Attack01/04.png" type="Texture2D" id=4]
 [ext_resource path="res://Finisher/Finisher02.gd" type="Script" id=5]
-[ext_resource path="res://assets/Revenant/bike01.png" type="Texture" id=6]
+[ext_resource path="res://assets/Revenant/bike01.png" type="Texture2D" id=6]
 
 [sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 467, 373.5 )
 
 [sub_resource type="SpriteFrames" id=4]
 animations = [ {
-"frames": [ ExtResource( 6 ), ExtResource( 6 ), ExtResource( 6 ), ExtResource( 6 ), ExtResource( 6 ) ],
+"frames": [{"texture": ExtResource( 6 ), "duration": 1.0}, {"texture": ExtResource( 6 ), "duration": 1.0}, {"texture": ExtResource( 6 ), "duration": 1.0}, {"texture": ExtResource( 6 ), "duration": 1.0}, {"texture": ExtResource( 6 ), "duration": 1.0}],
 "loop": true,
 "name": "default",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 2 ), ExtResource( 1 ), ExtResource( 1 ), ExtResource( 1 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 4 ) ],
+"frames": [{"texture": ExtResource( 2 ), "duration": 1.0}, {"texture": ExtResource( 1 ), "duration": 1.0}, {"texture": ExtResource( 1 ), "duration": 1.0}, {"texture": ExtResource( 1 ), "duration": 1.0}, {"texture": ExtResource( 3 ), "duration": 1.0}, {"texture": ExtResource( 4 ), "duration": 1.0}, {"texture": ExtResource( 4 ), "duration": 1.0}],
 "loop": false,
 "name": "default02",
 "speed": 8.0
@@ -30,22 +30,22 @@ script = ExtResource( 5 )
 position = Vector2( -212, -102.5 )
 shape = SubResource( 5 )
 
-[node name="Ghost3" type="AnimatedSprite" parent="."]
+[node name="Ghost3" type="AnimatedSprite2D" parent="."]
 modulate = Color( 1, 0.313726, 1, 0.392157 )
 show_behind_parent = true
 frames = SubResource( 4 )
 
-[node name="Ghost2" type="AnimatedSprite" parent="."]
+[node name="Ghost2" type="AnimatedSprite2D" parent="."]
 modulate = Color( 1, 0.313726, 1, 0.588235 )
 show_behind_parent = true
 frames = SubResource( 4 )
 
-[node name="Ghost1" type="AnimatedSprite" parent="."]
+[node name="Ghost1" type="AnimatedSprite2D" parent="."]
 modulate = Color( 1, 0.313726, 1, 0.784314 )
 show_behind_parent = true
 frames = SubResource( 4 )
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 show_behind_parent = true
 frames = SubResource( 4 )
 
@@ -54,4 +54,4 @@ frames = SubResource( 4 )
 [connection signal="animation_finished" from="Ghost3" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="animation_finished" from="Ghost2" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="animation_finished" from="Ghost1" to="." method="_on_AnimatedSprite_animation_finished"]
-[connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_AnimatedSprite_animation_finished"]

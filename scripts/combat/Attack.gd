@@ -11,11 +11,11 @@ signal finished
 signal cooldown_changed(percent)
 
 # ============ PROPERTIES ============
-export var attack_name = "Attack"
-export var damage = 10
-export var cooldown = 0.3
-export var animation_name = "attack"
-export var animation_locked_frames = 5  # Frames during which input is blocked
+@export var attack_name = "Attack"
+@export var damage = 10
+@export var cooldown = 0.3
+@export var animation_name = "attack"
+@export var animation_locked_frames = 5  # Frames during which input is blocked
 
 var player_ref = null
 var cooldown_timer = 0.0
@@ -101,7 +101,7 @@ func configure(config_dict: Dictionary):
 	Example: attack.configure({"damage": 20, "cooldown": 0.5})
 	"""
 	for key in config_dict:
-		if property_list_changed_notify():
+		if key in self:
 			set(key, config_dict[key])
 
 # ============ DEBUG ============
