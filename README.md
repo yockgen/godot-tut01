@@ -1,9 +1,16 @@
 Introduction
 ============
-Simple 2d Beat-em-up game tutorial using Godot Engine ([version: v3 LTS](https://godotengine.org/download/3.x/windows/)), demo basic action game features:
+Simple 2d Beat-em-up game tutorial using Godot Engine ([version: v4.3+](https://godotengine.org/download/windows/)), migrated from Godot 3.5 LTS.
+Demonstrates basic action game features:
 1. Character Animation 
 2. Collision Detection
 3. Event Handler
+4. Entity Architecture (inheritance-based)
+5. Composable AI Behaviors
+6. Data-driven Stage System
+
+**Note:** This project was originally built in Godot 3.5 and has been migrated to Godot 4.3+.
+Use the `godot-4` branch for the most up-to-date version.
 
 Concept Art
 ===========
@@ -22,7 +29,7 @@ Setup
 =====
 
 1. Download Godot Game Development Engine:
-https://godotengine.org/download/3.x/windows/   
+https://godotengine.org/download/windows/      
 2. Download Game Source Code:
 git clone https://github.com/yockgen/godot-tut01.git
 
@@ -44,3 +51,4 @@ Support
 yockgen@gmail.com
 
 Will support on best effort while learning together with question, cheers!
+
