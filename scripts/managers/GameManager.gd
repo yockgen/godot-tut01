@@ -27,7 +27,7 @@ func _ready():
 		return
 	
 	add_to_group("game_manager")
-	pause_mode = Node.PAUSE_MODE_PROCESS  # Keep processing even when paused
+	process_mode = Node.PROCESS_MODE_ALWAYS  # Keep processing even when paused
 	print("GameManager initialized")
 
 # ============ SCORING ============

@@ -86,12 +86,12 @@ func restart_level() -> bool:
 	return load_level(current_level)
 
 func next_level() -> bool:
-	var next_level = current_level + 1
-	if next_level > max_level:
+	var next_level_num = current_level + 1
+	if next_level_num > max_level:
 		print("All levels completed!")
 		return false
 	
-	return load_level(next_level)
+	return load_level(next_level_num)
 
 # ============ LEVEL COMPLETION ============
 
@@ -111,7 +111,7 @@ func complete_level(score: int = -1):
 	print("Level %d completed! Score: %d" % [current_level, score])
 	
 	# Auto-advance to next level (optional)
-	yield(get_tree(), "idle_frame")
+	await get_tree().process_frame
 
 func fail_level():
 	emit_signal("level_failed")

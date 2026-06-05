@@ -102,7 +102,7 @@ func get_applied_upgrades() -> Array:
 func get_debug_info() -> String:
 	"""Return upgrade applier debug info"""
 	var upgrades = get_applied_upgrades()
-	if upgrades.empty():
+	if upgrades.is_empty():
 		return "No upgrades applied"
 	
 	var info = ""

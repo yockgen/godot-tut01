@@ -5,15 +5,15 @@ extends Entity
 class_name Enemy
 
 # ============ PROPERTIES ============
-export var score_on_defeat = 150
-export var movement_speed = 100
-export var particleBooming : PackedScene
+@export var score_on_defeat = 150
+@export var movement_speed = 100
+@export var particleBooming : PackedScene
 
 var _enemy_id = ""
 var isGrounded = false
 
-var ai_behavior = null  # Reference to AIBehavior, set by spawner
-var player_ref = null   # Reference to player for targeting
+var ai_behavior = null  # RefCounted to AIBehavior, set by spawner
+var player_ref = null   # RefCounted to player for targeting
 
 # ============ STATE ENUM ============
 # Inherited from Entity
@@ -21,10 +21,10 @@ var player_ref = null   # Reference to player for targeting
 # ============ LIFECYCLE ============
 
 func _ready():
-	._ready()
+	super._ready()
 	# Connect to death signal (safely avoid duplicate connections)
-	if not is_connected("died", self, "_on_enemy_died"):
-		var _connect_result = connect("died", self, "_on_enemy_died")
+	if not died.is_connected(Callable(self, "_on_enemy_died")):
+		var _connect_result = died.connect(Callable(self, "_on_enemy_died"))
 
 func _initialize():
 	"""Set up enemy-specific initialization"""
@@ -57,8 +57,8 @@ func _spawn_death_effect():
 	"""Override in subclasses to add particles, sounds, etc."""
 	# This will be called by Entity._on_death()
 	# Subclasses can override for specific effects
-	if has_node("Particles2D"):
-		var particles = $Particles2D
+	if has_node("GPUParticles2D"):
+		var particles = $GPUParticles2D
 		particles.emitting = true
 
 # ============ COLLISION HANDLING ============
@@ -100,7 +100,7 @@ func setEnemyDown(id):
 		$SoundDown.play()
 	
 	if particleBooming:
-		var _explosion = particleBooming.instance()
+		var _explosion = particleBooming.instantiate()
 		_explosion.position = global_position
 		_explosion.rotation = global_rotation
 		_explosion.emitting = true
@@ -110,8 +110,8 @@ func setEnemyDown(id):
 
 func setEnemyGrounded(_id):
 	isGrounded = true
-	if has_node("AnimatedSprite"):
-		$AnimatedSprite.play("grounded")
+	if has_node("AnimatedSprite2D"):
+		$AnimatedSprite2D.play("grounded")
 	if has_node("SndExplosion"):
 		$SndExplosion.play()
 	call_deferred("queue_free")
@@ -122,7 +122,7 @@ func get_debug_info() -> String:
 	"""Return enemy debug info"""
 	var behavior_name = "None"
 	if ai_behavior:
-		behavior_name = ai_behavior.get_class()
+		behavior_name = ai_behavior.get_script().get_global_name() if ai_behavior.get_script() else "AIBehavior"
 	
 	return "%s | HP: %d/%d | Behavior: %s" % [
 		name,

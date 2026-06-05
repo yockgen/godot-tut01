@@ -67,7 +67,7 @@ func start_stage(stage_id: int) -> bool:
 	
 	# Load the stage's scene
 	if current_stage.level_scene:
-		var result = get_tree().change_scene_to(current_stage.level_scene)
+		var result = get_tree().change_scene_to_packed(current_stage.level_scene)
 		if result != OK:
 			push_error("Failed to load stage %d scene" % stage_id)
 			return false
@@ -147,20 +147,16 @@ func get_stage_data(stage_id: int) -> StageResource:
 
 func _save_progress():
 	"""Save unlocked stages to user data"""
-	var file = File.new()
-	var err = file.open("user://stage_progress.dat", File.WRITE)
-	if err == OK:
+	var file = FileAccess.open("user://stage_progress.dat", FileAccess.WRITE)
+	if file:
 		file.store_var(unlocked_stages)
-		file.close()
 
 func _load_progress():
 	"""Load unlocked stages from user data"""
-	var file = File.new()
-	if file.file_exists("user://stage_progress.dat"):
-		var err = file.open("user://stage_progress.dat", File.READ)
-		if err == OK:
+	if FileAccess.file_exists("user://stage_progress.dat"):
+		var file = FileAccess.open("user://stage_progress.dat", FileAccess.READ)
+		if file:
 			unlocked_stages = file.get_var()
-			file.close()
 	
 	# Always ensure stage 1 is unlocked
 	if 1 not in unlocked_stages:

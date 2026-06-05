@@ -8,7 +8,7 @@ class_name AIBehavior
 signal behavior_changed(old_behavior, new_behavior)
 
 # ============ PROPERTIES ============
-var entity = null  # Reference to the entity using this behavior
+var entity = null  # RefCounted to the entity using this behavior
 var player_ref = null
 var behavior_state = State.IDLE
 var state_timer = 0.0
@@ -24,10 +24,10 @@ enum State {
 }
 
 # ============ PARAMETERS ============
-export var detection_range = 300
-export var attack_range = 100
-export var patrol_speed = 100
-export var chase_speed = 150
+@export var detection_range = 300
+@export var attack_range = 100
+@export var patrol_speed = 100
+@export var chase_speed = 150
 
 # ============ LIFECYCLE ============
 
@@ -92,7 +92,7 @@ func is_player_in_attack_range() -> bool:
 	"""Check if player is within attack range"""
 	return get_distance_to_player() <= attack_range
 
-func change_state(new_state: int):
+func change_state(new_state: State):
 	"""Transition to new behavior state"""
 	if new_state == behavior_state:
 		return
