@@ -29,9 +29,9 @@ func _perform_attack(target_position: Vector2):
 		sprite.animation = animation_name
 		sprite.play()
 	
-	# Wait for animation
+		# Wait for animation
 	var length = 0.8  # Adjust to match animation duration
-	yield(get_tree().create_timer(length), "timeout")
+	await get_tree().create_timer(length).timeout
 	
 	# Deal damage (will be integrated with hitbox system in Phase 2)
 	print("Power Attack executed!")
