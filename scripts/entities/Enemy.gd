@@ -95,16 +95,21 @@ func _on_enemy_died():
 	print("Enemy %s defeated! Score +%d" % [name, score_on_defeat])
 
 func setEnemyDown(id):
+	print("setEnemyDown called on ", name, " id=", id, " particleBooming=", particleBooming)
 	_enemy_id = id
 	if has_node("SoundDown") and not $SoundDown.playing:
 		$SoundDown.play()
 	
 	if particleBooming:
+		print("Instantiating particleBooming...")
 		var _explosion = particleBooming.instantiate()
 		_explosion.position = global_position
 		_explosion.rotation = global_rotation
 		_explosion.emitting = true
 		get_tree().current_scene.add_child(_explosion)
+		print("Explosion added to scene tree")
+	else:
+		print("WARNING: particleBooming is null!")
 	
 	call_deferred("queue_free")
 

@@ -322,9 +322,13 @@ func _on_AnimatedSprite_animation_finished():
 		play_standing_pose()
 
 func _on_Attack_body_entered(body):
+	print("_on_Attack_body_entered called with body: ", body.name, " class: ", body.get_class())
 	body.linear_velocity = Vector2.ZERO
 	body.get_node("CollisionShape2D").set_deferred("disabled", true)
 	attack_node.get_node("CollisionShape2D").set_deferred("disabled", true)
+	print("particleBooming on body: ", "particleBooming" in body)
+	if "particleBooming" in body:
+		print("  value: ", body.particleBooming)
 	body.setEnemyDown(body.name)
 	emit_signal("EnemyDefeated")
 
