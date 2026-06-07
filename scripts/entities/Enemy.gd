@@ -43,10 +43,6 @@ func take_damage(damage: int) -> bool:
 	if is_dead:
 		return false
 	
-	# Play hit sound
-	if has_node("SoundDown") and not $SoundDown.playing:
-		$SoundDown.play()
-	
 	health -= damage
 	emit_signal("hit_received", damage)
 	
@@ -100,6 +96,10 @@ func _on_enemy_died():
 
 func setEnemyDown(id):
 	_enemy_id = id
+	# Play hit sound (same as boss)
+	if has_node("SndHitBy"):
+		$SndHitBy.play()
+	# Play defeat sound
 	if has_node("SoundDown") and not $SoundDown.playing:
 		$SoundDown.play()
 	
