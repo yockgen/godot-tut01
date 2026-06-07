@@ -1,40 +1,44 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=8 format=3]
 
-[ext_resource path="res://scripts/effects/ParticleBooming.gd" type="Script" id=1]
+[ext_resource path="res://assets/effect/explosion.png" type="Texture2D" id=1]
+[ext_resource path="res://scripts/effects/ParticleBooming.gd" type="Script" id=2]
 
 [sub_resource type="Gradient" id=1]
-offsets = PackedFloat32Array( 0.472406, 0.646799 )
-colors = PackedColorArray( 0.980064, 0.98197, 0.987781, 1, 0.682353, 0.243137, 0.368627, 0 )
+offsets = PackedFloat32Array( 0.0, 0.7, 1.0 )
+colors = PackedColorArray( 1.0, 0.6, 0.1, 1, 0.8, 0.1, 0.0, 0.6, 0.5, 0.0, 0.0, 0.0 )
 
 [sub_resource type="GradientTexture2D" id=2]
 gradient = SubResource( 1 )
+width = 64
+height = 64
+fill_to = Vector2( 1.0, 1.0 )
 
 [sub_resource type="Curve" id=3]
-_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.987395, 0 ), 0.0, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.987395, 1 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="CurveTexture" id=4]
 curve = SubResource( 3 )
 
 [sub_resource type="ParticleProcessMaterial" id=5]
-lifetime_randomness = 0.5
-flag_disable_z = true
-spread = 180.0
+lifetime_randomness = 0.1
+spread = 360.0
 gravity = Vector3( 0, 0, 0 )
-initial_velocity = 500.0
-initial_velocity_random = 0.5
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-scale = 10.0
+initial_velocity_min = 80.0
+initial_velocity_max = 150.0
+scale_min = 0.05
+scale_max = 0.1
 scale_curve = SubResource( 4 )
 color_ramp = SubResource( 2 )
 
 [node name="Fireworks" type="GPUParticles2D"]
-self_modulate = Color( 9.83, 0.02, 0.04, 1 )
+texture = ExtResource( 1 )
+self_modulate = Color( 1.0, 0.4, 0.05, 1.0 )
 emitting = false
-amount = 100
+amount = 6
 one_shot = true
-speed_scale = 1.05
+speed_scale = 5.0
 explosiveness = 1.0
 local_coords = false
 process_material = SubResource( 5 )
-script = ExtResource( 1 )
+script = ExtResource( 2 )
+

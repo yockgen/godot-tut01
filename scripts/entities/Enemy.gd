@@ -96,6 +96,14 @@ func _on_enemy_died():
 
 func setEnemyDown(id):
 	_enemy_id = id
+	# Play hit sound (detach from parent so it isn't destroyed by queue_free)
+	if has_node("SndHitBy"):
+		var hit_sound = $SndHitBy
+		remove_child(hit_sound)
+		get_tree().current_scene.add_child(hit_sound)
+		hit_sound.play()
+		hit_sound.finished.connect(hit_sound.queue_free)
+	# Play defeat sound
 	if has_node("SoundDown") and not $SoundDown.playing:
 		$SoundDown.play()
 	
