@@ -26,6 +26,25 @@ func _ready():
 	if not died.is_connected(Callable(self, "_on_enemy_died")):
 		var _connect_result = died.connect(Callable(self, "_on_enemy_died"))
 
+func _process(_delta):
+	# Check if enemy falls below bottom of screen (ground level)
+	# Only for mobs that aren't already grounded/dead
+	if not isGrounded and not is_dead and global_position.y > 1020:
+		_hit_ground()
+
+func _hit_ground():
+	if isGrounded:
+		return
+	isGrounded = true
+	
+	# Call score deduction on main scene
+	var main = get_tree().current_scene
+	if main and main.has_method("_on_Ground_body_entered"):
+		main._on_Ground_body_entered(self)
+	
+	# Play grounded explosion
+	setEnemyGrounded(name)
+
 func _initialize():
 	"""Set up enemy-specific initialization"""
 	max_health = GameConfig.MOB_HEALTH
@@ -122,6 +141,12 @@ func setEnemyGrounded(_id):
 		$AnimatedSprite2D.play("grounded")
 	if has_node("SndExplosion"):
 		$SndExplosion.play()
+	if particleBooming:
+		var _explosion = particleBooming.instantiate()
+		_explosion.position = global_position
+		_explosion.rotation = global_rotation
+		_explosion.emitting = true
+		get_tree().current_scene.add_child(_explosion)
 	call_deferred("queue_free")
 
 # ============ DEBUG ============
