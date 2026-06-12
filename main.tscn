@@ -71,7 +71,7 @@ scale_curve = SubResource( 8 )
 color_ramp = SubResource( 10 )
 
 [sub_resource type="RectangleShape2D" id=11]
-extents = Vector2( 960, 14.625 )
+extents = Vector2( 960, 480 )
 
 [node name="Main" type="Node"]
 script = ExtResource( 2 )

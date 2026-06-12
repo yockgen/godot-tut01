@@ -112,7 +112,7 @@ animations = [ {
 } ]
 
 [sub_resource type="RectangleShape2D" id=53]
-extents = Vector2( 64.0002, 31.5 )
+extents = Vector2( 30, 20 )
 
 [sub_resource type="AtlasTexture" id=51]
 atlas = ExtResource( 6 )
@@ -130,7 +130,7 @@ animations = [ {
 position = Vector2( 27, -2 )
 z_index = -2
 collision_mask = 0
-gravity_scale = 0.5
+gravity_scale = 0.0
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true
