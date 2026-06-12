@@ -29,7 +29,7 @@ func _ready():
 func _process(_delta):
 	# Check if enemy falls below bottom of screen (ground level)
 	# Only for mobs that aren't already grounded/dead
-	if not isGrounded and not is_dead and global_position.y > 1020:
+	if not isGrounded and not is_dead and global_position.y > 969:
 		_hit_ground()
 
 func _hit_ground():
