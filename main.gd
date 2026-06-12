@@ -44,9 +44,7 @@ func on_PlayerGotHit():
 	$AnimInfo.play("AnimScore")
 
 func _on_Ground_body_entered(body):	
-	print("Ground body entered: ", body.name, " class: ", body.get_class())
 	if "enemy" in body.name:
-		print("enemy detected, calling setEnemyGrounded")
 		setscore(-150)
 		$AnimInfo.play("AnimScore")
 		body.linear_velocity = Vector2(0,0)
