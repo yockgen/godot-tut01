@@ -167,7 +167,7 @@ process_material = SubResource( 5 )
 [node name="Ground" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
-position = Vector2( 954, 1049.63 )
+position = Vector2( 954, 500 )
 shape = SubResource( 11 )
 
 [node name="FinisherRoulette" parent="." instance=ExtResource( 13 )]

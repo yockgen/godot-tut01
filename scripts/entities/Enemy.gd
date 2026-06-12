@@ -122,6 +122,12 @@ func setEnemyGrounded(_id):
 		$AnimatedSprite2D.play("grounded")
 	if has_node("SndExplosion"):
 		$SndExplosion.play()
+	if particleBooming:
+		var _explosion = particleBooming.instantiate()
+		_explosion.position = global_position
+		_explosion.rotation = global_rotation
+		_explosion.emitting = true
+		get_tree().current_scene.add_child(_explosion)
 	call_deferred("queue_free")
 
 # ============ DEBUG ============
