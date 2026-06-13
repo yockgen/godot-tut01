@@ -108,8 +108,8 @@
 [ext_resource path="res://assets/Revenant/bc203_05.png" type="Texture2D" id=106]
 
 [sub_resource type="CapsuleShape2D" id=2]
-radius = 60.0
-height = 186.0
+radius = 90.0
+height = 172.0
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {

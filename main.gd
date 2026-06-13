@@ -44,12 +44,11 @@ func on_PlayerGotHit():
 	$AnimInfo.play("AnimScore")
 
 func _on_Ground_body_entered(body):	
-	if "enemy" in body.name:
-		setscore(-150)
-		$AnimInfo.play("AnimScore")
-		body.linear_velocity = Vector2(0,0)
-		body.get_node("CollisionShape2D").set_deferred("disabled",true)
-		body.setEnemyGrounded(body.name)
+	setscore(-100)
+	$AnimInfo.play("AnimScore")
+	body.linear_velocity = Vector2(0,0)
+	body.get_node("CollisionShape2D").set_deferred("disabled",true)
+	body.setEnemyGrounded(body.name)
 	
 func game_over():
 	$MobTimer.stop()

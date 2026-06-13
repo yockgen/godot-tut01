@@ -11,6 +11,7 @@ class_name Enemy
 
 var _enemy_id = ""
 var isGrounded = false
+var _ground_y_threshold = 969
 
 var ai_behavior = null  # RefCounted to AIBehavior, set by spawner
 var player_ref = null   # RefCounted to player for targeting
@@ -25,6 +26,42 @@ func _ready():
 	# Connect to death signal (safely avoid duplicate connections)
 	if not died.is_connected(Callable(self, "_on_enemy_died")):
 		var _connect_result = died.connect(Callable(self, "_on_enemy_died"))
+	# Wait one frame before enabling ground check to avoid spawning on ground
+	set_process(false)
+	await get_tree().process_frame
+	if is_queued_for_deletion():
+		return
+	set_process(true)
+
+func _process(_delta):
+	# Check if enemy falls below bottom of screen (ground level)
+	# Only for mobs that aren't already grounded/dead
+	if not isGrounded and not is_dead and global_position.y > _ground_y_threshold:
+		_hit_ground()
+
+func _hit_ground():
+	if isGrounded:
+		return
+	isGrounded = true
+	
+	# Stop movement
+	set("linear_velocity", Vector2(0,0))
+	# Disable collision
+	if has_node("CollisionShape2D"):
+		$CollisionShape2D.set_deferred("disabled", true)
+	
+	# Deduct confidence score
+	var main = get_tree().current_scene
+	if main and main.has_method("setscore"):
+		main.setscore(-100)
+	
+	# Play score animation
+	var anim_player = main.get_node_or_null("AnimInfo")
+	if anim_player:
+		anim_player.play("AnimScore")
+	
+	# Play grounded explosion
+	setEnemyGrounded(name)
 
 func _initialize():
 	"""Set up enemy-specific initialization"""
@@ -122,6 +159,12 @@ func setEnemyGrounded(_id):
 		$AnimatedSprite2D.play("grounded")
 	if has_node("SndExplosion"):
 		$SndExplosion.play()
+	if particleBooming:
+		var _explosion = particleBooming.instantiate()
+		_explosion.position = global_position
+		_explosion.rotation = global_rotation
+		_explosion.emitting = true
+		get_tree().current_scene.add_child(_explosion)
 	call_deferred("queue_free")
 
 # ============ DEBUG ============

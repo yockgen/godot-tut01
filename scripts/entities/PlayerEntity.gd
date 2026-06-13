@@ -156,8 +156,8 @@ func freeze(time: float) -> void:
 
 	# Blink loop: toggle visibility at short intervals for the given time
 	# Visible 70% of the time, invisible 30%
-	var blink_interval_on = 0.112
-	var blink_interval_off = 0.048
+	var blink_interval_on = 0.224
+	var blink_interval_off = 0.096
 	var elapsed := 0.0
 	# Ensure starting visible state is true so blink toggles are consistent
 	self.visible = true
