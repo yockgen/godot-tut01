@@ -268,6 +268,15 @@ func play_finisher():
 	if is_finisher_active or action == "finisher":
 		return
 	
+	# Finisher only available during bullet time (triggered by backward dashing near enemies)
+	if current_state != State.BULLET_TIME:
+		return
+	
+	# Stop bullet time so finisher plays at normal speed
+	$TimerBulletTime.stop()
+	collision_shape.disabled = false
+	Engine.time_scale = 1.0
+	
 	# Read the current roulette frame to determine which finisher to use
 	var roulette = get_parent().get_node("FinisherRoulette")
 	var idx = roulette.get_selected_finisher()

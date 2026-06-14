@@ -19,7 +19,7 @@ var current_stage: StageResource = null
 
 static func get_instance() -> StageManager:
 	"""Convenience accessor via group"""
-	var nodes = get_tree().get_nodes_in_group("stage_manager")
+	var nodes = Engine.get_main_loop().get_tree().get_nodes_in_group("stage_manager")
 	if nodes.size() > 0:
 		return nodes[0] as StageManager
 	return null
@@ -34,7 +34,7 @@ func _register_stages():
 	# Stage 1: street brawl (current main.tscn)
 	_add_stage(preload("res://stages/stage_01.tres"))
 	
-	# Future stages — uncomment as they're created:
+	# Future stages - uncomment as they're created:
 	# _add_stage(preload("res://stages/stage_02.tres"))
 	# _add_stage(preload("res://stages/stage_03.tres"))
 	# _add_stage(preload("res://stages/stage_04.tres"))

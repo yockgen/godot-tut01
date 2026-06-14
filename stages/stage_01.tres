@@ -1,15 +1,15 @@
-[gd_resource type=Resource format=2]
+[gd_resource type=Resource script_uid="res://scripts/stages/StageResource.gd" format=3 uid="uid://stage01"]
 
 [resource]
-script = ExtResource("res://scripts/stages/StageResource.gd")
+script = Resource("res://scripts/stages/StageResource.gd")
 stage_id = 1
 stage_name = "Street Brawl"
 stage_description = "Fight through the streets!"
-level_scene = ExtResource("res://main.tscn")
+level_scene = Resource("res://main.tscn")
 spawn_rate = 1.5
 max_concurrent_enemies = 5
 use_boss = true
-boss_scene = ExtResource("res://scenes/entities/Boss01.tscn")
+boss_scene = Resource("res://scenes/entities/Boss01.tscn")
 target_score = 0
 defeat_boss_to_win = true
 survival_time = 0.0
