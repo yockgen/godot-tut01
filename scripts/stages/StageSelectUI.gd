@@ -4,9 +4,9 @@ extends Control
 # Place this scene as the starting screen of the game
 
 # ============ NODE REFERENCES ============
-onready var stage_container = $VBoxContainer/StageList
-onready var title_label = $VBoxContainer/TitleLabel
-onready var stage_button_scene = preload("res://scenes/stages/StageButton.tscn")
+@onready var stage_container = $VBoxContainer/StageList
+@onready var title_label = $VBoxContainer/TitleLabel
+@onready var stage_button_scene = preload("res://scenes/stages/StageButton.tscn")
 
 # ============ LIFECYCLE ============
 
@@ -17,7 +17,7 @@ func _build_stage_list():
 	"""Populate the stage list from StageManager"""
 	var stage_manager = StageManager.get_instance()
 	if stage_manager == null:
-		push_error("StageManager not found — is it registered as autoload?")
+		push_error("StageManager not found - is it registered as autoload?")
 		return
 	
 	# Clear existing children
@@ -32,9 +32,9 @@ func _build_stage_list():
 		
 		var unlocked = stage_manager.is_stage_unlocked(stage_id)
 		
-		var button = stage_button_scene.instance()
+		var button = stage_button_scene.instantiate()
 		button.setup(stage_data, unlocked)
-		button.connect("pressed", self, "_on_stage_selected", [stage_id])
+		button.pressed.connect(_on_stage_selected.bind(stage_id))
 		stage_container.add_child(button)
 
 # ============ SIGNAL HANDLERS ============

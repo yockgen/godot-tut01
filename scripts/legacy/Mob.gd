@@ -1,9 +1,9 @@
 extends RigidBody2D
-export var particleBooming : PackedScene
+@export var particleBooming : PackedScene
 
 
-export var min_speed = 150  # Minimum speed range.
-export var max_speed = 250  # Maximum speed range.
+@export var min_speed = 150  # Minimum speed range.
+@export var max_speed = 250  # Maximum speed range.
 var soundPly 
 var seDown 
 
@@ -26,7 +26,7 @@ func setEnemyDown (id):
 	if $SoundDown.playing == false:
 		$SoundDown.play()
 		
-	var _explosion = particleBooming.instance()
+	var _explosion = particleBooming.instantiate()
 	_explosion.position = global_position
 	_explosion.rotation = global_rotation
 	_explosion.emitting = true

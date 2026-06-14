@@ -1,6 +1,6 @@
 extends Node
 
-export(bool) var can_toggle_pause: bool = true
+@export var can_toggle_pause: bool = true
 signal Restart
 
 func _process(_delta):

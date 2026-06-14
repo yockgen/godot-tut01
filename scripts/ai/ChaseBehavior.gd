@@ -4,7 +4,7 @@ extends AIBehavior
 class_name ChaseBehavior
 
 # ============ CONFIGURATION ============
-export var always_active = false  # If true, chase from start (no detection range needed)
+@export var always_active = false  # If true, chase from start (no detection range needed)
 
 # ============ LIFECYCLE ============
 
