@@ -1,3 +1,4 @@
+
 extends Entity
 class_name PlayerEntity
 
@@ -278,6 +279,14 @@ func play_finisher():
 	Engine.time_scale = 1.0
 	
 	# --- Screen flash buildup (0.3s) before finisher launches ---
+	# Play impact sound first
+	var impact_sound = AudioStreamPlayer2D.new()
+	impact_sound.stream = preload("res://assets/Sound/impact01.wav")
+	add_child(impact_sound)
+	impact_sound.volume_db = 24.0
+	impact_sound.play()
+	impact_sound.finished.connect(impact_sound.queue_free)
+	
 	# Create a full-screen white overlay that blinks for an obvious visual cue
 	var overlay = ColorRect.new()
 	overlay.color = Color(1.0, 1.0, 1.0, 0.0)  # Start transparent
