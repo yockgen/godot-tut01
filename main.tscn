@@ -20,8 +20,8 @@ _data = {
 [sub_resource type="Theme" id=2]
 
 [sub_resource type="FontFile" id=3]
-size = 30
-outline_size = 3
+size = 60
+outline_size = 4
 outline_color = Color( 0, 0, 0, 1 )
 use_mipmaps = true
 font_data = ExtResource( 9 )
@@ -142,13 +142,15 @@ texture = ExtResource( 8 )
 [node name="UserInterface" type="Control" parent="."]
 offset_right = 40.0
 offset_bottom = 40.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 theme = SubResource( 2 )
 
 [node name="Score" type="Label" parent="UserInterface"]
-offset_left = 1433.0
+offset_left = 1330.0
 offset_top = 68.0
 offset_right = 1915.0
-offset_bottom = 127.0
+offset_bottom = 140.0
 theme_override_colors/font_color = Color( 0.972549, 0.956863, 0.960784, 1 )
 theme_override_colors/font_outline_color = Color( 0, 0, 0, 1 )
 theme_override_colors/font_shadow_color = Color( 0, 0, 0, 1 )

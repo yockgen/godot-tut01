@@ -1,3 +1,4 @@
+
 extends Entity
 class_name PlayerEntity
 
@@ -27,6 +28,10 @@ var is_dashing = false
 var is_finisher_active = false
 var is_invincible = false
 
+# Background grayscale reference for bullet time effect
+var _bg_sprite: Sprite2D = null
+var _bg_shader_material: ShaderMaterial = null
+
 # Signals - Gameplay
 signal EnemyDefeated
 signal BossGetHit
@@ -48,6 +53,15 @@ func _ready():
 	fin02.visible = false
 	fin02.get_node("CollisionShape2D").set_deferred("disabled", true)
 	add_to_group("player")
+	
+	# Find background sprite and set up grayscale shader
+	_bg_sprite = get_parent().get_node("ParallaxBackground/ParallaxLayer/Sprite2D")
+	if _bg_sprite:
+		_bg_shader_material = ShaderMaterial.new()
+		_bg_shader_material.shader = preload("res://assets/shaders/grayscale.gdshader")
+		_bg_shader_material.set_shader_parameter("enabled", false)
+		_bg_sprite.material = _bg_shader_material
+	
 	if not animated_sprite.animation_finished.is_connected(Callable(self, "_on_AnimatedSprite_animation_finished")):
 		animated_sprite.animation_finished.connect(Callable(self, "_on_AnimatedSprite_animation_finished"))
 
@@ -186,6 +200,9 @@ func entered_bullet_time(time: float) -> void:
 	collision_shape.disabled = true
 	Engine.time_scale = time
 	$TimerBulletTime.start(time)
+	# Turn background to grayscale
+	if _bg_shader_material:
+		_bg_shader_material.set_shader_parameter("enabled", true)
 
 func start(pos):
 	position = pos
@@ -276,8 +293,19 @@ func play_finisher():
 	$TimerBulletTime.stop()
 	collision_shape.disabled = false
 	Engine.time_scale = 1.0
+	# Restore background from grayscale
+	if _bg_shader_material:
+		_bg_shader_material.set_shader_parameter("enabled", false)
 	
 	# --- Screen flash buildup (0.3s) before finisher launches ---
+	# Play impact sound first
+	var impact_sound = AudioStreamPlayer2D.new()
+	impact_sound.stream = preload("res://assets/Sound/impact01.wav")
+	add_child(impact_sound)
+	impact_sound.volume_db = 24.0
+	impact_sound.play()
+	impact_sound.finished.connect(impact_sound.queue_free)
+	
 	# Create a full-screen white overlay that blinks for an obvious visual cue
 	var overlay = ColorRect.new()
 	overlay.color = Color(1.0, 1.0, 1.0, 0.0)  # Start transparent
@@ -335,6 +363,9 @@ func _on_Player_body_entered(_body):
 	$Info.visible = true
 	Engine.time_scale = 1.0
 	$TimerBulletTime.stop()
+	# Restore background from grayscale
+	if _bg_shader_material:
+		_bg_shader_material.set_shader_parameter("enabled", false)
 	animated_sprite.stop()
 	animated_sprite.animation = "down"
 	animated_sprite.frame = animated_sprite.sprite_frames.get_frame_count("down") - 1
@@ -380,6 +411,9 @@ func _on_TimerBulletTime_timeout():
 	animated_sprite.stop()
 	play_standing_pose()
 	is_finisher_active = false
+	# Restore background from grayscale
+	if _bg_shader_material:
+		_bg_shader_material.set_shader_parameter("enabled", false)
 
 func _on_AnimInfo_animation_finished(_anim_name):
 	$Info.visible = false
