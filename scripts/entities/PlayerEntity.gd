@@ -277,6 +277,31 @@ func play_finisher():
 	collision_shape.disabled = false
 	Engine.time_scale = 1.0
 	
+	# --- Screen flash buildup (0.3s) before finisher launches ---
+	# Create a full-screen white overlay that blinks for an obvious visual cue
+	var overlay = ColorRect.new()
+	overlay.color = Color(1.0, 1.0, 1.0, 0.0)  # Start transparent
+	overlay.size = get_viewport_rect().size
+	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE  # Don't block clicks
+	get_parent().add_child(overlay)
+	
+	# Make the player glow intensely
+	animated_sprite.modulate = Color(15.0, 15.0, 15.0, 1.0)
+	
+	# Blink the overlay 3 times while frozen (timer uses process_always so it still runs)
+	Engine.time_scale = 0.0
+	for i in 3:
+		overlay.color = Color(1.0, 1.0, 1.0, 0.85)
+		await get_tree().create_timer(0.05, true, false, true).timeout
+		overlay.color = Color(1.0, 1.0, 1.0, 0.0)
+		await get_tree().create_timer(0.05, true, false, true).timeout
+	Engine.time_scale = 1.0
+	
+	# Clean up
+	animated_sprite.modulate = Color(1.0, 1.0, 1.0, 1.0)
+	overlay.queue_free()
+	# ---------------------------------------------------------------------------
+	
 	# Read the current roulette frame to determine which finisher to use
 	var roulette = get_parent().get_node("FinisherRoulette")
 	var idx = roulette.get_selected_finisher()
