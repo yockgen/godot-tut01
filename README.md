@@ -5,7 +5,7 @@ Demonstrates basic action game features:
 1. Character Animation 
 2. Collision Detection
 3. Event Handler
-4. Entity Architecture (inheritance-based)
+4. Entity Architecture (inference-based)
 5. Composable AI Behaviors
 6. Data-driven Stage System
 
@@ -48,7 +48,5 @@ Running Step:
 
 Support
 =======
-yockgen@gmail.com
-
-Will support on best effort while learning together with question, cheers!
+If you need help or have questions, please [open an issue](https://github.com/yockgen/godot-tut01/issues) on GitHub.
 
