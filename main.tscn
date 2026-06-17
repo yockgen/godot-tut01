@@ -1,180 +1,277 @@
-[gd_scene load_steps=22 format=3]
+[gd_scene format=3 uid="uid://bgpxfhgmbhu6f"]
 
-[ext_resource path="res://scenes/entities/Mob.tscn" type="PackedScene" id=1]
-[ext_resource path="res://main.gd" type="Script" id=2]
-[ext_resource path="res://scenes/entities/Player.tscn" type="PackedScene" id=3]
-[ext_resource path="res://assets/bgr/bgr02.png" type="Texture2D" id=4]
-[ext_resource path="res://assets/music/bgr01.ogg" type="AudioStream" id=5]
-[ext_resource path="res://scenes/ui/PauseCtrl.tscn" type="PackedScene" id=6]
-[ext_resource path="res://assets/bgr/block01.png" type="Texture2D" id=7]
-[ext_resource path="res://assets/bgr/block02.png" type="Texture2D" id=8]
-[ext_resource path="res://assets/font/SHADSER.TTF" type="FontFile" id=9]
-[ext_resource path="res://scenes/entities/Boss01.tscn" type="PackedScene" id=10]
-[ext_resource path="res://Finisher/FinisherRoulette.tscn" type="PackedScene" id=13]
+[ext_resource type="PackedScene" path="res://scenes/entities/Mob.tscn" id="1"]
+[ext_resource type="Script" uid="uid://bahl4juqsjtnn" path="res://main.gd" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/entities/Player.tscn" id="3"]
+[ext_resource type="Texture2D" uid="uid://cdmng43qnsu6i" path="res://assets/bgr/bgr02.png" id="4"]
+[ext_resource type="AudioStream" uid="uid://br4862ll0wbx2" path="res://assets/music/bgr01.ogg" id="5"]
+[ext_resource type="PackedScene" path="res://scenes/ui/PauseCtrl.tscn" id="6"]
+[ext_resource type="Texture2D" uid="uid://cb0wqpedxf3yo" path="res://assets/bgr/block01.png" id="7"]
+[ext_resource type="Texture2D" uid="uid://co4hj8mutnc68" path="res://assets/bgr/block02.png" id="8"]
+[ext_resource type="FontFile" uid="uid://br72ys2v3v7at" path="res://assets/font/SHADSER.TTF" id="9"]
+[ext_resource type="PackedScene" path="res://scenes/entities/Boss01.tscn" id="10"]
+[ext_resource type="PackedScene" path="res://Finisher/FinisherRoulette.tscn" id="13"]
 
-[sub_resource type="Curve2D" id=1]
+[sub_resource type="Curve2D" id="1"]
 _data = {
-"points": PackedVector2Array( 0, 0, 0, 0, 532.124, 165.755, 0, 0, 0, 0, 910, 204, 0, 0, 0, 0, 878.825, 491.488, 0, 0, 0, 0, 706.11, 420.392, 0, 0, 0, 0, 528.046, 545.516, 0, 0, 0, 0, 522.609, 380.88, 0, 0, 0, 0, 528.046, 161.365 )
+"points": PackedVector2Array(0, 0, 0, 0, 532.124, 165.755, 0, 0, 0, 0, 910, 204, 0, 0, 0, 0, 878.825, 491.488, 0, 0, 0, 0, 706.11, 420.392, 0, 0, 0, 0, 528.046, 545.516, 0, 0, 0, 0, 522.609, 380.88, 0, 0, 0, 0, 528.046, 161.365)
 }
+point_count = 7
 
-[sub_resource type="Theme" id=2]
+[sub_resource type="Theme" id="2"]
 
-[sub_resource type="FontFile" id=3]
-size = 60
-outline_size = 4
-outline_color = Color( 0, 0, 0, 1 )
-use_mipmaps = true
-font_data = ExtResource( 9 )
+[sub_resource type="FontFile" id="3"]
+fallbacks = Array[Font]([ExtResource("9")])
+cache/0/variation_coordinates = {}
+cache/0/face_index = 0
+cache/0/embolden = 0.0
+cache/0/transform = Transform2D(1, 0, 0, 1, 0, 0)
+cache/0/spacing_top = 0
+cache/0/spacing_bottom = 0
+cache/0/spacing_space = 0
+cache/0/spacing_glyph = 0
+cache/0/baseline_offset = 0.0
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/17/0/ascent = 0.0
+cache/0/17/0/descent = 0.0
+cache/0/17/0/underline_position = 0.0
+cache/0/17/0/underline_thickness = 0.0
+cache/0/17/0/scale = 1.0
+cache/0/18/0/ascent = 0.0
+cache/0/18/0/descent = 0.0
+cache/0/18/0/underline_position = 0.0
+cache/0/18/0/underline_thickness = 0.0
+cache/0/18/0/scale = 1.0
+cache/0/19/0/ascent = 0.0
+cache/0/19/0/descent = 0.0
+cache/0/19/0/underline_position = 0.0
+cache/0/19/0/underline_thickness = 0.0
+cache/0/19/0/scale = 1.0
+cache/0/20/0/ascent = 0.0
+cache/0/20/0/descent = 0.0
+cache/0/20/0/underline_position = 0.0
+cache/0/20/0/underline_thickness = 0.0
+cache/0/20/0/scale = 1.0
+cache/0/21/0/ascent = 0.0
+cache/0/21/0/descent = 0.0
+cache/0/21/0/underline_position = 0.0
+cache/0/21/0/underline_thickness = 0.0
+cache/0/21/0/scale = 1.0
+cache/0/22/0/ascent = 0.0
+cache/0/22/0/descent = 0.0
+cache/0/22/0/underline_position = 0.0
+cache/0/22/0/underline_thickness = 0.0
+cache/0/22/0/scale = 1.0
+cache/0/23/0/ascent = 0.0
+cache/0/23/0/descent = 0.0
+cache/0/23/0/underline_position = 0.0
+cache/0/23/0/underline_thickness = 0.0
+cache/0/23/0/scale = 1.0
+cache/0/24/0/ascent = 0.0
+cache/0/24/0/descent = 0.0
+cache/0/24/0/underline_position = 0.0
+cache/0/24/0/underline_thickness = 0.0
+cache/0/24/0/scale = 1.0
+cache/0/25/0/ascent = 0.0
+cache/0/25/0/descent = 0.0
+cache/0/25/0/underline_position = 0.0
+cache/0/25/0/underline_thickness = 0.0
+cache/0/25/0/scale = 1.0
+cache/0/26/0/ascent = 0.0
+cache/0/26/0/descent = 0.0
+cache/0/26/0/underline_position = 0.0
+cache/0/26/0/underline_thickness = 0.0
+cache/0/26/0/scale = 1.0
+cache/0/27/0/ascent = 0.0
+cache/0/27/0/descent = 0.0
+cache/0/27/0/underline_position = 0.0
+cache/0/27/0/underline_thickness = 0.0
+cache/0/27/0/scale = 1.0
+cache/0/28/0/ascent = 0.0
+cache/0/28/0/descent = 0.0
+cache/0/28/0/underline_position = 0.0
+cache/0/28/0/underline_thickness = 0.0
+cache/0/28/0/scale = 1.0
+cache/0/29/0/ascent = 0.0
+cache/0/29/0/descent = 0.0
+cache/0/29/0/underline_position = 0.0
+cache/0/29/0/underline_thickness = 0.0
+cache/0/29/0/scale = 1.0
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/31/0/ascent = 0.0
+cache/0/31/0/descent = 0.0
+cache/0/31/0/underline_position = 0.0
+cache/0/31/0/underline_thickness = 0.0
+cache/0/31/0/scale = 1.0
+cache/0/32/0/ascent = 0.0
+cache/0/32/0/descent = 0.0
+cache/0/32/0/underline_position = 0.0
+cache/0/32/0/underline_thickness = 0.0
+cache/0/32/0/scale = 1.0
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id="4"]
 resource_name = "AnimScore"
 length = 0.4
 tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/path = NodePath("UserInterface/Score:theme_override_colors/font_color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/keys = {
-"times": PackedFloat32Array( 0, 0.2, 0.4 ),
-"transitions": PackedFloat32Array( 1, 1, 1 ),
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [ Color( 0.972549, 0.956863, 0.960784, 1 ), Color( 1, 0.0117647, 0.290196, 1 ), Color( 1, 1, 1, 1 ) ]
+"values": [Color(0.972549, 0.956863, 0.960784, 1), Color(1, 0.0117647, 0.290196, 1), Color(1, 1, 1, 1)]
 }
 
-[sub_resource type="Gradient" id=9]
-offsets = PackedFloat32Array( 0, 0.99117, 1 )
-colors = PackedColorArray( 0.0727386, 0.104535, 0.886719, 1, 0.065918, 0.814934, 0.9375, 1, 1, 1, 1, 1 )
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_efxa6"]
+_data = {
+&"AnimScore": SubResource("4")
+}
 
-[sub_resource type="GradientTexture2D" id=10]
-gradient = SubResource( 9 )
+[sub_resource type="Gradient" id="9"]
+offsets = PackedFloat32Array(0, 0.99117, 1)
+colors = PackedColorArray(0.0727386, 0.104535, 0.886719, 1, 0.065918, 0.814934, 0.9375, 1, 1, 1, 1, 1)
 
-[sub_resource type="Curve" id=7]
-_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+[sub_resource type="GradientTexture2D" id="10"]
+gradient = SubResource("9")
 
-[sub_resource type="CurveTexture" id=8]
-curve = SubResource( 7 )
+[sub_resource type="Curve" id="7"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
 
-[sub_resource type="ParticleProcessMaterial" id=5]
+[sub_resource type="CurveTexture" id="8"]
+curve = SubResource("7")
+
+[sub_resource type="ParticleProcessMaterial" id="5"]
 emission_shape = 2
-emission_box_extents = Vector3( 900, 0, 0 )
-flag_disable_z = true
-direction = Vector3( 0, -1, 0 )
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 76.07
-initial_velocity_random = 0.15
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-scale = 4.0
-scale_random = 0.46
-scale_curve = SubResource( 8 )
-color_ramp = SubResource( 10 )
+emission_sphere_radius = 1.0
+direction = Vector3(0, -1, 0)
+gravity = Vector3(0, 0, 0)
+scale_min = 0.0
+scale_max = 0.0
+scale_curve = SubResource("8")
+color_ramp = SubResource("10")
 
-[sub_resource type="RectangleShape2D" id=11]
-extents = Vector2( 960, 14.625 )
+[sub_resource type="RectangleShape2D" id="11"]
+size = Vector2(1920, 29.25)
 
-[node name="Main" type="Node"]
-script = ExtResource( 2 )
-Mob = ExtResource( 1 )
+[node name="Main" type="Node" unique_id=1444079655]
+script = ExtResource("2")
+Mob = ExtResource("1")
 
-[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+[node name="ParallaxBackground" type="ParallaxBackground" parent="." unique_id=433114347]
 layer = -10
 
-[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground" unique_id=9308825]
 
-[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
-position = Vector2( 953, 491.961 )
-scale = Vector2( 1.31593, 1.60388 )
-texture = ExtResource( 4 )
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer" unique_id=236189630]
+position = Vector2(953, 491.961)
+scale = Vector2(1.31593, 1.60388)
+texture = ExtResource("4")
 
-[node name="Boss01" parent="." instance=ExtResource( 10 )]
-position = Vector2( -66, 96 )
+[node name="Boss01" parent="." unique_id=514628056 instance=ExtResource("10")]
+position = Vector2(-66, 96)
 collision_layer = 15
 collision_mask = 15
 
-[node name="PauseCtrl" parent="." instance=ExtResource( 6 )]
+[node name="PauseCtrl" parent="." unique_id=134838734 instance=ExtResource("6")]
 
-[node name="Player" parent="." instance=ExtResource( 3 )]
-position = Vector2( 646, 917 )
-scale = Vector2( 0.9, 0.9 )
+[node name="Player" parent="." unique_id=474532390 instance=ExtResource("3")]
+position = Vector2(646, 917)
+scale = Vector2(0.9, 0.9)
 collision_layer = 15
 collision_mask = 15
 
-[node name="MobTimer" type="Timer" parent="."]
+[node name="MobTimer" type="Timer" parent="." unique_id=1197641124]
 wait_time = 0.5
 
-[node name="ScoreTimer" type="Timer" parent="."]
+[node name="ScoreTimer" type="Timer" parent="." unique_id=526144904]
 
-[node name="StartTimer" type="Timer" parent="."]
+[node name="StartTimer" type="Timer" parent="." unique_id=806553575]
 wait_time = 2.0
 one_shot = true
 autostart = true
 
-[node name="StartPosition" type="Marker2D" parent="."]
-position = Vector2( 650, 900 )
+[node name="StartPosition" type="Marker2D" parent="." unique_id=301427850]
+position = Vector2(650, 900)
 
-[node name="MobPath" type="Path2D" parent="."]
-position = Vector2( 618.521, 46.4902 )
-scale = Vector2( 0.735691, 0.45555 )
-curve = SubResource( 1 )
+[node name="MobPath" type="Path2D" parent="." unique_id=2014264823]
+position = Vector2(618.521, 46.4902)
+scale = Vector2(0.735691, 0.45555)
+curve = SubResource("1")
 
-[node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath"]
-position = Vector2( 532.124, 165.755 )
-rotation = 0.100871
+[node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath" unique_id=1052174784]
+position = Vector2(532.124, 165.755)
+rotation = 0.100866966
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 5 )
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=434038016]
+stream = ExtResource("5")
 volume_db = -13.152
 autoplay = true
 
-[node name="StreetItem01" type="Sprite2D" parent="."]
-position = Vector2( 1532, 991 )
-scale = Vector2( 0.627166, 0.741372 )
+[node name="StreetItem01" type="Sprite2D" parent="." unique_id=1475967411]
 z_index = 10
-texture = ExtResource( 7 )
+position = Vector2(1532, 991)
+scale = Vector2(0.627166, 0.741372)
+texture = ExtResource("7")
 
-[node name="StreetItem02" type="Sprite2D" parent="."]
-position = Vector2( 225, 970 )
-scale = Vector2( 0.585401, 0.853164 )
+[node name="StreetItem02" type="Sprite2D" parent="." unique_id=190960176]
 z_index = 10
-texture = ExtResource( 8 )
+position = Vector2(225, 970)
+scale = Vector2(0.585401, 0.853164)
+texture = ExtResource("8")
 
-[node name="UserInterface" type="Control" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="UserInterface" type="Control" parent="." unique_id=1829526470]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme = SubResource( 2 )
+offset_right = 40.0
+offset_bottom = 40.0
+theme = SubResource("2")
 
-[node name="Score" type="Label" parent="UserInterface"]
+[node name="Score" type="Label" parent="UserInterface" unique_id=1755019798]
+layout_mode = 0
 offset_left = 1330.0
 offset_top = 68.0
 offset_right = 1915.0
 offset_bottom = 140.0
-theme_override_colors/font_color = Color( 0.972549, 0.956863, 0.960784, 1 )
-theme_override_colors/font_outline_color = Color( 0, 0, 0, 1 )
-theme_override_colors/font_shadow_color = Color( 0, 0, 0, 1 )
-theme_override_fonts/font = SubResource( 3 )
+theme_override_colors/font_color = Color(0.972549, 0.956863, 0.960784, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = SubResource("3")
+theme_override_font_sizes/font_size = 32
 text = "Confidence 000000000"
+clip_text = true
 
-[node name="AnimInfo" type="AnimationPlayer" parent="."]
-anims/AnimScore = SubResource( 4 )
+[node name="AnimInfo" type="AnimationPlayer" parent="." unique_id=1857743743]
+libraries/ = SubResource("AnimationLibrary_efxa6")
 
-[node name="GroundParticle2D" type="GPUParticles2D" parent="."]
+[node name="GroundParticle2D" type="GPUParticles2D" parent="." unique_id=970425252]
 use_parent_material = true
-position = Vector2( 1004, 1045 )
+position = Vector2(1004, 1045)
 amount = 200
-process_material = SubResource( 5 )
+process_material = SubResource("5")
 
-[node name="Ground" type="Area2D" parent="."]
+[node name="Ground" type="Area2D" parent="." unique_id=990164360]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
-position = Vector2( 954, 1049.63 )
-shape = SubResource( 11 )
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground" unique_id=1201445167]
+position = Vector2(954, 1049.63)
+shape = SubResource("11")
 
-[node name="FinisherRoulette" parent="." instance=ExtResource( 13 )]
-position = Vector2( 1820, 177 )
-scale = Vector2( 0.7, 0.7 )
+[node name="FinisherRoulette" parent="." unique_id=915531105 instance=ExtResource("13")]
+position = Vector2(1820, 177)
+scale = Vector2(0.7, 0.7)
 
 [connection signal="timeout" from="MobTimer" to="." method="_on_MobTimer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]

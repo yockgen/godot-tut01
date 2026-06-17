@@ -1,6 +1,6 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+[gd_resource type="ShaderMaterial" format=3 uid="uid://bt0ni8p65vvt1"]
 
-[sub_resource type="Shader" id=1]
+[sub_resource type="Shader" id="1"]
 code = "shader_type canvas_item;
 
 uniform bool whiten = false;
@@ -17,5 +17,5 @@ void fragment() {
 }"
 
 [resource]
-shader = SubResource( 1 )
+shader = SubResource("1")
 shader_parameter/whiten = false
