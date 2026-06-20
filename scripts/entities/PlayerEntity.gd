@@ -313,27 +313,27 @@ func play_finisher():
 	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE  # Don't block clicks
 	get_parent().add_child(overlay)
 	
-	# --- Play "dance02" animation (Dan Heng dance) before the freeze ---
-	if animated_sprite.sprite_frames.has_animation("dance02"):
-		animated_sprite.animation = "dance02"
+	# --- Play "dance" animation before the freeze ---
+	if animated_sprite.sprite_frames.has_animation("dance"):
+		animated_sprite.animation = "dance"
 		animated_sprite.frame = 0
 		animated_sprite.stop()
 		animated_sprite.visible = true
-	# ----------------------------------------------------------------
+	# -------------------------------------------------------------
 	
 	# Blink the overlay 3 times while frozen (timer uses process_always so it still runs)
 	Engine.time_scale = 0.0
 	for i in 3:
 		overlay.color = Color(1.0, 1.0, 1.0, 0.85)
 		# Advance dance frame during white flash
-		if animated_sprite.animation == "dance02" and animated_sprite.sprite_frames.has_animation("dance02"):
-			var total = animated_sprite.sprite_frames.get_frame_count("dance02")
+		if animated_sprite.animation == "dance" and animated_sprite.sprite_frames.has_animation("dance"):
+			var total = animated_sprite.sprite_frames.get_frame_count("dance")
 			animated_sprite.frame = (animated_sprite.frame + 1) % total
 		await get_tree().create_timer(0.05, true, false, true).timeout
 		overlay.color = Color(1.0, 1.0, 1.0, 0.0)
 		# Advance dance frame during transparent phase
-		if animated_sprite.animation == "dance02" and animated_sprite.sprite_frames.has_animation("dance02"):
-			var total = animated_sprite.sprite_frames.get_frame_count("dance02")
+		if animated_sprite.animation == "dance" and animated_sprite.sprite_frames.has_animation("dance"):
+			var total = animated_sprite.sprite_frames.get_frame_count("dance")
 			animated_sprite.frame = (animated_sprite.frame + 1) % total
 		await get_tree().create_timer(0.05, true, false, true).timeout
 	Engine.time_scale = 1.0
